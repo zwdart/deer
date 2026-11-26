@@ -57,6 +57,14 @@ dependencies:
   desktop_drop: ^0.6.1
   pasteboard: ^0.6.1
   wakelock_plus: ^1.8.2
+  xml: ^7.1.0
+  http: ^1.6.0
+  flutter_html: ^3.0.0
+  cached_network_image: ^4.0.7
+  # flutter_html 3.0.0 引用了 html 内部的 query_selector，0.15.7 删除了它的 matches，
+  # 升级前必须把 html 压在 0.15.7 以下，否则正文排版无法编译。
+  html: '>=0.15.5 <0.15.7'
+  charset: ^2.0.1
 
 dev_dependencies:
   flutter_test:

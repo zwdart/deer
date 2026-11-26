@@ -707,3 +707,150 @@ GitHub API 访问频率受限，请稍后重试或使用浏览器打开	GitHub A
 更新接口返回的数据格式不正确	The update API returned an unexpected data format
 更新接口缺少版本号	The update API response is missing a version number
 重试下载	Retry download
+
+# ---- 资讯 / local RSS ----
+%d 个	%d items
+%d 个订阅	%d feeds
+%d 分钟前	%d min ago
+%d 天前	%d days ago
+%d 小时前	%d hr ago
+%d 未读	%d unread
+%s · %d/%d	%s · %d/%d
+(无标题)	(Untitled)
+1 小时	1 hour
+10 分钟	10 min
+180 天	180 days
+30 分钟	30 min
+30 天	30 days
+6 小时	6 hours
+90 天	90 days
+RSS 地址	Feed URL
+「%s」所在收藏夹	Folders with “%s”
+上次同步失败	Last sync failed
+上次备份	Last backup
+下拉或点右上角刷新即可抓取最新内容。	Pull to refresh, or use the refresh button above.
+不限	Keep all
+从未备份	Never
+会删除所有本地文章，下次同步会重新抓取。	Deletes every saved article; the next sync fetches them again.
+保留最近 30 天	Keep the last 30 days
+保留最近 7 天	Keep the last 7 days
+信息流	Stream
+全部	All
+全部动态	Everything
+全部同步	Sync all
+全部已读	All read
+全部标记已读	Mark everything read
+全部清空	Clear all
+关闭后按发布时间从旧到新排列	When off, older articles come first
+写入失败：%s	Could not write: %s
+刚刚	Just now
+删除「%s」不会移除其中的订阅源。	Removing “%s” keeps its feeds.
+删除后需要从订阅源重新抓取才会回来。	It only comes back after the next sync.
+删除收藏夹	Delete folder
+删除文章	Delete article
+加入收藏夹	Add to folder
+加载更多	Load more
+取消收藏	Unstar
+取消订阅	Unsubscribe
+只删除本地已抓取的文章，订阅关系保留。	Deletes synced articles but keeps the subscription.
+同步全部订阅	Sync all feeds
+同步后导出一份 OPML 到本机备份目录	Write an OPML copy to the backup folder after each sync
+同步失败：%s	Sync failed: %s
+同步新文章后即可继续阅读。	Sync again to pick up new articles.
+同步间隔	Sync interval
+名称（可选）	Name (optional)
+在文章卡片上长按，选择收藏即可留存在这里。	Long-press an article and choose Star to keep it here.
+在浏览器打开	Open in browser
+备份已写入本地目录	Backup written to your device
+大	Large
+字号与显示	Type and display
+宽	Wide
+导入 CSV	Import CSV
+导入 OPML	Import OPML
+导出 CSV	Export CSV
+导出 OPML	Export OPML
+导出订阅源	Export feeds
+小	Small
+已取消订阅	Unsubscribed
+已导出到	Exported to
+已收藏	Starred
+已添加「%s」	Added “%s”
+已清理 %d 条	Removed %d articles
+已经到底了	That's everything
+待读	To read
+恢复同步	Resume syncing
+打开即标记已读	Mark read on open
+把 %d 条未读全部标为已读？	Mark %d unread articles as read?
+把当前订阅导出为 OPML	Save current subscriptions as OPML
+按固定间隔抓取全部订阅源	Fetch every feed on a fixed schedule
+搜索「%s」	Search “%s”
+搜索本地文章	Search saved articles
+搜索标题与正文	Search titles and text
+搜索范围是本地已经抓取过的文章。	Search covers articles already on this device.
+收藏	Star
+收藏夹	Folders
+收藏夹操作	Folder actions
+文章保留	Keep articles
+新增 %d 个订阅、%d 个收藏夹	Added %d feeds and %d folders
+新建	New
+新建收藏夹	New folder
+无未读	No unread
+无法解析订阅内容	Could not parse the feed
+显示图片	Show images
+暂停同步	Pause syncing
+最新文章优先	Newest first
+未读	Unread
+标准	Regular
+标记为未读	Mark unread
+格式	Format
+正在同步	Syncing
+正在抓取	Fetching
+正文	Article
+正文字号	Text size
+正文宽度	Column width
+没有可用的原文链接	No source link available
+没有找到相关内容	Nothing found
+添加一个 RSS 或 Atom 地址，内容只保存在这台设备上。	Add an RSS or Atom URL. Everything stays on this device.
+添加失败，请检查地址	Could not add it. Check the URL.
+添加并订阅	Add and subscribe
+添加订阅	Add feed
+添加订阅源	Add a feed
+清理历史文章	Clean up articles
+清空文章	Clear articles
+点右上角刷新，或长按订阅卡片单独同步某个源。	Use refresh above, or long-press a feed card to sync it alone.
+特大	Huge
+窄	Narrow
+立即同步	Sync now
+立即备份订阅	Back up now
+站点地址（可选）	Site URL (optional)
+管理「%s」	Manage “%s”
+管理成员	Manage feeds
+编辑订阅源	Edit feed
+自动同步	Auto sync
+自动备份订阅	Auto backup
+行距	Line height
+要清空「%s」的本地文章吗？下次同步会重新抓取。	Clear saved articles from “%s”? The next sync refetches them.
+订阅	Feeds
+订阅地址	Feed address
+订阅源	Feed
+订阅源与文章只保存在本机	Feeds and articles stay on this device
+订阅源操作	Feed actions
+读取文件失败：%s	Could not read the file: %s
+资讯	News
+资讯工具	News tools
+资讯数据库打开失败：%s	Could not open the news database: %s
+资讯设置	News settings
+返回	Back
+还没有收藏	Nothing starred
+还没有收藏夹，先创建一个来归类订阅源。	No folders yet. Create one to group your feeds.
+还没有文章	No articles yet
+还没有订阅源	No feeds yet
+还没有订阅源可以加入。	There are no feeds to add yet.
+这个订阅源已经添加过了	This feed is already added
+这条内容没有正文，只有摘要。	This item only has a summary.
+这里还没有文章	Nothing here yet
+重命名	Rename
+重命名收藏夹	Rename folder
+阅读原文	Read original
+或从推荐列表选择	Or pick one from the suggestions
+移除「%s」及其本地文章？	Remove “%s” and its saved articles?

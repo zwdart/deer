@@ -19,6 +19,10 @@ class AppPaths {
   String get settingsPath => p.join(dataDir, 'settings.json');
   String get statePath => p.join(dataDir, 'state.json');
   String get databasePath => p.join(dataDir, 'dchat.db');
+  String get rssDatabasePath => p.join(dataDir, 'dchat_rss.db');
+  String get rssSettingsPath => p.join(dataDir, 'rss_settings.json');
+  String get rssBackupDir => p.join(dataDir, 'rss_backups');
+  String get rssExportDir => p.join(downloadDir, 'rss');
   String get transfersPath => p.join(dataDir, 'transfers-tcp.json');
   String get httpTransfersPath => p.join(dataDir, 'transfers.json');
 

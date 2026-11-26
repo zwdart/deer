@@ -10,6 +10,7 @@ import 'services/desktop_service.dart';
 import 'state/chat_controller.dart';
 import 'state/chats_view_model.dart';
 import 'state/home_view_model.dart';
+import 'state/rss_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,8 @@ Future<void> main() async {
   await paths.init();
   final controller = ChatController(paths);
   await controller.init();
+  final rss = RssController(paths);
+  await rss.init();
   final home = HomeViewModel();
   final chats = ChatsViewModel();
   final desktop = DesktopService(controller: controller, home: home);
@@ -31,6 +34,7 @@ Future<void> main() async {
   runApp(
     DchatApp(
       controller: controller,
+      rss: rss,
       home: home,
       chats: chats,
       desktop: desktop,

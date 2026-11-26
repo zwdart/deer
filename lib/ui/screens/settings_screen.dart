@@ -10,6 +10,7 @@ import '../../core/helpers.dart';
 import '../../core/i18n.dart';
 import '../../core/models.dart';
 import '../../state/chat_controller.dart';
+import '../../state/rss_controller.dart';
 import '../../state/update_view_model.dart';
 import '../adaptive.dart';
 import '../dialogs/dialogs.dart';
@@ -320,6 +321,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ],
             ),
           ),
+          const SizedBox(height: 14),
+          _NewsSection(),
           const SizedBox(height: 14),
           SectionCard(
             title: L10n.instance.tr('关于'),
@@ -703,6 +706,131 @@ class _ProfileCard extends StatelessWidget {
     } catch (e) {
       if (context.mounted) showAppSnack(context, trf('无法更新头像：%s', ['$e']));
     }
+  }
+}
+
+/// 资讯（本地订阅）设置：同步节奏、阅读排版与备份。
+class _NewsSection extends StatelessWidget {
+  const _NewsSection();
+
+  @override
+  Widget build(BuildContext context) {
+    final rss = context.watch<RssController>();
+    final settings = rss.settings;
+    final colors = appColors(context);
+    final backup = rss.store.lastBackupAt;
+    return SectionCard(
+      title: L10n.instance.tr('资讯'),
+      subtitle: L10n.instance.tr('订阅源与文章只保存在本机'),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _SwitchRow(
+            label: L10n.instance.tr('自动同步'),
+            subtitle: L10n.instance.tr('按固定间隔抓取全部订阅源'),
+            value: settings.autoSync,
+            onChanged: (value) => rss.update((s) => s.autoSync = value),
+          ),
+          _ChoiceRow(
+            label: L10n.instance.tr('同步间隔'),
+            child: AdaptiveSegmentedControl(
+              segments: [
+                AdaptiveSegment('10', L10n.instance.tr('10 分钟')),
+                AdaptiveSegment('30', L10n.instance.tr('30 分钟')),
+                AdaptiveSegment('60', L10n.instance.tr('1 小时')),
+                AdaptiveSegment('360', L10n.instance.tr('6 小时')),
+              ],
+              selected: '${settings.syncIntervalMinutes}',
+              onChanged: (value) => rss.update(
+                (s) => s.syncIntervalMinutes = int.tryParse(value) ?? 30,
+              ),
+            ),
+          ),
+          const Divider(height: 24),
+          _SwitchRow(
+            label: L10n.instance.tr('打开即标记已读'),
+            value: settings.markReadOnOpen,
+            onChanged: (value) => rss.update((s) => s.markReadOnOpen = value),
+          ),
+          _SwitchRow(
+            label: L10n.instance.tr('显示图片'),
+            value: settings.showImages,
+            onChanged: (value) => rss.update((s) => s.showImages = value),
+          ),
+          _SwitchRow(
+            label: L10n.instance.tr('最新文章优先'),
+            subtitle: L10n.instance.tr('关闭后按发布时间从旧到新排列'),
+            value: settings.newestFirst,
+            onChanged: (value) => rss.update((s) => s.newestFirst = value),
+          ),
+          _ChoiceRow(
+            label: L10n.instance.tr('正文字号'),
+            child: AdaptiveSegmentedControl(
+              segments: [
+                AdaptiveSegment('15', L10n.instance.tr('小')),
+                AdaptiveSegment('17', L10n.instance.tr('标准')),
+                AdaptiveSegment('19', L10n.instance.tr('大')),
+                AdaptiveSegment('22', L10n.instance.tr('特大')),
+              ],
+              selected: '${settings.fontSize}',
+              onChanged: (value) =>
+                  rss.update((s) => s.fontSize = int.tryParse(value) ?? 17),
+            ),
+          ),
+          _ChoiceRow(
+            label: L10n.instance.tr('正文宽度'),
+            child: AdaptiveSegmentedControl(
+              segments: [
+                AdaptiveSegment('620', L10n.instance.tr('窄')),
+                AdaptiveSegment('720', L10n.instance.tr('标准')),
+                AdaptiveSegment('860', L10n.instance.tr('宽')),
+              ],
+              selected: '${settings.contentWidth}',
+              onChanged: (value) =>
+                  rss.update((s) => s.contentWidth = int.tryParse(value) ?? 720),
+            ),
+          ),
+          const Divider(height: 24),
+          _SwitchRow(
+            label: L10n.instance.tr('自动备份订阅'),
+            subtitle: L10n.instance.tr('同步后导出一份 OPML 到本机备份目录'),
+            value: settings.autoBackup,
+            onChanged: (value) => rss.update((s) => s.autoBackup = value),
+          ),
+          _ChoiceRow(
+            label: L10n.instance.tr('文章保留'),
+            child: AdaptiveSegmentedControl(
+              segments: [
+                AdaptiveSegment('0', L10n.instance.tr('不限')),
+                AdaptiveSegment('30', L10n.instance.tr('30 天')),
+                AdaptiveSegment('90', L10n.instance.tr('90 天')),
+                AdaptiveSegment('180', L10n.instance.tr('180 天')),
+              ],
+              selected: '${settings.keepDays}',
+              onChanged: (value) =>
+                  rss.update((s) => s.keepDays = int.tryParse(value) ?? 0),
+            ),
+          ),
+          InfoRow(
+            label: L10n.instance.tr('上次备份'),
+            value: backup == null
+                ? L10n.instance.tr('从未备份')
+                : '${backup.month}/${backup.day} ${formatClock(backup)}',
+          ),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: Icon(Icons.backup_outlined, color: colors.muted),
+            title: Text(L10n.instance.tr('立即备份订阅')),
+            subtitle: Text(L10n.instance.tr('把当前订阅导出为 OPML')),
+            onTap: () async {
+              await rss.backupNow();
+              if (!context.mounted) return;
+              showAppSnack(context, L10n.instance.tr('备份已写入本地目录'));
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
 

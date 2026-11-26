@@ -1,14 +1,23 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-class L10n {
+class L10n extends ChangeNotifier {
   L10n._();
   static final L10n instance = L10n._();
 
   final Map<String, String> _en = {};
-  String language = 'system';
+  String _language = 'system';
   bool _loaded = false;
+
+  String get language => _language;
+
+  set language(String value) {
+    if (_language == value) return;
+    _language = value;
+    notifyListeners();
+  }
 
   bool get english {
     if (language == 'en') return true;

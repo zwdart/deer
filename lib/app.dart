@@ -7,6 +7,7 @@ import 'services/screenshot_service.dart';
 import 'state/chat_controller.dart';
 import 'state/chats_view_model.dart';
 import 'state/home_view_model.dart';
+import 'state/rss_controller.dart';
 import 'state/update_view_model.dart';
 import 'ui/adaptive.dart';
 import 'ui/navigation.dart';
@@ -15,6 +16,7 @@ import 'ui/theme.dart';
 
 class DchatApp extends StatefulWidget {
   final ChatController controller;
+  final RssController rss;
   final HomeViewModel home;
   final ChatsViewModel chats;
   final DesktopService desktop;
@@ -22,6 +24,7 @@ class DchatApp extends StatefulWidget {
   const DchatApp({
     super.key,
     required this.controller,
+    required this.rss,
     required this.home,
     required this.chats,
     required this.desktop,
@@ -81,6 +84,7 @@ class _DchatAppState extends State<DchatApp> with WidgetsBindingObserver {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<ChatController>.value(value: widget.controller),
+        ChangeNotifierProvider<RssController>.value(value: widget.rss),
         ChangeNotifierProvider<HomeViewModel>.value(value: widget.home),
         ChangeNotifierProvider<ChatsViewModel>.value(value: widget.chats),
         ChangeNotifierProvider<UpdateViewModel>(

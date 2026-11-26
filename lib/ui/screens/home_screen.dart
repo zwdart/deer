@@ -10,12 +10,13 @@ import '../../state/chats_view_model.dart';
 import '../../state/home_view_model.dart';
 import '../adaptive.dart';
 import '../dialogs/dialogs.dart';
+import '../navigation.dart';
 import '../theme.dart';
 import '../widgets/avatar.dart';
 import '../widgets/common.dart';
 import 'chats_screen.dart';
 import 'discover_screen.dart';
-import 'settings_screen.dart';
+import 'rss_screen.dart';
 import 'share_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -25,7 +26,7 @@ class HomeScreen extends StatelessWidget {
     ChatsScreen(),
     DiscoverScreen(),
     ShareScreen(),
-    SettingsScreen(),
+    RssScreen(),
   ];
 
   static List<_NavItem> _items() => [
@@ -33,23 +34,31 @@ class HomeScreen extends StatelessWidget {
         _NavItem(Icons.devices_outlined, Icons.devices, L10n.instance.tr('设备')),
         _NavItem(Icons.folder_shared_outlined, Icons.folder_shared,
             L10n.instance.tr('共享')),
-        _NavItem(Icons.settings_outlined, Icons.settings,
-            L10n.instance.tr('设置')),
+        _NavItem(Icons.newspaper_outlined, Icons.newspaper,
+            L10n.instance.tr('资讯')),
       ];
 
   @override
   Widget build(BuildContext context) {
     final home = context.watch<HomeViewModel>();
     final chats = context.read<ChatsViewModel>();
-    final items = _items();
-    final body = _ShortcutHost(
-      chats: chats,
-      home: home,
-      child: AppPlatform.isDesktop
-          ? _DesktopShell(home: home, items: items)
-          : _MobileShell(home: home, items: items, pages: _pages),
+    // 语言切换后标签需要立即重算，HomeScreen 本身不会随 MaterialApp 重建。
+    return ListenableBuilder(
+      listenable: L10n.instance,
+      builder: (context, _) {
+        final items = _items();
+        final body = _ShortcutHost(
+          chats: chats,
+          home: home,
+          child: AppPlatform.isDesktop
+              ? _DesktopShell(home: home, items: items)
+              : _MobileShell(home: home, items: items, pages: _pages),
+        );
+        return _ToastHost(
+          child: _SettingsRouteHost(home: home, child: body),
+        );
+      },
     );
-    return _ToastHost(child: body);
   }
 }
 
@@ -117,7 +126,7 @@ class _DesktopShell extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          const _DesktopMenuBar(),
+          _DesktopMenuBar(),
           Expanded(
             child: Row(
               children: [
@@ -201,6 +210,19 @@ class _SideRail extends StatelessWidget {
               onTap: () => home.select(i),
             ),
           const Spacer(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: _RailButton(
+              item: _NavItem(
+                Icons.settings_outlined,
+                Icons.settings,
+                L10n.instance.tr('设置'),
+              ),
+              selected: false,
+              badge: 0,
+              onTap: home.openSettings,
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(14),
             child: Text(
@@ -425,6 +447,44 @@ class _ShortcutHost extends StatelessWidget {
       ),
     );
   }
+}
+
+/// 设置页改成员工页面后，托盘、快捷键这些拿不到 BuildContext 的入口统一发信号，由这里入栈。
+class _SettingsRouteHost extends StatefulWidget {
+  final HomeViewModel home;
+  final Widget child;
+
+  const _SettingsRouteHost({required this.home, required this.child});
+
+  @override
+  State<_SettingsRouteHost> createState() => _SettingsRouteHostState();
+}
+
+class _SettingsRouteHostState extends State<_SettingsRouteHost> {
+  bool _open = false;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.home.settingsRequests.addListener(_push);
+  }
+
+  @override
+  void dispose() {
+    widget.home.settingsRequests.removeListener(_push);
+    super.dispose();
+  }
+
+  Future<void> _push() async {
+    if (_open || !mounted) return;
+    _open = true;
+    await openSettingsScreen(context);
+    if (!mounted) return;
+    _open = false;
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }
 
 class _ToastHost extends StatefulWidget {
