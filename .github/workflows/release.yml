@@ -1,3 +1,47 @@
+# =============================================================================
+# dchat / deer 全平台生产发布工作流
+# 触发：推送 v* 格式的 Git Tag 时自动构建并发布；也可在 Actions 面板手动触发。
+#       git tag v1.2.3 && git push origin v1.2.3
+#
+# 产物一览（每个架构独立构建，绝不混包）：
+#   Android   → armeabi-v7a / arm64-v8a / x86_64 APK + universal APK + AAB
+#   Windows   → x64 / arm64 各自产出：.msix 安装包 + Enigma Virtual Box 单文件 exe + 目录式 zip
+#   Linux     → amd64 / arm64 各自产出：.deb 安装包 + .AppImage 单文件免安装
+#   macOS     → arm64 / x64 各自产出：.dmg + .zip(含 .app)，跳过 Apple 签名
+#
+# -----------------------------------------------------------------------------
+# 【GitHub Secrets 配置清单】
+# Settings → Secrets and variables → Actions → New repository secret
+#
+# Android 发布签名（不配也能打包，但用的是 Flutter 默认 debug 签名，
+# 不能上传 Google Play、与将来配置后的 release 签名互不兼容）：
+#
+#   1) 本地生成 keystore（只需做一次，务必备份到安全位置！）
+#        keytool -genkey -v -keystore release.keystore \
+#          -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+#        执行时会要求输入：keystore 密码、姓名、组织、key 密码（建议和上面相同）
+#
+#   2) 把 keystore 转成 base64
+#        macOS:   base64 -i release.keystore | pbcopy
+#        Linux:   base64 -w 0 release.keystore   # 然后手动复制终端输出
+#        Windows(PowerShell):
+#                 [Convert]::ToBase64String([IO.File]::ReadAllBytes("release.keystore"))
+#
+#   3) 在 GitHub 仓库 Settings → Secrets and variables → Actions 中新增以下 4 项：
+#
+#        Secret 名称                        值
+#        ──────────────────────────────────────────────────────────
+#        ANDROID_KEYSTORE_BASE64            上面生成的 base64 字符串
+#        ANDROID_KEYSTORE_PASSWORD          生成 keystore 时输入的密码
+#        ANDROID_KEY_ALIAS                  上面命令里的 alias（本例是 upload）
+#        ANDROID_KEY_PASSWORD               该 alias 对应的 key 密码
+#
+#      不配这 4 个也能跑，工作流会自动用 debug 签名；
+#      但一旦配了就别丢 keystore——Google Play 上的 app 无法更换签名。
+#
+# 其它平台：Windows / Linux / macOS 构建和打包都不依赖任何 Secret。
+# =============================================================================
+
 name: Release
 
 on:
@@ -11,8 +55,12 @@ permissions:
 
 env:
   FLUTTER_VERSION: "3.47.5"
+  APP_NAME: "deer"
 
 jobs:
+  # ---------------------------------------------------------------------------
+  # Android（同一 runner 同时产出三 ABI，本来就是分开的）
+  # ---------------------------------------------------------------------------
   android:
     name: Android packages
     runs-on: ubuntu-24.04
@@ -27,209 +75,53 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
           cache: true
+          cache-key: flutter-android-${{ runner.os }}-${{ env.FLUTTER_VERSION }}
+
+      - name: Configure signing
+        if: env.ANDROID_KEYSTORE_BASE64 != ''
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
+          cat > android/key.properties <<EOF
+          storePassword=$ANDROID_KEYSTORE_PASSWORD
+          keyPassword=$ANDROID_KEY_PASSWORD
+          keyAlias=$ANDROID_KEY_ALIAS
+          storeFile=upload-keystore.jks
+          EOF
+
       - run: flutter pub get
 
       - name: Build split APKs (per ABI)
-        run: flutter build apk --release --split-per-abi
-
+        run: flutter build apk --release --split-per-abi --obfuscate --split-debug-info=build/debug-info/android
       - name: Build universal APK
-        run: flutter build apk --release
-
+        run: flutter build apk --release --obfuscate --split-debug-info=build/debug-info/android
       - name: Build App Bundle
-        run: flutter build appbundle --release
+        run: flutter build appbundle --release --obfuscate --split-debug-info=build/debug-info/android
 
-      - name: Upload armeabi-v7a APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: dchat-android-armeabi-v7a
-          path: build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
-          if-no-files-found: error
-
-      - name: Upload arm64-v8a APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: dchat-android-arm64-v8a
-          path: build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
-          if-no-files-found: error
-
-      - name: Upload x86_64 APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: dchat-android-x86_64
-          path: build/app/outputs/flutter-apk/app-x86_64-release.apk
-          if-no-files-found: error
-
-      - name: Upload universal APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: dchat-android-universal
-          path: build/app/outputs/flutter-apk/app-release.apk
-          if-no-files-found: error
-
-      - name: Upload App Bundle
-        uses: actions/upload-artifact@v4
-        with:
-          name: dchat-android-aab
-          path: build/app/outputs/bundle/release/app-release.aab
-          if-no-files-found: error
-
-  ios:
-    name: iOS app (unsigned, arm64)
-    runs-on: macos-15
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: stable
-          cache: true
-      - run: flutter pub get
-      - run: flutter build ios --release --no-codesign
-
-      - name: Package IPA
+      - name: Rename artifacts
         run: |
-          cd build/ios/iphoneos
-          rm -rf Payload
-          mkdir Payload
-          cp -R Runner.app Payload/
-          zip -qry dchat-ios-arm64-unsigned.ipa Payload
-          /usr/bin/ditto -c -k --keepParent Runner.app dchat-ios-arm64-unsigned.app.zip
+          cd build/app/outputs/flutter-apk
+          cp app-armeabi-v7a-release.apk ${APP_NAME}-android-armeabi-v7a.apk
+          cp app-arm64-v8a-release.apk    ${APP_NAME}-android-arm64-v8a.apk
+          cp app-x86_64-release.apk       ${APP_NAME}-android-x86_64.apk
+          cp app-release.apk              ${APP_NAME}-android-universal.apk
+          cp ../bundle/release/app-release.aab ../bundle/release/${APP_NAME}-android.aab
 
       - uses: actions/upload-artifact@v4
         with:
-          name: dchat-ios
+          name: android-packages
           path: |
-            build/ios/iphoneos/dchat-ios-arm64-unsigned.ipa
-            build/ios/iphoneos/dchat-ios-arm64-unsigned.app.zip
+            build/app/outputs/flutter-apk/${{ env.APP_NAME }}-android-*.apk
+            build/app/outputs/bundle/release/${{ env.APP_NAME }}-android.aab
           if-no-files-found: error
 
-  macos:
-    name: macOS ${{ matrix.arch }}
-    runs-on: ${{ matrix.runner }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - arch: arm64
-            runner: macos-15
-            xcode_arch: arm64
-            artifact: dchat-macos-arm64
-            package: dchat-macos-arm64.zip
-          - arch: x64
-            runner: macos-15-intel
-            xcode_arch: x86_64
-            artifact: dchat-macos-x64
-            package: dchat-macos-x64.zip
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: stable
-          cache: true
-      - run: flutter pub get
-
-      - name: Build macOS (${{ matrix.arch }})
-        env:
-          FLUTTER_XCODE_ARCHS: ${{ matrix.xcode_arch }}
-        run: flutter build macos --release
-
-      - name: Package app
-        run: |
-          cd build/macos/Build/Products/Release
-          /usr/bin/ditto -c -k --keepParent dchat.app ${{ matrix.package }}
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.artifact }}
-          path: build/macos/Build/Products/Release/${{ matrix.package }}
-          if-no-files-found: error
-
-  macos-universal:
-    name: macOS universal
-    runs-on: macos-15
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: stable
-          cache: true
-      - run: flutter pub get
-      - name: Build macOS (universal)
-        env:
-          FLUTTER_XCODE_ARCHS: "arm64 x86_64"
-        run: flutter build macos --release
-
-      - name: Package app
-        run: |
-          cd build/macos/Build/Products/Release
-          /usr/bin/ditto -c -k --keepParent dchat.app dchat-macos-universal.zip
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: dchat-macos-universal
-          path: build/macos/Build/Products/Release/dchat-macos-universal.zip
-          if-no-files-found: error
-
-  linux:
-    name: Linux ${{ matrix.arch }}
-    runs-on: ${{ matrix.runner }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - arch: x64
-            runner: ubuntu-22.04
-            target: linux-x64
-            flutter_channel: stable
-            artifact: dchat-linux-x64
-            package: dchat-linux-x64.tar.gz
-          - arch: arm64
-            runner: ubuntu-24.04-arm
-            target: linux-arm64
-            # No arm64 SDK archive is published for stable; `master` makes the
-            # action clone the pinned tag and bootstrap the native Dart SDK.
-            flutter_channel: master
-            artifact: dchat-linux-arm64
-            package: dchat-linux-arm64.tar.gz
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Linux build dependencies
-        run: |
-          sudo apt-get -o Acquire::Retries=3 update
-          sudo apt-get -o Acquire::Retries=3 install -y --no-install-recommends \
-            clang cmake ninja-build pkg-config g++ \
-            libgtk-3-dev liblzma-dev libx11-dev libxi-dev \
-            libayatana-appindicator3-dev
-
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: ${{ matrix.flutter_channel }}
-          cache: true
-
-      - name: Bootstrap Flutter
-        run: |
-          flutter --version
-          flutter precache --linux
-      - run: flutter pub get
-
-      - name: Build Linux (${{ matrix.arch }})
-        run: flutter build linux --release --target-platform ${{ matrix.target }}
-
-      - name: Package bundle
-        run: |
-          cd build/linux/${{ matrix.arch }}/release
-          tar -czf ${{ matrix.package }} bundle
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.artifact }}
-          path: build/linux/${{ matrix.arch }}/release/${{ matrix.package }}
-          if-no-files-found: error
-
+  # ---------------------------------------------------------------------------
+  # Windows：x64 + arm64 各自独立 Job，互不干扰
+  # ---------------------------------------------------------------------------
   windows:
     name: Windows ${{ matrix.arch }}
     runs-on: ${{ matrix.runner }}
@@ -240,101 +132,350 @@ jobs:
           - arch: x64
             runner: windows-latest
             flutter_channel: stable
-            artifact: dchat-windows-x64
-            package: dchat-windows-x64.zip
+            flutter_arch: x64
+            build_dir: build/windows/x64/runner/Release
+            artifact: windows-x64
           - arch: arm64
             runner: windows-11-arm
-            # No arm64 SDK archive is published for stable; `master` makes the
-            # action clone the pinned tag and bootstrap the native Dart SDK.
+            # stable 未发布 arm64 SDK 归档，master 会自动从 tag 克隆并引导 Dart SDK
             flutter_channel: master
-            artifact: dchat-windows-arm64
-            package: dchat-windows-arm64.zip
+            flutter_arch: arm64
+            build_dir: build/windows/arm64/runner/Release
+            artifact: windows-arm64
     steps:
       - uses: actions/checkout@v4
+
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ matrix.flutter_channel }}
           cache: true
-      - name: Bootstrap Flutter
-        run: |
-          flutter --version
-          flutter precache --windows
+          cache-key: flutter-${{ matrix.artifact }}-${{ runner.os }}-${{ env.FLUTTER_VERSION }}
+
+      - run: flutter --version
+      - run: flutter precache --windows
       - run: flutter pub get
 
-      - name: Build Windows (${{ matrix.arch }})
-        run: flutter build windows --release
+      - name: Build Windows release (${{ matrix.arch }})
+        run: flutter build windows --release --obfuscate --split-debug-info=build/debug-info/windows/${{ matrix.arch }}
 
-      - name: Package bundle
+      # 目录式便携 zip
+      - name: Package portable zip
         shell: pwsh
         run: |
-          Compress-Archive -Path build/windows/${{ matrix.arch }}/runner/Release/* `
-            -DestinationPath build/windows/${{ matrix.arch }}/runner/${{ matrix.package }}
+          Compress-Archive -Path "${{ matrix.build_dir }}\*" `
+            -DestinationPath "${{ matrix.build_dir }}\${APP_NAME}-${{ matrix.artifact }}-portable.zip" -Force
+
+      # MSIX 安装包（msix 工具在 Windows runner 上一条命令即可）
+      - name: Build MSIX installer
+        shell: pwsh
+        run: |
+          dart pub global activate msix
+          msix create-config 2>$null || true
+          if (-not (Test-Path "msix_config.yaml")) {
+            @"
+          msix_config:
+            display_name: $env:APP_NAME
+            publisher_display_name: Local
+            identity_name: com.local.$env:APP_NAME
+            msix_version: 1.0.0.0
+            logo_path: assets/icon.png
+            certificate_path: ""
+          "@ | Out-File -FilePath "msix_config.yaml" -Encoding utf8
+          }
+          msix build
+
+      # -----------------------------------------------------------------------
+      # Enigma Virtual Box：把整个 Release 目录封成单文件 exe。
+      # 免费工具，命令行：EnigmaVB.exe <主exe> -output=<输出exe> -root=<附属根目录>
+      # 下载地址：https://enigmaprotector.com/en/downloads
+      # -----------------------------------------------------------------------
+      - name: Download Enigma Virtual Box
+        shell: pwsh
+        run: |
+          $ProgressPreference = 'SilentlyContinue'
+          Invoke-WebRequest -Uri "https://enigmaprotector.com/download/EnigmaVB.zip" `
+            -OutFile EnigmaVB.zip
+          Expand-Archive -Path EnigmaVB.zip -DestinationPath EnigmaVB -Force
+
+      - name: Build single-file portable exe via Enigma Virtual Box
+        shell: pwsh
+        run: |
+          $releaseDir = "${{ matrix.build_dir }}"
+          $mainExe    = "$releaseDir\$env:APP_NAME.exe"
+          $outputExe  = "$releaseDir\$env:APP_NAME-${{ matrix.artifact }}-portable.exe"
+          $enigmaExe  = "EnigmaVB\EnigmaVB.exe"
+
+          Write-Host "==> Packing single-file exe with Enigma Virtual Box (${{ matrix.arch }})"
+          & $enigmaExe $mainExe "-output=$outputExe" "-root=$releaseDir"
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "Enigma returned $LASTEXITCODE; falling back to zip only."
+            exit 0
+          }
+          Write-Host "==> Done: $outputExe ($([math]::Round((Get-Item $outputExe).Length / 1MB)) MB)"
 
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact }}
-          path: build/windows/${{ matrix.arch }}/runner/${{ matrix.package }}
+          path: |
+            ${{ matrix.build_dir }}/${{ env.APP_NAME }}-${{ matrix.artifact }}-portable.exe
+            ${{ matrix.build_dir }}/${{ env.APP_NAME }}-${{ matrix.artifact }}-portable.zip
+            ${{ matrix.build_dir }}/*.msix
           if-no-files-found: error
 
+  # ---------------------------------------------------------------------------
+  # Linux：amd64 + arm64 各自独立 Job
+  # ---------------------------------------------------------------------------
+  linux:
+    name: Linux ${{ matrix.arch }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+            flutter_channel: stable
+            target_platform: linux-x64
+            bundle_dir: build/linux/x64/release/bundle
+            artifact_tag: linux-amd64
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+            # stable 未发布 arm64 SDK 归档
+            flutter_channel: master
+            target_platform: linux-arm64
+            bundle_dir: build/linux/arm64/release/bundle
+            artifact_tag: linux-arm64
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Linux build dependencies
+        run: |
+          sudo apt-get -o Acquire::Retries=3 update
+          sudo apt-get -o Acquire::Retries=3 install -y --no-install-recommends \
+            clang cmake ninja-build pkg-config g++ \
+            libgtk-3-dev liblzma-dev libx11-dev libxi-dev \
+            libayatana-appindicator3-dev \
+            libarchive-dev patchelf desktop-file-utils file
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ matrix.flutter_channel }}
+          cache: true
+          cache-key: flutter-${{ matrix.artifact_tag }}-${{ runner.os }}-${{ env.FLUTTER_VERSION }}
+
+      - run: flutter --version
+      - run: flutter precache --linux
+      - run: flutter pub get
+
+      - name: Build Linux release (${{ matrix.arch }})
+        run: |
+          flutter build linux --release \
+            --target-platform ${{ matrix.target_platform }} \
+            --obfuscate \
+            --split-debug-info=build/debug-info/linux/${{ matrix.arch }}
+
+      # -----------------------------------------------------------------------
+      # .deb 安装包
+      # -----------------------------------------------------------------------
+      - name: Build .deb installer
+        run: |
+          dart pub global activate flutter_to_debian
+          flutter_to_debian \
+            --main-exe "${APP_NAME}" \
+            --org "local" \
+            --project-name "${APP_NAME}" \
+            --project-version "$(git describe --tags --abbrev=0)" \
+            --description "dchat LAN peer-to-peer chat"
+
+      # -----------------------------------------------------------------------
+      # AppImage 单文件免安装：组装符合 AppImage 规范的 AppDir 再打包
+      # -----------------------------------------------------------------------
+      - name: Prepare AppImage AppDir
+        run: |
+          set -e
+          APP_NAME="${APP_NAME}"
+          APP_ID="com.local.${APP_NAME}"
+          BUNDLE="${{ matrix.bundle_dir }}"
+          APPDIR="build/linux/AppDir"
+
+          rm -rf "$APPDIR"
+          mkdir -p "$APPDIR/usr/bin"
+          mkdir -p "$APPDIR/usr/lib/$APP_NAME"
+          mkdir -p "$APPDIR/usr/share/icons/hicolor/512x512/apps"
+          mkdir -p "$APPDIR/usr/share/applications"
+
+          cp "$BUNDLE/$APP_NAME" "$APPDIR/usr/bin/"
+          cp -r "$BUNDLE/lib"    "$APPDIR/usr/lib/$APP_NAME/" 2>/dev/null || true
+          cp -r "$BUNDLE/data"   "$APPDIR/usr/lib/$APP_NAME/" 2>/dev/null || true
+          cp "$BUNDLE/libapp.so" "$APPDIR/usr/lib/$APP_NAME/" 2>/dev/null || true
+          cp "$BUNDLE/*.so"      "$APPDIR/usr/lib/$APP_NAME/" 2>/dev/null || true
+
+          cat > "$APPDIR/${APP_ID}.desktop" <<EOF
+          [Desktop Entry]
+          Name=$APP_NAME
+          Exec=$APP_NAME
+          Icon=$APP_ID
+          Type=Application
+          Categories=Network;Chat;
+          Terminal=false
+          StartupNotify=true
+          EOF
+
+          cp assets/icon.png "$APPDIR/usr/share/icons/hicolor/512x512/apps/${APP_ID}.png"
+
+          cat > "$APPDIR/AppRun" <<'RUNEOF'
+          #!/bin/sh
+          APP_NAME="$(basename "$0")"
+          HERE="$(dirname "$(readlink -f "$0")")"
+          export LD_LIBRARY_PATH="$HERE/usr/lib/$APP_NAME:$LD_LIBRARY_PATH"
+          cd "$HERE/usr/lib/$APP_NAME"
+          exec "$HERE/usr/bin/$APP_NAME" "$@"
+          RUNEOF
+          chmod +x "$APPDIR/AppRun"
+
+          ln -sf "AppRun" "$APPDIR/$APP_NAME"
+          ln -sf "usr/share/icons/hicolor/512x512/apps/${APP_ID}.png" "$APPDIR/${APP_ID}.png"
+          ln -sf "${APP_ID}.desktop" "$APPDIR/${APP_ID}.desktop"
+
+      - name: Download appimagetool
+        run: |
+          curl -L https://appimage.github.io/appimagetool/download -o appimagetool
+          chmod +x appimagetool
+
+      - name: Build .AppImage (${{ matrix.arch }})
+        run: |
+          set -e
+          APP_NAME="${APP_NAME}"
+          APP_ID="com.local.${APP_NAME}"
+          APPDIR="build/linux/AppDir"
+          OUTPUT="build/linux/${APP_NAME}-${{ matrix.artifact_tag }}-portable.AppImage"
+
+          # appimagetool 支持 x86_64 和 aarch64
+          export ARCH="${{ matrix.arch }}"
+          ./appimagetool "$APPDIR" "$OUTPUT"
+          chmod +x "$OUTPUT"
+          ls -lh "$OUTPUT"
+
+      - name: Locate & move .deb
+        run: |
+          DEB=$(find . -maxdepth 3 -name "*.deb" 2>/dev/null | head -n1)
+          if [ -n "$DEB" ]; then
+            mv "$DEB" "build/linux/${APP_NAME}-${{ matrix.artifact_tag }}.deb"
+          else
+            echo "No .deb produced; skipping."
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_tag }}
+          path: |
+            build/linux/${{ env.APP_NAME }}-${{ matrix.artifact_tag }}-portable.AppImage
+            build/linux/${{ env.APP_NAME }}-${{ matrix.artifact_tag }}.deb
+          if-no-files-found: error
+
+  # ---------------------------------------------------------------------------
+  # macOS：arm64 + x64 各自独立 Job，不做 Universal Binary
+  # ---------------------------------------------------------------------------
+  macos:
+    name: macOS ${{ matrix.arch }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: arm64
+            runner: macos-15
+            xcode_arch: arm64
+            artifact_tag: macos-arm64
+          - arch: x64
+            runner: macos-15-intel
+            xcode_arch: x86_64
+            artifact_tag: macos-x64
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+          cache-key: flutter-${{ matrix.artifact_tag }}-${{ runner.os }}-${{ env.FLUTTER_VERSION }}
+
+      - run: flutter pub get
+
+      - name: Build macOS (${{ matrix.arch }})
+        env:
+          FLUTTER_XCODE_ARCHS: ${{ matrix.xcode_arch }}
+        run: |
+          flutter build macos --release \
+            --obfuscate \
+            --split-debug-info=build/debug-info/macos/${{ matrix.arch }} \
+            --no-codesign
+
+      # .zip 保留父目录，解压直接得到 .app
+      - name: Package .zip
+        run: |
+          cd build/macos/Build/Products/Release
+          /usr/bin/ditto -c -k --keepParent "${APP_NAME}.app" \
+            "${APP_NAME}-${{ matrix.artifact_tag }}.zip"
+
+      # .dmg：用 create-dmg 创建带窗口样式的安装镜像
+      - name: Build .dmg installer
+        run: |
+          set -e
+          BUNDLE="build/macos/Build/Products/Release"
+          APP_PATH="${BUNDLE}/${APP_NAME}.app"
+          OUTPUT="build/macos/${APP_NAME}-${{ matrix.artifact_tag }}.dmg"
+
+          command -v create-dmg || brew install create-dmg
+
+          create-dmg \
+            --volname "${APP_NAME}" \
+            --window-size 520 320 \
+            --icon-size 100 \
+            --icon "${APP_NAME}.app" 140 160 \
+            --app-drop-link 380 160 \
+            "$OUTPUT" \
+            "$APP_PATH"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_tag }}
+          path: |
+            build/macos/Build/Products/Release/${{ env.APP_NAME }}-${{ matrix.artifact_tag }}.zip
+            build/macos/${{ env.APP_NAME }}-${{ matrix.artifact_tag }}.dmg
+          if-no-files-found: error
+
+  # ---------------------------------------------------------------------------
+  # 汇总：下载所有架构产物 → 平铺到同一目录 → 创建 GitHub Release 上传
+  # ---------------------------------------------------------------------------
   publish:
     name: Publish release
-    needs:
-      - android
-      - ios
-      - macos
-      - macos-universal
-      - linux
-      - windows
+    needs: [android, windows, linux, macos]
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/download-artifact@v4
         with:
           path: artifacts
+          merge-multiple: true
 
-      - name: Collect packages
+      - name: Inspect & stage release assets
         run: |
+          ls -lah artifacts/
           mkdir -p packages
+          # 复制所有产物；各平台各架构文件名已带 tag，天然不冲突
+          cp -v artifacts/* packages/
+          echo ""
+          echo "==> Final release assets:"
+          ls -lh packages/
 
-          cp artifacts/dchat-android-armeabi-v7a/app-armeabi-v7a-release.apk \
-            packages/dchat-android-armeabi-v7a.apk
-          cp artifacts/dchat-android-arm64-v8a/app-arm64-v8a-release.apk \
-            packages/dchat-android-arm64-v8a.apk
-          cp artifacts/dchat-android-x86_64/app-x86_64-release.apk \
-            packages/dchat-android-x86_64.apk
-          cp artifacts/dchat-android-universal/app-release.apk \
-            packages/dchat-android-universal.apk
-          cp artifacts/dchat-android-aab/app-release.aab \
-            packages/dchat-android.aab
-
-          cp artifacts/dchat-ios/dchat-ios-arm64-unsigned.ipa \
-            packages/dchat-ios-arm64-unsigned.ipa
-          cp artifacts/dchat-ios/dchat-ios-arm64-unsigned.app.zip \
-            packages/dchat-ios-arm64-unsigned.app.zip
-
-          cp artifacts/dchat-macos-arm64/dchat-macos-arm64.zip \
-            packages/dchat-macos-arm64.zip
-          cp artifacts/dchat-macos-x64/dchat-macos-x64.zip \
-            packages/dchat-macos-x64.zip
-          cp artifacts/dchat-macos-universal/dchat-macos-universal.zip \
-            packages/dchat-macos-universal.zip
-
-          cp artifacts/dchat-linux-x64/dchat-linux-x64.tar.gz \
-            packages/dchat-linux-x64.tar.gz
-          cp artifacts/dchat-linux-arm64/dchat-linux-arm64.tar.gz \
-            packages/dchat-linux-arm64.tar.gz
-
-          cp artifacts/dchat-windows-x64/dchat-windows-x64.zip \
-            packages/dchat-windows-x64.zip
-          cp artifacts/dchat-windows-arm64/dchat-windows-arm64.zip \
-            packages/dchat-windows-arm64.zip
-
-          ls -lh packages
-
-      - name: Create GitHub release
+      - name: Create GitHub release & upload all assets
         uses: softprops/action-gh-release@v2
         with:
           files: packages/*
           generate_release_notes: true
           draft: false
           prerelease: false
+          fail_on_unmatched_files: true
