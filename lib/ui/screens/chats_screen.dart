@@ -6,7 +6,6 @@ import '../../core/i18n.dart';
 import '../../core/models.dart';
 import '../../state/chat_controller.dart';
 import '../../state/chats_view_model.dart';
-import '../../state/home_view_model.dart';
 import '../adaptive.dart';
 import '../dialogs/dialogs.dart';
 import '../navigation.dart';
@@ -21,172 +20,62 @@ class ChatsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.watch<ChatController>();
     final vm = context.watch<ChatsViewModel>();
-    final home = context.read<HomeViewModel>();
-    final colors = appColors(context);
     final list = vm.filtered(c);
     final query = vm.query;
 
-    return Scaffold(
-      appBar: DchatAppBar(
-        titleSpacing: 16,
-        title: Row(
-          children: [
-            GestureDetector(
-              onTap: home.openSettings,
-              child: PeerAvatar(
-                name: c.profile.name,
-                avatar: c.profile.avatar,
-                status: c.profile.status,
-                size: 36,
+    return Column(
+      children: [
+        if (vm.searching)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+            child: TextField(
+              controller: vm.searchController,
+              autofocus: true,
+              onChanged: vm.setQuery,
+              decoration: InputDecoration(
+                hintText: L10n.instance.tr('搜索会话'),
+                prefixIcon: const Icon(Icons.search, size: 20),
               ),
             ),
-            const SizedBox(width: 11),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text('dchat'),
-                  Text(
-                    _networkLine(c),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w400,
-                      color: colors.muted,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          IconAction(
-            icon: vm.searching ? Icons.close : Icons.search,
-            tooltip: vm.searching ? L10n.instance.tr('关闭搜索') : L10n.instance.tr('搜索'),
-            onPressed: vm.toggleSearch,
           ),
-          _StatusMenu(controller: c),
-          const SizedBox(width: 4),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        heroTag: 'create-group',
-        tooltip: L10n.instance.tr('创建群聊'),
-        onPressed: () => _createGroup(context, c),
-        child: const Icon(Icons.group_add_outlined),
-      ),
-      body: Column(
-        children: [
-          if (vm.searching)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
-              child: TextField(
-                controller: vm.searchController,
-                autofocus: true,
-                onChanged: vm.setQuery,
-                decoration: InputDecoration(
-                  hintText: L10n.instance.tr('搜索会话'),
-                  prefixIcon: const Icon(Icons.search, size: 20),
+        Expanded(
+          child: list.isEmpty
+              ? EmptyState(
+                  icon: Icons.forum_outlined,
+                  title: query.isEmpty
+                      ? L10n.instance.tr('还没有会话')
+                      : L10n.instance.tr('没有匹配的会话'),
+                  message: query.isEmpty
+                      ? L10n.instance.tr('打开“设备”发现局域网内的联系人，或点击右下角创建群聊。')
+                      : null,
+                )
+              : ListView.builder(
+                  padding: const EdgeInsets.fromLTRB(10, 4, 10, 100),
+                  itemCount: list.length,
+                  itemBuilder: (context, index) {
+                    final conv = list[index];
+                    return _ConversationTile(
+                      controller: c,
+                      conversation: conv,
+                      onTap: () => openChatScreen(context, conv.id),
+                    );
+                  },
                 ),
-              ),
-            ),
-          Expanded(
-            child: list.isEmpty
-                ? EmptyState(
-                    icon: Icons.forum_outlined,
-                    title: query.isEmpty
-                        ? L10n.instance.tr('还没有会话')
-                        : L10n.instance.tr('没有匹配的会话'),
-                    message: query.isEmpty
-                        ? L10n.instance.tr('打开“设备”发现局域网内的联系人，或点击右下角创建群聊。')
-                        : null,
-                  )
-                : ListView.builder(
-                    padding: const EdgeInsets.fromLTRB(10, 4, 10, 100),
-                    itemCount: list.length,
-                    itemBuilder: (context, index) {
-                      final conv = list[index];
-                      return _ConversationTile(
-                        controller: c,
-                        conversation: conv,
-                        onTap: () => openChatScreen(context, conv.id),
-                      );
-                    },
-                  ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  String _networkLine(ChatController c) {
-    final count = c.peers.values.where((p) => p.connected).length;
-    if (!c.ready) return L10n.instance.tr('正在启动');
-    if (c.settings.discovery) {
-      return count == 0
-          ? L10n.instance.tr('自动发现已开启')
-          : '$count ${L10n.instance.tr('台设备在线')}';
-    }
-    return count == 0
-        ? L10n.instance.tr('自动发现已关闭')
-        : '$count ${L10n.instance.tr('台设备已连接')}';
-  }
-
-  Future<void> _createGroup(BuildContext context, ChatController c) async {
-    final candidates =
-        c.sortedPeers().where((p) => p.id != c.profile.id).toList();
-    final draft = await showGroupDraftDialog(context, candidates: candidates);
-    if (draft == null || !context.mounted) return;
-    final conv = c.createGroup(draft.name, draft.members);
-    await openChatScreen(context, conv.id);
-  }
-}
-
-class _StatusMenu extends StatelessWidget {
-  final ChatController controller;
-
-  const _StatusMenu({required this.controller});
-
-  @override
-  Widget build(BuildContext context) {
-    final c = appColors(context);
-    return PopupMenuButton<Presence>(
-      tooltip: L10n.instance.tr('我的状态'),
-      initialValue: controller.profile.status,
-      onSelected: controller.setStatus,
-      itemBuilder: (context) => [
-        for (final p in presenceOptions)
-          PopupMenuItem(
-            value: p,
-            child: Row(
-              children: [
-                StatusDot(status: p, size: 9),
-                const SizedBox(width: 10),
-                Text(L10n.instance.tr(presenceLabelKey(p))),
-              ],
-            ),
-          ),
-      ],
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            StatusDot(status: controller.profile.status, size: 8),
-            const SizedBox(width: 5),
-            Text(
-              L10n.instance.tr(presenceLabelKey(controller.profile.status)),
-              style: TextStyle(fontSize: 11, color: c.muted),
-            ),
-          ],
         ),
-      ),
+      ],
     );
   }
 }
+
+/// 从任意入口创建群聊：拉取候选设备、弹草稿框，成功后进入会话。
+Future<void> createGroupFlow(BuildContext context, ChatController c) async {
+  final candidates = c.sortedPeers().where((p) => p.id != c.profile.id).toList();
+  final draft = await showGroupDraftDialog(context, candidates: candidates);
+  if (draft == null || !context.mounted) return;
+  final conv = c.createGroup(draft.name, draft.members);
+  await openChatScreen(context, conv.id);
+}
+
 
 class _ConversationTile extends StatelessWidget {
   final ChatController controller;

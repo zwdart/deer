@@ -14,8 +14,8 @@ import '../navigation.dart';
 import '../theme.dart';
 import '../widgets/avatar.dart';
 import '../widgets/common.dart';
-import 'chats_screen.dart';
-import 'discover_screen.dart';
+import 'comm_screen.dart';
+import 'recommended_feeds_screen.dart';
 import 'rss_screen.dart';
 import 'share_screen.dart';
 
@@ -23,19 +23,20 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   static const _pages = [
-    ChatsScreen(),
-    DiscoverScreen(),
+    CommScreen(),
     ShareScreen(),
     RssScreen(),
+    RecommendedFeedsScreen(),
   ];
 
   static List<_NavItem> _items() => [
         _NavItem(Icons.forum_outlined, Icons.forum, L10n.instance.tr('消息')),
-        _NavItem(Icons.devices_outlined, Icons.devices, L10n.instance.tr('设备')),
         _NavItem(Icons.folder_shared_outlined, Icons.folder_shared,
             L10n.instance.tr('共享')),
         _NavItem(Icons.newspaper_outlined, Icons.newspaper,
             L10n.instance.tr('资讯')),
+        _NavItem(Icons.explore_outlined, Icons.explore,
+            L10n.instance.tr('推荐')),
       ];
 
   @override
@@ -330,7 +331,7 @@ class _DesktopMenuBar extends StatelessWidget {
                 menuChildren: [
                   MenuItemButton(
                     onPressed: () {
-                      home.select(0);
+                      home.openChats();
                       chats.toggleSearch();
                     },
                     child: Text(L10n.instance.tr('搜索会话  Ctrl/⌘+F')),
@@ -414,11 +415,11 @@ class _ShortcutHost extends StatelessWidget {
       child: CallbackShortcuts(
         bindings: {
           const SingleActivator(LogicalKeyboardKey.keyF, control: true): () {
-            home.select(0);
+            home.openChats();
             chats.toggleSearch();
           },
           const SingleActivator(LogicalKeyboardKey.keyF, meta: true): () {
-            home.select(0);
+            home.openChats();
             chats.toggleSearch();
           },
           const SingleActivator(LogicalKeyboardKey.comma, control: true):

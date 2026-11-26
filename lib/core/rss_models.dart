@@ -90,9 +90,25 @@ class FeedSource {
       );
 }
 
+/// 内置的推荐订阅源，仅在「推荐」页展示，点击后才写入本地数据库。
+class RecommendedFeed {
+  final String name;
+  final String url;
+  final String category;
+  final String description;
+
+  const RecommendedFeed(
+    this.name,
+    this.url, {
+    this.category = '',
+    this.description = '',
+  });
+
+  String get host => urlHost(url).isEmpty ? url : urlHost(url);
+}
+
 /// 一篇文章。列表查询不取 [summary]/[content] 之外的正文字段，见 [RssDatabase]。
-class RssArticle {
-  int? id;
+class RssArticle {  int? id;
   int feedId;
   String guid;
   String title;

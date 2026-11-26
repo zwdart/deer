@@ -202,15 +202,15 @@ class _AddFeedViewState extends State<_AddFeedView> {
           spacing: 8,
           runSpacing: 8,
           children: [
-            for (final preset in RssController.presets)
+            for (final preset in RssController.recommended)
               ActionChip(
-                label: Text(preset.$1),
+                label: Text(preset.name),
                 onPressed: _busy
                     ? null
                     : () {
-                        _url.text = preset.$2;
-                        _title.text = preset.$1;
-                        _submit(preset.$2, preset.$1);
+                        _url.text = preset.url;
+                        _title.text = preset.name;
+                        _submit(preset.url, preset.name);
                       },
               ),
           ],

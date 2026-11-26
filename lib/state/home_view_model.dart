@@ -6,6 +6,9 @@ class HomeViewModel extends ChangeNotifier {
   /// 设置页需要 BuildContext，托盘和快捷键只有这个 ViewModel，用计数信号让外壳负责入栈。
   final ValueNotifier<int> settingsRequests = ValueNotifier<int>(0);
 
+  /// 「消息」菜单内部的子页：0 = 会话，1 = 设备。
+  final ValueNotifier<int> commSegment = ValueNotifier<int>(0);
+
   int get index => _index;
 
   void select(int value) {
@@ -16,15 +19,24 @@ class HomeViewModel extends ChangeNotifier {
 
   void openSettings() => settingsRequests.value++;
 
-  void openNews() => select(3);
+  void openChats() {
+    commSegment.value = 0;
+    select(0);
+  }
 
-  void openDevices() => select(1);
+  void openDevices() {
+    commSegment.value = 1;
+    select(0);
+  }
 
-  void openShare() => select(2);
+  void openShare() => select(1);
+
+  void openNews() => select(2);
 
   @override
   void dispose() {
     settingsRequests.dispose();
+    commSegment.dispose();
     super.dispose();
   }
 }

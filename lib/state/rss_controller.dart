@@ -60,16 +60,56 @@ class RssController extends ChangeNotifier {
   Timer? _timer;
   bool _disposed = false;
 
-  /// 内置精选，仅在「添加订阅」里作为候选，不会自动写入数据库或联网。
-  static const List<(String, String)> presets = [
-    ('别的', 'https://www.biede.com/feed/'),
-    ('虎嗅网', 'https://rss.huxiu.com'),
-    ('钛媒体', 'https://www.tmtpost.com/feed'),
-    ('美团技术团队', 'https://tech.meituan.com/rss.xml'),
-    ('阮一峰的网络日志', 'https://www.ruanyifeng.com/blog/atom.xml'),
-    ('Nature', 'https://www.nature.com/nature.rss'),
-    ('Hacker News', 'https://news.ycombinator.com/rss'),
-    ('The Verge', 'https://www.theverge.com/rss/index.xml'),
+  /// 内置精选，仅在「推荐」页和「添加订阅」里作为候选，不会自动写入数据库或联网。
+  static const List<RecommendedFeed> recommended = [
+    RecommendedFeed(
+      '虎嗅网',
+      'https://rss.huxiu.com',
+      category: '商业科技',
+      description: '聚焦科技与商业的深度报道和观点。',
+    ),
+    RecommendedFeed(
+      '钛媒体',
+      'https://www.tmtpost.com/feed',
+      category: '商业科技',
+      description: 'TMT 领域的产业资讯、公司动态与评论。',
+    ),
+    RecommendedFeed(
+      '美团技术团队',
+      'https://tech.meituan.com/rss.xml',
+      category: '技术博客',
+      description: '一线工程师分享的架构、算法与工程实践。',
+    ),
+    RecommendedFeed(
+      '阮一峰的网络日志',
+      'https://www.ruanyifeng.com/blog/atom.xml',
+      category: '技术博客',
+      description: '每周分享科技、编程与互联网的观察。',
+    ),
+    RecommendedFeed(
+      '别的',
+      'https://www.biede.com/feed/',
+      category: '独立博客',
+      description: '关于产品、设计与互联网的独立观察。',
+    ),
+    RecommendedFeed(
+      'Nature',
+      'https://www.nature.com/nature.rss',
+      category: '科学',
+      description: '国际顶级科学期刊的最新研究摘要。',
+    ),
+    RecommendedFeed(
+      'Hacker News',
+      'https://news.ycombinator.com/rss',
+      category: '英文资讯',
+      description: '全球开发者关注的技术社区热帖。',
+    ),
+    RecommendedFeed(
+      'The Verge',
+      'https://www.theverge.com/rss/index.xml',
+      category: '英文资讯',
+      description: '消费科技、数码产品与行业新闻。',
+    ),
   ];
 
   bool get disposed => _disposed;

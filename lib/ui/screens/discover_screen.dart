@@ -20,35 +20,9 @@ class DiscoverScreen extends StatelessWidget {
     final colors = appColors(context);
     final peers = c.sortedPeers().where((p) => p.id != c.profile.id).toList();
 
-    return Scaffold(
-      appBar: DchatAppBar(
-        title: Text(L10n.instance.tr('设备')),
-        actions: [
-          IconAction(
-            icon: Icons.add_link,
-            tooltip: L10n.instance.tr('通过地址连接'),
-            onPressed: () => _connectByAddress(context, c),
-          ),
-          IconAction(
-            icon: Icons.refresh,
-            tooltip: L10n.instance.tr('重新开始发现'),
-            onPressed: () async {
-              await c.restartNetwork();
-              if (context.mounted) showAppSnack(context, L10n.instance.tr('正在重新搜索局域网设备'));
-            },
-          ),
-          const SizedBox(width: 4),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        heroTag: 'group-from-discover',
-        onPressed: () => _createGroup(context, c),
-        icon: const Icon(Icons.group_add_outlined),
-        label: Text(L10n.instance.tr('创建群聊')),
-      ),
-      body: RefreshIndicator(
-        onRefresh: c.restartNetwork,
-        child: ListView(
+    return RefreshIndicator(
+      onRefresh: c.restartNetwork,
+      child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 100),
           children: [
             _NetworkCard(controller: c),
@@ -85,7 +59,7 @@ class DiscoverScreen extends StatelessWidget {
                       : L10n.instance.tr('自动发现已关闭。可以开启自动发现，或通过 IP 地址手动连接。'),
                   action: c.settings.discovery
                       ? OutlinedButton.icon(
-                          onPressed: () => _connectByAddress(context, c),
+                          onPressed: () => connectByAddress(context, c),
                           icon: const Icon(Icons.add_link, size: 18),
                           label: Text(L10n.instance.tr('手动连接')),
                         )
@@ -120,8 +94,7 @@ class DiscoverScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 
   Future<void> _openPeer(
@@ -212,35 +185,24 @@ class DiscoverScreen extends StatelessWidget {
     if (!context.mounted) return;
     await openChatScreen(context, conv.id);
   }
+}
 
-  Future<void> _connectByAddress(
-    BuildContext context,
-    ChatController c,
-  ) async {
-    final input = await promptText(
-      context,
-      title: L10n.instance.tr('通过地址连接'),
-      label: L10n.instance.tr('IP 或 IP:端口'),
-      confirm: L10n.instance.tr('连接'),
-    );
-    if (input == null || input.isEmpty || !context.mounted) return;
-    try {
-      final peer = await c.manualConnect(input);
-      final conv = c.ensureDirect(peer);
-      if (!context.mounted) return;
-      await openChatScreen(context, conv.id);
-    } catch (e) {
-      if (context.mounted) showAppSnack(context, trf('连接失败：%s', ['$e']));
-    }
-  }
-
-  Future<void> _createGroup(BuildContext context, ChatController c) async {
-    final candidates =
-        c.sortedPeers().where((p) => p.id != c.profile.id).toList();
-    final draft = await showGroupDraftDialog(context, candidates: candidates);
-    if (draft == null || !context.mounted) return;
-    final conv = c.createGroup(draft.name, draft.members);
+/// 通过 IP / IP:端口 手动连接设备，成功后直接进入会话。
+Future<void> connectByAddress(BuildContext context, ChatController c) async {
+  final input = await promptText(
+    context,
+    title: L10n.instance.tr('通过地址连接'),
+    label: L10n.instance.tr('IP 或 IP:端口'),
+    confirm: L10n.instance.tr('连接'),
+  );
+  if (input == null || input.isEmpty || !context.mounted) return;
+  try {
+    final peer = await c.manualConnect(input);
+    final conv = c.ensureDirect(peer);
+    if (!context.mounted) return;
     await openChatScreen(context, conv.id);
+  } catch (e) {
+    if (context.mounted) showAppSnack(context, trf('连接失败：%s', ['$e']));
   }
 }
 
