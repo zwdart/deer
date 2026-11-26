@@ -100,7 +100,7 @@ class ChatController extends ChangeNotifier {
             deviceName.trim().isNotEmpty &&
             deviceName.trim().toLowerCase() != 'localhost')
         ? deviceName.trim()
-        : L10n.instance.tr('我的 zchat');
+        : L10n.instance.tr('ui.my_zchat');
     final defaults = Settings(
       downloadDir: paths.downloadDir,
       screenshotDir: paths.picturesDir,
@@ -160,7 +160,7 @@ class ChatController extends ChangeNotifier {
     try {
       await transfer!.start(settings.transferPort);
     } catch (e) {
-      _setToast(L10n.instance.tr('文件传输服务未启动：') + e.toString());
+      _setToast(L10n.instance.tr('ui.file_transfer_service_is_not_running') + e.toString());
     }
 
     share = ShareServer(paths.httpTransfersPath);
@@ -248,7 +248,7 @@ class ChatController extends ChangeNotifier {
       try {
         await transfer!.start(settings.transferPort);
       } catch (e) {
-        _setToast(L10n.instance.tr('文件传输服务未启动：') + e.toString());
+        _setToast(L10n.instance.tr('ui.file_transfer_service_is_not_running') + e.toString());
       }
     }
     await _startNode();
@@ -424,16 +424,16 @@ class ChatController extends ChangeNotifier {
     if (id == profile.id) return profile.name;
     final peer = peers[id];
     if (peer != null) return peer.displayName;
-    return L10n.instance.tr('未知设备');
+    return L10n.instance.tr('device.unknown_device');
   }
 
   String conversationTitle(Conversation c) {
     if (c.kind == ConvKind.group) {
-      return c.title.isEmpty ? L10n.instance.tr('群聊') : c.title;
+      return c.title.isEmpty ? L10n.instance.tr('chat.group') : c.title;
     }
     final peer = peers[c.peerId];
     return peer?.displayName ??
-        (c.title.isEmpty ? L10n.instance.tr('未知设备') : c.title);
+        (c.title.isEmpty ? L10n.instance.tr('device.unknown_device') : c.title);
   }
 
   Conversation? conversation(String id) => convs[id];
@@ -778,7 +778,7 @@ class ChatController extends ChangeNotifier {
     }
     final body = settings.notifyPreview
         ? L10n.instance.tr(m.preview)
-        : L10n.instance.tr('新消息');
+        : L10n.instance.tr('chat.new_message');
     NotificationService.instance.show(
       convId: c.id,
       title: title,
@@ -956,7 +956,7 @@ class ChatController extends ChangeNotifier {
     for (final m in msgs[convId] ?? const <Message>[]) {
       if (m.id != messageId || !m.mine) continue;
       if (DateTime.now().difference(m.sentAt) > const Duration(minutes: 2)) {
-        _setToast(L10n.instance.tr('超过 2 分钟的消息不能撤回'));
+        _setToast(L10n.instance.tr('chat.messages_older_than_2_minutes_cannot_be_unsent'));
         return;
       }
       m.recalled = true;
@@ -1015,7 +1015,7 @@ class ChatController extends ChangeNotifier {
     }
     db.clearAll().then((_) => refreshDbStats());
     _scheduleStateSave();
-    _setToast(L10n.instance.tr('聊天记录已清空'));
+    _setToast(L10n.instance.tr('chat.chat_history_cleared'));
     _bump();
   }
 
@@ -1056,7 +1056,7 @@ class ChatController extends ChangeNotifier {
 
   Conversation createGroup(String name, List<String> picked) {
     var title = name.trim();
-    if (title.isEmpty) title = L10n.instance.tr('未命名群聊');
+    if (title.isEmpty) title = L10n.instance.tr('chat.unnamed_group');
     final members = <String>[profile.id];
     final seen = <String>{profile.id};
     for (final id in picked) {
@@ -1075,7 +1075,7 @@ class ChatController extends ChangeNotifier {
     final c = g.conversation()..updatedAt = now;
     convs[c.id] = c;
     msgs[c.id] = [];
-    appendSystem(c, L10n.instance.tr('你创建了群聊「') + title + L10n.instance.tr('」'));
+    appendSystem(c, L10n.instance.tr('chat.you_created_group') + title + L10n.instance.tr('ui.item'));
     sendGroupAction(g, groupInvite, '');
     _scheduleStateSave();
     openConversation(c.id);
@@ -1129,7 +1129,7 @@ class ChatController extends ChangeNotifier {
           db.deleteConversation(g.id).then((_) => refreshDbStats());
           _scheduleStateSave();
           _setToast(
-              L10n.instance.tr('群聊「') + c.title + L10n.instance.tr('」已解散'));
+              L10n.instance.tr('chat.group_2') + c.title + L10n.instance.tr('ui.was_dissolved'));
           _bump();
         }
         break;
@@ -1146,19 +1146,19 @@ class ChatController extends ChangeNotifier {
       return;
     }
     final c = g.conversation();
-    if (c.title.isEmpty) c.title = L10n.instance.tr('群聊');
+    if (c.title.isEmpty) c.title = L10n.instance.tr('chat.group');
     c.updatedAt = DateTime.now();
     convs[c.id] = c;
     msgs[c.id] = [];
-    var text = peerName(from) + L10n.instance.tr(' 邀请你加入群聊');
-    if (intro.isNotEmpty) text += L10n.instance.tr('：') + intro;
+    var text = peerName(from) + L10n.instance.tr('chat.invited_you_fragment');
+    if (intro.isNotEmpty) text += L10n.instance.tr('ui.item_3') + intro;
     appendSystem(c, text);
     c.unread = 1;
     _scheduleStateSave();
     if (settings.notifications) {
       NotificationService.instance.show(
         convId: c.id,
-        title: peerName(from) + L10n.instance.tr(' 邀请你加入群聊'),
+        title: peerName(from) + L10n.instance.tr('chat.invited_you_fragment'),
         body: c.title,
       );
     }
@@ -1173,7 +1173,7 @@ class ChatController extends ChangeNotifier {
       convs[g.id] = c;
       msgs[g.id] = [];
       appendSystem(
-          c, L10n.instance.tr('你加入了群聊「') + conversationTitle(c) + L10n.instance.tr('」'));
+          c, L10n.instance.tr('chat.you_joined_group') + conversationTitle(c) + L10n.instance.tr('ui.item'));
     } else {
       if (!g.hasMember(profile.id)) {
         forgetMessageFiles(msgs[g.id] ?? const []);
@@ -1182,7 +1182,7 @@ class ChatController extends ChangeNotifier {
         if (activeConvId == g.id) activeConvId = '';
         db.deleteConversation(g.id).then((_) => refreshDbStats());
         _setToast(
-            L10n.instance.tr('你已被移出群聊「') + c.title + L10n.instance.tr('」'));
+            L10n.instance.tr('chat.you_were_removed_from_group') + c.title + L10n.instance.tr('ui.item'));
         _scheduleStateSave();
         _bump();
         return;
@@ -1200,7 +1200,7 @@ class ChatController extends ChangeNotifier {
     c.members.remove(from);
     if (c.members.length == before) return;
     c.updatedAt = DateTime.now();
-    appendSystem(c, peerName(from) + L10n.instance.tr(' 退出了群聊'));
+    appendSystem(c, peerName(from) + L10n.instance.tr('chat.left_group_fragment'));
     _scheduleStateSave();
     _bump();
   }
@@ -1218,7 +1218,7 @@ class ChatController extends ChangeNotifier {
     if (c == null || title.isEmpty || title == c.title) return;
     c.title = title;
     c.updatedAt = DateTime.now();
-    appendSystem(c, L10n.instance.tr('群聊改名为「') + title + L10n.instance.tr('」'));
+    appendSystem(c, L10n.instance.tr('chat.group_renamed_to') + title + L10n.instance.tr('ui.item'));
     sendGroupAction(groupForConv(c), groupUpdate, '');
     _scheduleStateSave();
     _bump();
@@ -1236,7 +1236,7 @@ class ChatController extends ChangeNotifier {
     }
     if (added == 0) return;
     c.updatedAt = DateTime.now();
-    appendSystem(c, L10n.instance.tr('新增了 ') + added.toString() + L10n.instance.tr(' 位成员'));
+    appendSystem(c, L10n.instance.tr('chat.added_fragment') + added.toString() + L10n.instance.tr('chat.members_fragment'));
     sendGroupAction(groupForConv(c), groupUpdate, '');
     _scheduleStateSave();
     _bump();
@@ -1247,7 +1247,7 @@ class ChatController extends ChangeNotifier {
     if (c == null || id == profile.id) return;
     c.members.remove(id);
     c.updatedAt = DateTime.now();
-    appendSystem(c, peerName(id) + L10n.instance.tr(' 被移出了群聊'));
+    appendSystem(c, peerName(id) + L10n.instance.tr('chat.was_removed_fragment'));
     sendGroupAction(groupForConv(c), groupUpdate, '');
     _scheduleStateSave();
     _bump();
@@ -1268,7 +1268,7 @@ class ChatController extends ChangeNotifier {
     if (activeConvId == c.id) activeConvId = '';
     db.deleteConversation(c.id).then((_) => refreshDbStats());
     _scheduleStateSave();
-    _setToast(L10n.instance.tr('已退出群聊「') + c.title + L10n.instance.tr('」'));
+    _setToast(L10n.instance.tr('chat.you_left_group') + c.title + L10n.instance.tr('ui.item'));
     _bump();
   }
 
@@ -1287,7 +1287,7 @@ class ChatController extends ChangeNotifier {
     if (activeConvId == c.id) activeConvId = '';
     db.deleteConversation(c.id).then((_) => refreshDbStats());
     _scheduleStateSave();
-    _setToast(L10n.instance.tr('群聊「') + c.title + L10n.instance.tr('」已解散'));
+    _setToast(L10n.instance.tr('chat.group_2') + c.title + L10n.instance.tr('ui.was_dissolved'));
     _bump();
   }
 
@@ -1320,7 +1320,7 @@ class ChatController extends ChangeNotifier {
       } else {
         out.add(Peer(
           id: id,
-          name: L10n.instance.tr('未知成员'),
+          name: L10n.instance.tr('chat.unknown_member'),
           status: Presence.offline,
         ));
       }
@@ -1363,10 +1363,10 @@ class ChatController extends ChangeNotifier {
     shareExplicit = false;
     try {
       await s.start(settings.sharePort);
-      _setToast(L10n.instance.tr('文件共享已开启'));
+      _setToast(L10n.instance.tr('share.file_sharing_is_on'));
       return true;
     } catch (e) {
-      _setToast(L10n.instance.tr('无法开启文件共享：') + e.toString());
+      _setToast(L10n.instance.tr('share.could_not_start_file_sharing') + e.toString());
       return false;
     }
   }
@@ -1377,11 +1377,11 @@ class ChatController extends ChangeNotifier {
     final shareDir = await _validDir(settings.shareDir);
     final uploadDir = await _validDir(settings.uploadDir);
     if (settings.shareDir.isNotEmpty && shareDir.isEmpty) {
-      _setToast(L10n.instance.tr('共享目录不存在'));
+      _setToast(L10n.instance.tr('share.shared_folder_does_not_exist'));
       return;
     }
     if (settings.uploadDir.isNotEmpty && uploadDir.isEmpty) {
-      _setToast(L10n.instance.tr('上传目录不存在'));
+      _setToast(L10n.instance.tr('share.upload_folder_does_not_exist'));
       return;
     }
     s.dir = shareDir;
@@ -1390,14 +1390,14 @@ class ChatController extends ChangeNotifier {
       await s.start(settings.sharePort);
     } catch (e) {
       shareExplicit = false;
-      _setToast(L10n.instance.tr('无法开启文件共享：') + e.toString());
+      _setToast(L10n.instance.tr('share.could_not_start_file_sharing') + e.toString());
       return;
     }
     shareExplicit = true;
     if (announce) {
       settings.shareOnStart = true;
       await saveSettings();
-      if (!quiet) _setToast(L10n.instance.tr('文件共享已开启'));
+      if (!quiet) _setToast(L10n.instance.tr('share.file_sharing_is_on'));
     }
     _bump();
   }
@@ -1428,7 +1428,7 @@ class ChatController extends ChangeNotifier {
   Future<void> sendClipboardImage() async {
     var data = await MobileBridge.clipboardImage();
     if (data == null || data.isEmpty) {
-      _setToast(L10n.instance.tr('剪贴板里没有图片'));
+      _setToast(L10n.instance.tr('image.no_image_in_the_clipboard'));
       return;
     }
     final dir = Directory(p.join(paths.cacheDir, 'pasted'));
@@ -1441,14 +1441,14 @@ class ChatController extends ChangeNotifier {
   Future<int> sendFiles(List<String> files) async {
     final c = convs[activeConvId];
     if (c == null) {
-      _setToast(L10n.instance.tr('先打开一个聊天'));
+      _setToast(L10n.instance.tr('chat.open_a_chat_first'));
       return 0;
     }
     if (files.isEmpty) return 0;
     final tcpReady = await ensureTransfer();
     final httpReady = await ensureShareServer();
     if (!tcpReady && !httpReady) {
-      _setToast(L10n.instance.tr('文件传输服务未启动，无法发送文件'));
+      _setToast(L10n.instance.tr('ui.file_transfer_service_is_not_running_cannot_send_file'));
       return 0;
     }
     var added = 0;
@@ -1523,7 +1523,7 @@ class ChatController extends ChangeNotifier {
       added++;
     }
     if (added == 0) {
-      _setToast(L10n.instance.tr('没有可发送的文件'));
+      _setToast(L10n.instance.tr('ui.no_files_to_send'));
     }
     return added;
   }
@@ -1601,23 +1601,23 @@ class ChatController extends ChangeNotifier {
   String _transferErrorText(String codeOrMessage) {
     switch (codeOrMessage) {
       case 'bad_request':
-        return L10n.instance.tr('请求格式错误');
+        return L10n.instance.tr('ui.bad_request');
       case 'not_found':
-        return L10n.instance.tr('文件不存在或发送方已重启');
+        return L10n.instance.tr('ui.file_is_gone_or_the_sender_restarted');
       case 'file_missing':
-        return L10n.instance.tr('文件已被移动或删除');
+        return L10n.instance.tr('ui.file_was_moved_or_deleted');
       case 'bad_offset':
-        return L10n.instance.tr('续传位置无效');
+        return L10n.instance.tr('ui.invalid_resume_position');
       case 'file_changed':
-        return L10n.instance.tr('文件已改变');
+        return L10n.instance.tr('ui.file_changed');
       case 'io_error':
-        return L10n.instance.tr('无法读取文件');
+        return L10n.instance.tr('ui.could_not_read_file');
       case 'checksum_mismatch':
-        return L10n.instance.tr('接收不完整');
+        return L10n.instance.tr('ui.incomplete_receive');
       case 'too_large':
-        return L10n.instance.tr('文件过大');
+        return L10n.instance.tr('ui.file_too_large');
       case 'busy':
-        return L10n.instance.tr('发送方正忙');
+        return L10n.instance.tr('ui.sender_busy');
       default:
         return codeOrMessage;
     }
@@ -1674,7 +1674,7 @@ class ChatController extends ChangeNotifier {
     final m = message(convId, msgId);
     if (m == null || m.file == null) return;
     if (m.file!.path.isNotEmpty && await File(m.file!.path).exists()) {
-      _setToast(L10n.instance.tr('已下载'));
+      _setToast(L10n.instance.tr('ui.downloaded_2'));
       return;
     }
     final name = sanitizeFileName(m.file!.name);
@@ -1722,7 +1722,7 @@ class ChatController extends ChangeNotifier {
     _downloadError(
       convId,
       msgId,
-      L10n.instance.tr('无法下载：发送方离线，或不支持文件传输'),
+      L10n.instance.tr('ui.cannot_download_sender_is_offline_or_does_not_support_file_transfer'),
     );
   }
 
@@ -1881,9 +1881,9 @@ class ChatController extends ChangeNotifier {
           await partFile.delete();
         } catch (_) {}
         throw StateError(
-          L10n.instance.tr('文件大小不一致：收到 ') +
+          L10n.instance.tr('share.size_mismatch_recv') +
               done.toString() +
-              L10n.instance.tr('，预期 ') +
+              L10n.instance.tr('comma_expected') +
               want.toString(),
         );
       }
@@ -1904,12 +1904,12 @@ class ChatController extends ChangeNotifier {
     }
     final text = error.toString().replaceFirst('Bad state: ', '');
     if (text.contains('HTTP 404') || text.contains('HTTP 410')) {
-      return L10n.instance.tr('文件不存在或已过期');
+      return L10n.instance.tr('ui.the_file_is_gone_or_has_expired');
     }
     if (text.contains('connection closed') ||
         text.contains('Connection reset') ||
         text.contains('Broken pipe')) {
-      return L10n.instance.tr('连接已断开');
+      return L10n.instance.tr('device.connection_lost');
     }
     return text;
   }
@@ -1933,7 +1933,7 @@ class ChatController extends ChangeNotifier {
       downloads.remove(msgId);
       _scheduleMessageSave(convId);
       if (!imageOnly) {
-        _setToast(L10n.instance.tr('已保存到 ') + finalPath);
+        _setToast(L10n.instance.tr('image.saved_to') + finalPath);
       }
       _bump();
     } catch (e) {
@@ -1972,7 +1972,7 @@ class ChatController extends ChangeNotifier {
   }) async {
     if (name != null) profile.name = name.trim();
     if (profile.name.isEmpty) {
-      profile.name = L10n.instance.tr('我的 zchat');
+      profile.name = L10n.instance.tr('ui.my_zchat');
     }
     if (signature != null) profile.signature = signature.trim();
     if (avatar != null) profile.avatar = avatar;
@@ -1989,7 +1989,7 @@ class ChatController extends ChangeNotifier {
   Future<void> setAvatarBytes(List<int> bytes) async {
     final png = await makeAvatarPng(Uint8List.fromList(bytes));
     if (png == null) {
-      _setToast(L10n.instance.tr('无法读取图片'));
+      _setToast(L10n.instance.tr('image.could_not_read_image_2'));
       return;
     }
     await updateProfile(avatar: base64Encode(png));
@@ -2089,9 +2089,9 @@ class ChatController extends ChangeNotifier {
     try {
       await db.vacuum();
       await refreshDbStats();
-      _setToast(L10n.instance.tr('数据库已整理'));
+      _setToast(L10n.instance.tr('ui.database_compacted'));
     } catch (e) {
-      _setToast(L10n.instance.tr('无法整理数据库：') + e.toString());
+      _setToast(L10n.instance.tr('ui.could_not_compact_database') + e.toString());
     }
   }
 
@@ -2118,7 +2118,7 @@ class ChatController extends ChangeNotifier {
         await share!.start(port);
         shareExplicit = wasExplicit;
       } catch (e) {
-        _setToast(L10n.instance.tr('无法开启文件共享：') + e.toString());
+        _setToast(L10n.instance.tr('share.could_not_start_file_sharing') + e.toString());
       }
     }
     await saveSettings();

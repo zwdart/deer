@@ -86,14 +86,14 @@ class _RssScreenState extends State<RssScreen> {
         automaticallyImplyLeading: false,
         leading: inSubScope
             ? IconButton(
-                tooltip: tr('返回'),
+                tooltip: tr('ui.back_2'),
                 onPressed: () =>
                     _searching ? _exitSearch(rss) : rss.openScope(RssScope.all),
                 icon: Icon(adaptiveBackIcon, size: 21),
               )
             : null,
         title: Text(
-          inSubScope ? rss.scopeTitle : tr('资讯'),
+          inSubScope ? rss.scopeTitle : tr('rss.news'),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
@@ -101,17 +101,17 @@ class _RssScreenState extends State<RssScreen> {
         actions: [
           IconAction(
             icon: _searching ? Icons.close : Icons.search,
-            tooltip: _searching ? tr('关闭搜索') : tr('搜索本地文章'),
+            tooltip: _searching ? tr('system.close_search') : tr('rss.search_saved_articles'),
             onPressed: () => _searching ? _exitSearch(rss) : setState(() => _searching = true),
           ),
           IconAction(
             icon: rss.syncing ? Icons.sync : Icons.refresh,
-            tooltip: tr('同步全部订阅'),
+            tooltip: tr('rss.sync_all_feeds'),
             onPressed: rss.syncing ? null : () => rss.syncAll(),
           ),
           IconAction(
             icon: Icons.more_horiz,
-            tooltip: tr('更多'),
+            tooltip: tr('ui.more'),
             onPressed: () => _more(rss),
           ),
           const SizedBox(width: 4),
@@ -133,7 +133,7 @@ class _RssScreenState extends State<RssScreen> {
                       controller: _search,
                       autofocus: true,
                       decoration: InputDecoration(
-                        hintText: tr('搜索标题与正文'),
+                        hintText: tr('ui.search_titles_and_text'),
                         prefixIcon: const Icon(Icons.search, size: 19),
                         isDense: true,
                         suffixIcon: IconButton(
@@ -152,8 +152,8 @@ class _RssScreenState extends State<RssScreen> {
                   children: [
                     AdaptiveSegmentedControl(
                       segments: [
-                        AdaptiveSegment('stream', tr('信息流')),
-                        AdaptiveSegment('feeds', tr('订阅')),
+                        AdaptiveSegment('stream', tr('rss.stream')),
+                        AdaptiveSegment('feeds', tr('rss.feeds')),
                       ],
                       selected: _showFeeds ? 'feeds' : 'stream',
                       onChanged: (value) =>
@@ -162,8 +162,8 @@ class _RssScreenState extends State<RssScreen> {
                     const Spacer(),
                     Text(
                       _showFeeds
-                          ? trf('%d 个订阅', [rss.feeds.length])
-                          : trf('%d 未读', [rss.totalUnread]),
+                          ? trf('rss.arg_0__feeds', [rss.feeds.length])
+                          : trf('ui.arg_0__unread', [rss.totalUnread]),
                       style: TextStyle(fontSize: 11.5, color: c.faint),
                     ),
                   ],
@@ -188,7 +188,7 @@ class _RssScreenState extends State<RssScreen> {
               heroTag: 'rss-add-feed',
               onPressed: () => showAddFeedSheet(context, rss),
               icon: const Icon(Icons.add),
-              label: Text(tr('添加订阅')),
+              label: Text(tr('rss.add_feed')),
             )
           : null,
     );
@@ -258,10 +258,10 @@ class _RssScreenState extends State<RssScreen> {
             : (rss.hasMore
                 ? TextButton(
                     onPressed: () => rss.loadMore(),
-                    child: Text(tr('加载更多')),
+                    child: Text(tr('ui.load_more')),
                   )
                 : Text(
-                    tr('已经到底了'),
+                    tr('ui.that_s_everything'),
                     style: TextStyle(fontSize: 12, color: c.faint),
                   )),
       ),
@@ -290,11 +290,11 @@ class _RssScreenState extends State<RssScreen> {
           if (folders.isNotEmpty) ...[
             SliverToBoxAdapter(
               child: _SectionHeader(
-                title: tr('收藏夹'),
+                title: tr('rss.folders'),
                 trailing: TextButton.icon(
                   onPressed: () => _newFolder(rss),
                   icon: const Icon(Icons.add, size: 17),
-                  label: Text(tr('新建')),
+                  label: Text(tr('ui.new')),
                 ),
               ),
             ),
@@ -309,18 +309,18 @@ class _RssScreenState extends State<RssScreen> {
           ],
           SliverToBoxAdapter(
             child: _SectionHeader(
-              title: tr('订阅源'),
+              title: tr('rss.feed'),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    trf('%d 个', [rss.feeds.length]),
+                    trf('ui.arg_0__items', [rss.feeds.length]),
                     style: TextStyle(fontSize: 11.5, color: c.faint),
                   ),
                   const SizedBox(width: 4),
                   TextButton(
                     onPressed: () => rss.syncAll(),
-                    child: Text(tr('全部同步')),
+                    child: Text(tr('rss.sync_all')),
                   ),
                 ],
               ),
@@ -350,7 +350,7 @@ class _RssScreenState extends State<RssScreen> {
   }
 
   Future<void> _newFolder(RssController rss) async {
-    final name = await promptText(context, title: tr('新建收藏夹'), label: tr('名称'));
+    final name = await promptText(context, title: tr('rss.new_folder'), label: tr('ui.name'));
     if (name != null && name.isNotEmpty) await rss.createFolder(name);
   }
 
@@ -446,7 +446,7 @@ class _AddFeedTile extends StatelessWidget {
               Icon(Icons.add_circle_outline, size: 22, color: c.accent),
               const SizedBox(height: 8),
               Text(
-                tr('添加订阅源'),
+                tr('rss.add_a_feed'),
                 style: TextStyle(fontSize: 12.5, color: c.muted),
               ),
             ],
@@ -467,12 +467,12 @@ class _EmptyByScope extends StatelessWidget {
     if (rss.feeds.isEmpty) {
       return EmptyState(
         icon: Icons.rss_feed_outlined,
-        title: tr('还没有订阅源'),
-        message: tr('添加一个 RSS 或 Atom 地址，内容只保存在这台设备上。'),
+        title: tr('rss.no_feeds_yet'),
+        message: tr('rss.add_an_rss_or_atom_url_everything_stays_on_this_device'),
         action: FilledButton.icon(
           onPressed: () => showAddFeedSheet(context, rss),
           icon: const Icon(Icons.add),
-          label: Text(tr('添加订阅源')),
+          label: Text(tr('rss.add_a_feed')),
         ),
       );
     }
@@ -480,47 +480,47 @@ class _EmptyByScope extends StatelessWidget {
       case RssScope.unread:
         return EmptyState(
           icon: Icons.done_all,
-          title: tr('全部已读'),
-          message: tr('同步新文章后即可继续阅读。'),
+          title: tr('ui.all_read'),
+          message: tr('rss.sync_again_to_pick_up_new_articles'),
           action: OutlinedButton.icon(
             onPressed: () => rss.syncAll(),
             icon: const Icon(Icons.refresh, size: 18),
-            label: Text(tr('立即同步')),
+            label: Text(tr('rss.sync_now')),
           ),
         );
       case RssScope.starred:
         return EmptyState(
           icon: Icons.star_border,
-          title: tr('还没有收藏'),
-          message: tr('在文章卡片上长按，选择收藏即可留存在这里。'),
+          title: tr('rss.nothing_starred'),
+          message: tr('rss.long_press_an_article_and_choose_star_to_keep_it_here'),
         );
       case RssScope.search:
         return EmptyState(
           icon: Icons.search_off,
-          title: tr('没有找到相关内容'),
-          message: tr('搜索范围是本地已经抓取过的文章。'),
+          title: tr('ui.nothing_found'),
+          message: tr('rss.search_covers_articles_already_on_this_device'),
         );
       case RssScope.feed:
       case RssScope.folder:
         return EmptyState(
           icon: Icons.article_outlined,
-          title: tr('这里还没有文章'),
-          message: tr('下拉或点右上角刷新即可抓取最新内容。'),
+          title: tr('rss.nothing_here_yet'),
+          message: tr('ui.pull_to_refresh_or_use_the_refresh_button_above'),
           action: FilledButton.icon(
             onPressed: () => rss.syncAll(),
             icon: const Icon(Icons.refresh),
-            label: Text(tr('立即同步')),
+            label: Text(tr('rss.sync_now')),
           ),
         );
       case RssScope.all:
         return EmptyState(
           icon: Icons.article_outlined,
-          title: tr('还没有文章'),
-          message: tr('点右上角刷新，或长按订阅卡片单独同步某个源。'),
+          title: tr('rss.no_articles_yet'),
+          message: tr('rss.use_refresh_above_or_long_press_a_feed_card_to_sync_it_alone'),
           action: FilledButton.icon(
             onPressed: () => rss.syncAll(),
             icon: const Icon(Icons.refresh),
-            label: Text(tr('立即同步')),
+            label: Text(tr('rss.sync_now')),
           ),
         );
     }

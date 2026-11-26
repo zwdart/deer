@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Logo C · 鹿与环 v4（白底方 + 更小核心）
+  最底层改为白色圆角方形（应用图标友好）；
+  中心方形再缩：30×30（之前 36），整体视觉更紧凑。
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="ringC" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#42A5F5"/>
+      <stop offset="100%" stop-color="#0D47A1"/>
+    </linearGradient>
+    <linearGradient id="squareC" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1976D2"/>
+      <stop offset="100%" stop-color="#0D47A1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 最外层：白色圆角方形底（取代之前的底色圆，应用图标友好） -->
+  <rect x="4" y="4" width="112" height="112" rx="28" ry="28" fill="#FFFFFF"/>
+
+  <!-- 外环：r=38，线宽10（和 v3 一样，整体比例没变） -->
+  <circle cx="60" cy="60" r="38" fill="none" stroke="url(#ringC)"
+          stroke-width="10" stroke-linecap="round"/>
+
+  <!-- 中心方形：30×30，rx=7，比 v3 的 36 再小一点 -->
+  <rect x="45" y="45" width="30" height="30" rx="7" ry="7" fill="url(#squareC)"/>
+  <!-- 方形内鹿元素（等比缩放保持居中） -->
+  <path d="M 56.5 57 L 52 52.5 L 54 54.5 Z" fill="#BBDEFB"/>
+  <path d="M 63.5 57 L 68 52.5 L 66 54.5 Z" fill="#BBDEFB"/>
+  <circle cx="60" cy="63.5" r="3" fill="#F0F7FF"/>
+</svg>

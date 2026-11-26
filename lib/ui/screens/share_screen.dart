@@ -26,12 +26,12 @@ class ShareScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: DchatAppBar(
-        title: Text(L10n.instance.tr('文件共享')),
+        title: Text(L10n.instance.tr('share.file_sharing')),
         actions: [
           if (AppPlatform.isMobile)
             IconAction(
               icon: Icons.qr_code_scanner,
-              tooltip: L10n.instance.tr('扫描共享二维码'),
+              tooltip: L10n.instance.tr('share.scan_sharing_qr_code'),
               onPressed: () => _scan(context, c),
             ),
           const SizedBox(width: 4),
@@ -84,7 +84,7 @@ class ShareScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            running ? L10n.instance.tr('正在共享') : L10n.instance.tr('文件共享已关闭'),
+                            running ? L10n.instance.tr('share.sharing_2') : L10n.instance.tr('share.file_sharing_is_off_2'),
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
@@ -93,8 +93,8 @@ class ShareScreen extends StatelessWidget {
                           const SizedBox(height: 3),
                           Text(
                             running
-                                ? trf('端口 %s · 局域网可访问', [c.sharePortActual])
-                                : L10n.instance.tr('开启后可通过浏览器下载或上传文件'),
+                                ? trf('device.port__arg_0__reachable_on_lan', [c.sharePortActual])
+                                : L10n.instance.tr('share.once_enabled_files_can_be_downloaded_or_uploaded_from_a_browser'),
                             style: TextStyle(
                               fontSize: 12,
                               color: colors.muted,
@@ -148,7 +148,7 @@ class ShareScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         onTap: () async {
                           await Clipboard.setData(ClipboardData(text: url));
-                          if (context.mounted) showAppSnack(context, L10n.instance.tr('已复制链接'));
+                          if (context.mounted) showAppSnack(context, L10n.instance.tr('ui.link_copied'));
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -202,7 +202,7 @@ class ShareScreen extends StatelessWidget {
                             );
                           },
                           icon: const Icon(Icons.open_in_browser, size: 18),
-                          label: Text(L10n.instance.tr('打开网页')),
+                          label: Text(L10n.instance.tr('ui.open_web_page')),
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -212,17 +212,17 @@ class ShareScreen extends StatelessWidget {
                             final url = c.shareUrl();
                             if (url.isEmpty) return;
                             if (c.activeConvId.isEmpty) {
-                              showAppSnack(context, L10n.instance.tr('请先打开一个聊天'));
+                              showAppSnack(context, L10n.instance.tr('chat.open_a_chat_first_2'));
                               return;
                             }
                             c.sendTextTo(
                               c.activeConvId,
-                              '${L10n.instance.tr('我在 zchat 共享了一个目录：')}$url',
+                              '${L10n.instance.tr('share.i_shared_a_folder_with_zchat')}$url',
                             );
-                            showAppSnack(context, L10n.instance.tr('已发送共享链接'));
+                            showAppSnack(context, L10n.instance.tr('share.sharing_link_sent'));
                           },
                           icon: const Icon(Icons.send_outlined, size: 18),
-                          label: Text(L10n.instance.tr('发送到聊天')),
+                          label: Text(L10n.instance.tr('chat.send_to_chat')),
                         ),
                       ),
                     ],
@@ -233,18 +233,18 @@ class ShareScreen extends StatelessWidget {
           ),
           const SizedBox(height: 18),
           SectionCard(
-            title: L10n.instance.tr('共享目录'),
-            subtitle: L10n.instance.tr('其他人可以在浏览器中浏览并下载这里的文件。'),
+            title: L10n.instance.tr('share.shared_folder'),
+            subtitle: L10n.instance.tr('ui.others_can_browse_and_download_files_here_in_a_browser'),
             child: _DirectoryRow(
               icon: Icons.folder_open_outlined,
-              label: L10n.instance.tr('目录'),
+              label: L10n.instance.tr('ui.directory'),
               value: c.settings.shareDir,
-              placeholder: L10n.instance.tr('未选择（仅提供传输下载）'),
+              placeholder: L10n.instance.tr('ui.not_selected_transfer_downloads_only'),
               onPick: () => _pickDir(
                 context,
                 c,
                 initial: c.settings.shareDir,
-                title: L10n.instance.tr('选择共享目录'),
+                title: L10n.instance.tr('share.choose_shared_folder'),
                 onPicked: (dir) => c.setShareDirs(dir, c.settings.uploadDir),
               ),
               onClear: c.settings.shareDir.isEmpty
@@ -254,18 +254,18 @@ class ShareScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           SectionCard(
-            title: L10n.instance.tr('上传目录'),
-            subtitle: L10n.instance.tr('开启后，浏览器可以通过上传页面把文件发送到此目录。'),
+            title: L10n.instance.tr('share.upload_folder'),
+            subtitle: L10n.instance.tr('share.once_enabled_browsers_can_upload_files_to_this_directory'),
             child: _DirectoryRow(
               icon: Icons.upload_file_outlined,
-              label: L10n.instance.tr('目录'),
+              label: L10n.instance.tr('ui.directory'),
               value: c.settings.uploadDir,
-              placeholder: L10n.instance.tr('未开启上传'),
+              placeholder: L10n.instance.tr('share.uploads_off'),
               onPick: () => _pickDir(
                 context,
                 c,
                 initial: c.settings.uploadDir,
-                title: L10n.instance.tr('选择上传目录'),
+                title: L10n.instance.tr('share.choose_upload_folder'),
                 onPicked: (dir) =>
                     c.setShareDirs(c.settings.shareDir, dir),
               ),
@@ -276,52 +276,52 @@ class ShareScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           SectionCard(
-            title: L10n.instance.tr('服务设置'),
+            title: L10n.instance.tr('settings.service_settings'),
             child: Column(
               children: [
                 InfoRow(
-                  label: L10n.instance.tr('共享端口'),
+                  label: L10n.instance.tr('share.share_port'),
                   value: '${c.settings.sharePort}',
                   trailing: TextButton(
                     onPressed: () async {
                       final value = await promptText(
                         context,
-                        title: L10n.instance.tr('修改共享端口'),
-                        label: L10n.instance.tr('端口（1024 - 65535）'),
+                        title: L10n.instance.tr('share.change_sharing_port'),
+                        label: L10n.instance.tr('device.port_1024_65535'),
                         initial: '${c.settings.sharePort}',
                       );
                       if (value == null) return;
                       final port = int.tryParse(value);
                       if (port == null || port < 1024 || port > 65535) {
                         if (context.mounted) {
-                          showAppSnack(context, L10n.instance.tr('请输入有效端口'));
+                          showAppSnack(context, L10n.instance.tr('device.enter_a_valid_port'));
                         }
                         return;
                       }
                       await c.setSharePort(port);
                     },
-                    child: Text(L10n.instance.tr('修改')),
+                    child: Text(L10n.instance.tr('ui.change_2')),
                   ),
                 ),
                 InfoRow(
-                  label: L10n.instance.tr('本机地址'),
-                  value: c.localIps.isEmpty ? L10n.instance.tr('未知') : c.localIps.join(', '),
+                  label: L10n.instance.tr('device.local_address'),
+                  value: c.localIps.isEmpty ? L10n.instance.tr('ui.unknown') : c.localIps.join(', '),
                 ),
                 InfoRow(
-                  label: L10n.instance.tr('状态'),
-                  value: running ? L10n.instance.tr('运行中') : L10n.instance.tr('已停止'),
+                  label: L10n.instance.tr('ui.status'),
+                  value: running ? L10n.instance.tr('ui.running') : L10n.instance.tr('ui.stopped'),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 12),
           SectionCard(
-            title: L10n.instance.tr('接收其他设备的文件'),
+            title: L10n.instance.tr('device.receive_files_from_other_devices'),
             child: Row(
               children: [
                 Expanded(
                   child: Text(
-                    L10n.instance.tr('扫描其他设备展示的二维码，即可在他们的共享页面下载文件。'),
+                    L10n.instance.tr('share.scan_the_qr_code_shown_on_another_device_to_download_files_from_their_sharing_page'),
                     style: TextStyle(
                       fontSize: 12,
                       height: 1.45,
@@ -333,7 +333,7 @@ class ShareScreen extends StatelessWidget {
                 FilledButton.tonalIcon(
                   onPressed: () => _scan(context, c),
                   icon: const Icon(Icons.qr_code_scanner, size: 18),
-                  label: Text(L10n.instance.tr('扫描')),
+                  label: Text(L10n.instance.tr('ui.scan')),
                 ),
               ],
             ),
@@ -357,18 +357,18 @@ class ShareScreen extends StatelessWidget {
     }
     final manual = await promptText(
       context,
-      title: L10n.instance.tr('扫描结果'),
-      label: L10n.instance.tr('IP 或 IP:端口'),
+      title: L10n.instance.tr('ui.scan_result'),
+      label: L10n.instance.tr('device.ip_or_ip_port'),
       initial: value,
-      confirm: L10n.instance.tr('连接'),
+      confirm: L10n.instance.tr('device.connect'),
     );
     if (manual == null || manual.isEmpty || !context.mounted) return;
     try {
       final peer = await c.manualConnect(manual);
       c.ensureDirect(peer);
-      if (context.mounted) showAppSnack(context, trf('已连接 %s', [peer.displayName]));
+      if (context.mounted) showAppSnack(context, trf('device.connected_to__arg_0', [peer.displayName]));
     } catch (e) {
-      if (context.mounted) showAppSnack(context, trf('连接失败：%s', ['$e']));
+      if (context.mounted) showAppSnack(context, trf('device.connection_failed__arg_0', ['$e']));
     }
   }
 
@@ -388,7 +388,7 @@ class ShareScreen extends StatelessWidget {
       if (dir == null || dir.isEmpty) return;
       await onPicked(dir);
     } catch (e) {
-      if (context.mounted) showAppSnack(context, trf('无法选择目录：%s', ['$e']));
+      if (context.mounted) showAppSnack(context, trf('ui.could_not_choose_directory__arg_0', ['$e']));
     }
   }
 }
@@ -446,10 +446,10 @@ class _DirectoryRow extends StatelessWidget {
             ],
           ),
         ),
-        TextButton(onPressed: onPick, child: Text(L10n.instance.tr('选择'))),
+        TextButton(onPressed: onPick, child: Text(L10n.instance.tr('ui.select'))),
         if (onClear != null)
           IconButton(
-            tooltip: L10n.instance.tr('清除'),
+            tooltip: L10n.instance.tr('ui.clear_2'),
             onPressed: onClear,
             icon: const Icon(Icons.close, size: 18),
           ),

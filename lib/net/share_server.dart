@@ -363,10 +363,10 @@ class ShareServer {
       response.headers.contentType =
           ContentType('text', 'html', charset: 'utf-8');
       response.write(_page(
-        title: tr('zchat 文件共享'),
+        title: tr('share.zchat_file_sharing'),
         body: uploadEnabled
-            ? '<p>${_esc(tr('共享目录未设置，但可以上传文件'))}</p>${_uploadForm('/')}'
-            : '<p>${_esc(tr('这个服务正在运行，但还没有选择共享目录。'))}</p>',
+            ? '<p>${_esc(tr('share.no_shared_folder_is_set_but_files_can_still_be_uploaded'))}</p>${_uploadForm('/')}'
+            : '<p>${_esc(tr('share.this_service_is_running_but_no_shared_folder_has_been_selected'))}</p>',
       ));
       await response.close();
       return;
@@ -376,7 +376,7 @@ class ShareServer {
       full = await _safeJoin(dir, segments);
     } catch (_) {
       response.statusCode = HttpStatus.badRequest;
-      response.write(tr('无效的路径'));
+      response.write(tr('ui.invalid_path'));
       await response.close();
       return;
     }
@@ -435,30 +435,30 @@ class ShareServer {
         : (relParts.length == 1
             ? '/'
             : '/${relParts.sublist(0, relParts.length - 1).map(Uri.encodeComponent).join('/')}/');
-    final title = relParts.isEmpty ? tr('共享目录') : relParts.last;
+    final title = relParts.isEmpty ? tr('share.shared_folder') : relParts.last;
     final uploaded = int.tryParse(
           request.uri.queryParameters['uploaded'] ?? '',
         ) ??
         0;
     final notice = uploaded > 0
-        ? '<div class="notice">${_esc(trf('已上传 %d 个文件', [uploaded]))}</div>'
+        ? '<div class="notice">${_esc(trf('share.uploaded__arg_0__file_s', [uploaded]))}</div>'
         : '';
     final count = query.isNotEmpty
-        ? trf('搜索 “%s” · %d 个结果', [query, entries.length])
-        : trf('%d 个文件', [entries.length]);
+        ? trf('ui.search__arg_0___arg_1__results', [query, entries.length])
+        : trf('ui.arg_0__files', [entries.length]);
     final sb = StringBuffer();
     sb.write('<div class="search"><form method="get" action="/">'
-        '<input name="q" value="${_esc(query)}" placeholder="${_esc(tr('在共享目录中搜索'))}" aria-label="${_esc(tr('搜索'))}">'
-        '<button type="submit">${_esc(tr('搜索'))}</button></form></div>');
+        '<input name="q" value="${_esc(query)}" placeholder="${_esc(tr('share.search_in_shared_folder'))}" aria-label="${_esc(tr('ui.search'))}">'
+        '<button type="submit">${_esc(tr('ui.search'))}</button></form></div>');
     sb.write('<div class="count">${_esc(count)}</div>');
     sb.write(notice);
     if (parent.isNotEmpty) {
       sb.write('<div class="card"><a class="row" href="${_esc(parent)}">'
-          '<span class="ico">↑</span><span class="name">${_esc(tr('返回上一级'))}</span></a></div>');
+          '<span class="ico">↑</span><span class="name">${_esc(tr('ui.back'))}</span></a></div>');
     }
     sb.write('<div class="card">');
     if (entries.isEmpty) {
-      sb.write('<div class="empty">${_esc(tr('这个目录是空的'))}</div>');
+      sb.write('<div class="empty">${_esc(tr('ui.this_folder_is_empty'))}</div>');
     } else {
       for (final e in entries) {
         final ago = e.modified;
@@ -469,15 +469,15 @@ class ShareServer {
         sb.write('<a class="row" href="${_esc(e.href)}">'
             '<span class="ico">${e.isDir ? '📁' : '📄'}</span>'
             '<span class="name">${_esc(e.name)}</span>'
-            '<span class="meta">${_esc(e.isDir ? tr('文件夹') : humanSize(e.size))}<br>${_esc(date)}</span>'
+            '<span class="meta">${_esc(e.isDir ? tr('ui.folder') : humanSize(e.size))}<br>${_esc(date)}</span>'
             '</a>');
       }
     }
     sb.write('</div>');
     if (uploadEnabled) sb.write(_uploadForm(request.uri.path));
     final footer = uploadEnabled
-        ? tr('由 zchat 在局域网共享 · 可上传')
-        : tr('由 zchat 在局域网共享 · 只读');
+        ? tr('share.shared_by_zchat_on_the_lan_uploads_allowed')
+        : tr('share.shared_by_zchat_on_the_lan_read_only');
     sb.write('<footer>${_esc(footer)}</footer>');
     response.headers.contentType =
         ContentType('text', 'html', charset: 'utf-8');
@@ -494,9 +494,9 @@ class ShareServer {
   String _uploadForm(String next) {
     return '<form class="upload" method="post" action="/upload" enctype="multipart/form-data">'
         '<input type="hidden" name="next" value="${_esc(next)}">'
-        '<div class="uploadHint">${_esc(tr('选择文件后上传到共享者的上传目录'))}</div>'
+        '<div class="uploadHint">${_esc(tr('share.choose_files_to_upload_to_the_sharer_s_upload_folder'))}</div>'
         '<input type="file" name="files" multiple required>'
-        '<button type="submit">${_esc(tr('上传'))}</button></form>';
+        '<button type="submit">${_esc(tr('share.upload'))}</button></form>';
   }
 
   Future<void> _serveUpload(HttpRequest request) async {
@@ -504,19 +504,19 @@ class ShareServer {
     if (request.method != 'POST') {
       response.headers.set(HttpHeaders.allowHeader, 'POST');
       response.statusCode = HttpStatus.methodNotAllowed;
-      response.write(tr('请求格式错误'));
+      response.write(tr('ui.bad_request'));
       await response.close();
       return;
     }
     if (!await _uploadEnabled()) {
       response.statusCode = HttpStatus.forbidden;
-      response.write(tr('未开启上传'));
+      response.write(tr('share.uploads_off'));
       await response.close();
       return;
     }
     if (request.contentLength > maxUploadSize) {
       response.statusCode = HttpStatus.requestEntityTooLarge;
-      response.write(tr('文件过大'));
+      response.write(tr('ui.file_too_large'));
       await response.close();
       return;
     }
@@ -527,7 +527,7 @@ class ShareServer {
         boundary == null ||
         boundary.isEmpty) {
       response.statusCode = HttpStatus.badRequest;
-      response.write(tr('请求格式错误'));
+      response.write(tr('ui.bad_request'));
       await response.close();
       return;
     }
@@ -577,7 +577,7 @@ class ShareServer {
         } catch (_) {}
       }
       response.statusCode = HttpStatus.requestEntityTooLarge;
-      response.write(tr('文件过大'));
+      response.write(tr('ui.file_too_large'));
       await response.close();
       return;
     } catch (_) {
@@ -587,13 +587,13 @@ class ShareServer {
         } catch (_) {}
       }
       response.statusCode = HttpStatus.badRequest;
-      response.write(tr('请求格式错误'));
+      response.write(tr('ui.bad_request'));
       await response.close();
       return;
     }
     if (saved.isEmpty) {
       response.statusCode = HttpStatus.badRequest;
-      response.write(tr('没有选择文件'));
+      response.write(tr('ui.no_files_selected'));
       await response.close();
       return;
     }

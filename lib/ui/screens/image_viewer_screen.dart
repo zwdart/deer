@@ -21,11 +21,11 @@ class ImageViewerScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: Text(title ?? L10n.instance.tr('图片'),
+        title: Text(title ?? L10n.instance.tr('image.images'),
             maxLines: 1, overflow: TextOverflow.ellipsis),
         actions: [
           IconButton(
-            tooltip: L10n.instance.tr('分享'),
+            tooltip: L10n.instance.tr('share.share_2'),
             onPressed: () => SharePlus.instance.share(
               ShareParams(files: [XFile(path)], text: title),
             ),
@@ -44,7 +44,7 @@ class ImageViewerScreen extends StatelessWidget {
               errorBuilder: (_, _, _) => Padding(
                 padding: EdgeInsets.all(32),
                 child: Text(
-                  L10n.instance.tr('无法打开图片'),
+                  L10n.instance.tr('image.could_not_open_image'),
                   style: TextStyle(color: Colors.white70),
                 ),
               ),

@@ -103,24 +103,24 @@ class _CommScreenState extends State<CommScreen> {
             IconAction(
               icon: vm.searching ? Icons.close : Icons.search,
               tooltip: vm.searching
-                  ? L10n.instance.tr('关闭搜索')
-                  : L10n.instance.tr('搜索'),
+                  ? L10n.instance.tr('system.close_search')
+                  : L10n.instance.tr('ui.search'),
               onPressed: vm.toggleSearch,
             ),
             _StatusMenu(controller: c),
           ] else ...[
             IconAction(
               icon: Icons.add_link,
-              tooltip: L10n.instance.tr('通过地址连接'),
+              tooltip: L10n.instance.tr('device.connect_by_address'),
               onPressed: () => connectByAddress(context, c),
             ),
             IconAction(
               icon: Icons.refresh,
-              tooltip: L10n.instance.tr('重新开始发现'),
+              tooltip: L10n.instance.tr('device.restart_discovery'),
               onPressed: () async {
                 await c.restartNetwork();
                 if (context.mounted) {
-                  showAppSnack(context, L10n.instance.tr('正在重新搜索局域网设备'));
+                  showAppSnack(context, L10n.instance.tr('device.searching_the_lan_again'));
                 }
               },
             ),
@@ -135,8 +135,8 @@ class _CommScreenState extends State<CommScreen> {
               alignment: Alignment.centerLeft,
               child: AdaptiveSegmentedControl(
                 segments: [
-                  AdaptiveSegment('chats', L10n.instance.tr('会话')),
-                  AdaptiveSegment('devices', L10n.instance.tr('设备')),
+                  AdaptiveSegment('chats', L10n.instance.tr('chat.chats')),
+                  AdaptiveSegment('devices', L10n.instance.tr('device.devices_2')),
                 ],
                 selected: _segment == 0 ? 'chats' : 'devices',
                 onChanged: (value) => _selectSegment(value == 'devices' ? 1 : 0),
@@ -147,7 +147,7 @@ class _CommScreenState extends State<CommScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: 'comm-create-group',
-        tooltip: L10n.instance.tr('创建群聊'),
+        tooltip: L10n.instance.tr('chat.new_group_3'),
         onPressed: () => createGroupFlow(context, c),
         child: const Icon(Icons.group_add_outlined),
       ),
@@ -160,15 +160,15 @@ class _CommScreenState extends State<CommScreen> {
 
   String _networkLine(ChatController c) {
     final count = c.peers.values.where((p) => p.connected).length;
-    if (!c.ready) return L10n.instance.tr('正在启动');
+    if (!c.ready) return L10n.instance.tr('ui.starting');
     if (c.settings.discovery) {
       return count == 0
-          ? L10n.instance.tr('自动发现已开启')
-          : '$count ${L10n.instance.tr('台设备在线')}';
+          ? L10n.instance.tr('device.auto_discovery_on')
+          : '$count ${L10n.instance.tr('device.devices_online')}';
     }
     return count == 0
-        ? L10n.instance.tr('自动发现已关闭')
-        : '$count ${L10n.instance.tr('台设备已连接')}';
+        ? L10n.instance.tr('device.auto_discovery_off_2')
+        : '$count ${L10n.instance.tr('device.devices_connected')}';
   }
 }
 
@@ -181,7 +181,7 @@ class _StatusMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = appColors(context);
     return PopupMenuButton<Presence>(
-      tooltip: L10n.instance.tr('我的状态'),
+      tooltip: L10n.instance.tr('ui.my_status'),
       initialValue: controller.profile.status,
       onSelected: controller.setStatus,
       itemBuilder: (context) => [

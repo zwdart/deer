@@ -88,25 +88,25 @@ class _RssReaderScreenState extends State<RssReaderScreen> {
         toolbarHeight: 46,
         titleWidget: feed == null
             ? Text(
-                tr('正文'),
+                tr('ui.article'),
                 style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
               )
             : FeedLine(feed: feed, onTap: () => _openFeed(rss)),
         actions: [
           IconAction(
             icon: article.isStarred ? Icons.star : Icons.star_border,
-            tooltip: article.isStarred ? tr('取消收藏') : tr('收藏'),
+            tooltip: article.isStarred ? tr('rss.unstar') : tr('rss.star'),
             color: article.isStarred ? c.accent : null,
             onPressed: () => rss.toggleStar(article),
           ),
           IconAction(
             icon: Icons.text_format,
-            tooltip: tr('字号与显示'),
+            tooltip: tr('ui.type_and_display'),
             onPressed: () => _showTypographySheet(context, rss),
           ),
           IconAction(
             icon: Icons.more_horiz,
-            tooltip: tr('更多'),
+            tooltip: tr('ui.more'),
             onPressed: () async {
               final action = await showArticleMenu(context, rss, article);
               if (!context.mounted) return;
@@ -151,7 +151,7 @@ class _RssReaderScreenState extends State<RssReaderScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                article.title.isEmpty ? tr('(无标题)') : article.title,
+                                article.title.isEmpty ? tr('ui.untitled') : article.title,
                                 style: TextStyle(
                                   fontSize: 23,
                                   height: 1.32,
@@ -164,7 +164,7 @@ class _RssReaderScreenState extends State<RssReaderScreen> {
                               const SizedBox(height: 16),
                               if (_body(article).trim().isEmpty)
                                 Text(
-                                  tr('这条内容没有正文，只有摘要。'),
+                                  tr('ui.this_item_only_has_a_summary'),
                                   style: TextStyle(
                                     fontSize: settings.fontSize - 1.0,
                                     color: c.muted,
@@ -190,7 +190,7 @@ class _RssReaderScreenState extends State<RssReaderScreen> {
                             child: OutlinedButton.icon(
                               onPressed: () => openInBrowser(context, article.link),
                               icon: const Icon(Icons.open_in_new, size: 17),
-                              label: Text(tr('阅读原文')),
+                              label: Text(tr('ui.read_original')),
                             ),
                           ),
                       ],
@@ -251,7 +251,7 @@ class _MetaLine extends StatelessWidget {
 Future<void> _showTypographySheet(BuildContext context, RssController rss) async {
   await showRssSheet<void>(
     context: context,
-    title: tr('字号与显示'),
+    title: tr('ui.type_and_display'),
     child: _TypographyView(rss: rss),
   );
 }
@@ -274,7 +274,7 @@ class _TypographyView extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text(tr('正文字号'),
+                Text(tr('ui.text_size'),
                     style: TextStyle(
                         fontSize: 13, color: appColors(context).muted)),
                 const Spacer(),
@@ -293,7 +293,7 @@ class _TypographyView extends StatelessWidget {
             ),
             Row(
               children: [
-                Text(tr('行距'),
+                Text(tr('ui.line_height'),
                     style: TextStyle(
                         fontSize: 13, color: appColors(context).muted)),
                 const Spacer(),
@@ -312,7 +312,7 @@ class _TypographyView extends StatelessWidget {
             SwitchListTile(
               value: settings.showImages,
               onChanged: (value) => rss.update((s) => s.showImages = value),
-              title: Text(tr('显示图片')),
+              title: Text(tr('image.show_images')),
               dense: true,
               contentPadding: EdgeInsets.zero,
             ),
@@ -320,7 +320,7 @@ class _TypographyView extends StatelessWidget {
               value: settings.markReadOnOpen,
               onChanged: (value) =>
                   rss.update((s) => s.markReadOnOpen = value),
-              title: Text(tr('打开即标记已读')),
+              title: Text(tr('ui.mark_read_on_open')),
               dense: true,
               contentPadding: EdgeInsets.zero,
             ),

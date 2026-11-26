@@ -30,13 +30,13 @@ class HomeScreen extends StatelessWidget {
   ];
 
   static List<_NavItem> _items() => [
-        _NavItem(Icons.forum_outlined, Icons.forum, L10n.instance.tr('消息')),
+        _NavItem(Icons.forum_outlined, Icons.forum, L10n.instance.tr('chat.messages_2')),
         _NavItem(Icons.folder_shared_outlined, Icons.folder_shared,
-            L10n.instance.tr('共享')),
+            L10n.instance.tr('share.share')),
         _NavItem(Icons.newspaper_outlined, Icons.newspaper,
-            L10n.instance.tr('资讯')),
+            L10n.instance.tr('rss.news')),
         _NavItem(Icons.explore_outlined, Icons.explore,
-            L10n.instance.tr('推荐')),
+            L10n.instance.tr('rss.discover')),
       ];
 
   @override
@@ -217,7 +217,7 @@ class _SideRail extends StatelessWidget {
               item: _NavItem(
                 Icons.settings_outlined,
                 Icons.settings,
-                L10n.instance.tr('设置'),
+                L10n.instance.tr('settings.settings'),
               ),
               selected: false,
               badge: 0,
@@ -334,27 +334,27 @@ class _DesktopMenuBar extends StatelessWidget {
                       home.openChats();
                       chats.toggleSearch();
                     },
-                    child: Text(L10n.instance.tr('搜索会话  Ctrl/⌘+F')),
+                    child: Text(L10n.instance.tr('chat.search_chats_ctrl_f')),
                   ),
                   MenuItemButton(
                     onPressed: home.openSettings,
-                    child: Text(L10n.instance.tr('设置  Ctrl/⌘+,')),
+                    child: Text(L10n.instance.tr('settings.settings_ctrl')),
                   ),
                 ],
-                child: Text(L10n.instance.tr('文件')),
+                child: Text(L10n.instance.tr('ui.files')),
               ),
               SubmenuButton(
                 menuChildren: [
                   MenuItemButton(
                     onPressed: home.openDevices,
-                    child: Text(L10n.instance.tr('发现设备')),
+                    child: Text(L10n.instance.tr('device.discover')),
                   ),
                   MenuItemButton(
                     onPressed: home.openShare,
-                    child: Text(L10n.instance.tr('文件共享')),
+                    child: Text(L10n.instance.tr('share.file_sharing')),
                   ),
                 ],
-                child: Text(L10n.instance.tr('会话')),
+                child: Text(L10n.instance.tr('chat.chats')),
               ),
               SubmenuButton(
                 menuChildren: [
@@ -370,16 +370,16 @@ class _DesktopMenuBar extends StatelessWidget {
                       ),
                     ),
                 ],
-                child: Text(L10n.instance.tr('状态')),
+                child: Text(L10n.instance.tr('ui.status')),
               ),
               SubmenuButton(
                 menuChildren: [
                   MenuItemButton(
                     onPressed: home.openSettings,
-                    child: Text(L10n.instance.tr('关于 dchat')),
+                    child: Text(L10n.instance.tr('system.about_dchat')),
                   ),
                 ],
-                child: Text(L10n.instance.tr('帮助')),
+                child: Text(L10n.instance.tr('system.help')),
               ),
             ],
           ),
@@ -387,7 +387,7 @@ class _DesktopMenuBar extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
-              chat.ready ? L10n.instance.tr('局域网直连') : L10n.instance.tr('正在启动'),
+              chat.ready ? L10n.instance.tr('device.lan_direct') : L10n.instance.tr('ui.starting'),
               style: TextStyle(fontSize: 11, color: c.faint),
             ),
           ),

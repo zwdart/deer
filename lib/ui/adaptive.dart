@@ -183,7 +183,7 @@ Future<T?> showAdaptiveActionSheet<T>(
   required List<AdaptiveSheetAction<T>> actions,
   String? cancel,
 }) {
-  final cancelLabel = cancel ?? L10n.instance.tr('取消');
+  final cancelLabel = cancel ?? L10n.instance.tr('ui.cancel');
   if (AppPlatform.usesCupertino) {
     return showCupertinoModalPopup<T>(
       context: context,

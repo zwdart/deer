@@ -33,7 +33,7 @@ class ChatsScreen extends StatelessWidget {
               autofocus: true,
               onChanged: vm.setQuery,
               decoration: InputDecoration(
-                hintText: L10n.instance.tr('搜索会话'),
+                hintText: L10n.instance.tr('chat.search_chats'),
                 prefixIcon: const Icon(Icons.search, size: 20),
               ),
             ),
@@ -43,10 +43,10 @@ class ChatsScreen extends StatelessWidget {
               ? EmptyState(
                   icon: Icons.forum_outlined,
                   title: query.isEmpty
-                      ? L10n.instance.tr('还没有会话')
-                      : L10n.instance.tr('没有匹配的会话'),
+                      ? L10n.instance.tr('chat.no_chats_yet')
+                      : L10n.instance.tr('chat.no_matching_chats'),
                   message: query.isEmpty
-                      ? L10n.instance.tr('打开“设备”发现局域网内的联系人，或点击右下角创建群聊。')
+                      ? L10n.instance.tr('chat.open_discover_to_find_contacts_on_your_lan_or_create_a_group_with_the_button_below')
                       : null,
                 )
               : ListView.builder(
@@ -99,8 +99,8 @@ class _ConversationTile extends StatelessWidget {
     final last = conversation.last;
     final preview = last == null
         ? (conversation.draft.isNotEmpty
-            ? '${L10n.instance.tr('草稿')}：${conversation.draft}'
-            : L10n.instance.tr('还没有消息'))
+            ? '${L10n.instance.tr('ui.draft')}：${conversation.draft}'
+            : L10n.instance.tr('chat.no_messages_yet'))
         : _previewText(last);
 
     return Padding(
@@ -213,12 +213,12 @@ class _ConversationTile extends StatelessWidget {
   }
 
   String _previewText(Message m) {
-    if (m.recalled) return L10n.instance.tr('消息已撤回');
+    if (m.recalled) return L10n.instance.tr('chat.message_unsent');
     switch (m.kind) {
       case MessageKind.image:
-        return L10n.instance.tr('[图片]');
+        return L10n.instance.tr('image.image_2');
       case MessageKind.file:
-        return '${L10n.instance.tr('[文件]')} ${m.file?.name ?? ''}';
+        return '${L10n.instance.tr('ui.file_2')} ${m.file?.name ?? ''}';
       case MessageKind.system:
         return m.text;
       case MessageKind.text:
@@ -246,8 +246,8 @@ class _ConversationTile extends StatelessWidget {
           value: 'pin',
           icon: conversation.pinned ? Icons.push_pin_outlined : Icons.push_pin,
           label: conversation.pinned
-              ? L10n.instance.tr('取消置顶')
-              : L10n.instance.tr('置顶会话'),
+              ? L10n.instance.tr('chat.unpin')
+              : L10n.instance.tr('chat.pin_chat'),
         ),
         AdaptiveSheetAction(
           value: 'mute',
@@ -255,18 +255,18 @@ class _ConversationTile extends StatelessWidget {
               ? Icons.notifications_active_outlined
               : Icons.notifications_off_outlined,
           label: conversation.muted
-              ? L10n.instance.tr('取消免打扰')
-              : L10n.instance.tr('消息免打扰'),
+              ? L10n.instance.tr('chat.unmute')
+              : L10n.instance.tr('chat.mute_chat'),
         ),
         AdaptiveSheetAction(
           value: 'clear',
           icon: Icons.cleaning_services_outlined,
-          label: L10n.instance.tr('清空聊天记录'),
+          label: L10n.instance.tr('chat.clear_chat_history'),
         ),
         AdaptiveSheetAction(
           value: 'delete',
           icon: Icons.delete_outline,
-          label: L10n.instance.tr('删除会话'),
+          label: L10n.instance.tr('chat.delete_chat'),
           destructive: true,
         ),
       ],
@@ -282,9 +282,9 @@ class _ConversationTile extends StatelessWidget {
       case 'clear':
         if (await confirmAction(
           context,
-          title: L10n.instance.tr('清空聊天记录？'),
-          message: L10n.instance.tr('本机上的消息将被删除，无法恢复。'),
-          confirm: L10n.instance.tr('清空'),
+          title: L10n.instance.tr('chat.clear_chat_history_2'),
+          message: L10n.instance.tr('chat.messages_on_this_device_will_be_deleted_and_cannot_be_recovered'),
+          confirm: L10n.instance.tr('ui.clear_3'),
           destructive: true,
         )) {
           controller.clearHistory(conversation.id);
@@ -293,9 +293,9 @@ class _ConversationTile extends StatelessWidget {
       case 'delete':
         if (await confirmAction(
           context,
-          title: L10n.instance.tr('删除会话？'),
-          message: L10n.instance.tr('本机上的会话和消息将被删除。'),
-          confirm: L10n.instance.tr('删除'),
+          title: L10n.instance.tr('chat.delete_chat_2'),
+          message: L10n.instance.tr('chat.chats_and_messages_on_this_device_will_be_deleted'),
+          confirm: L10n.instance.tr('ui.delete'),
           destructive: true,
         )) {
           controller.deleteConversation(conversation.id);

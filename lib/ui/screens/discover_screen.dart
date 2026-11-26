@@ -30,7 +30,7 @@ class DiscoverScreen extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  L10n.instance.tr('附近设备'),
+                  L10n.instance.tr('device.nearby_devices'),
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
@@ -39,7 +39,7 @@ class DiscoverScreen extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  trf('%d / %d 在线', [
+                  trf('ui.arg_0___arg_1__online', [
                   peers.where((p) => p.connected).length,
                   peers.length,
                 ]),
@@ -53,20 +53,20 @@ class DiscoverScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 40),
                 child: EmptyState(
                   icon: Icons.devices_other,
-                  title: L10n.instance.tr('没有发现设备'),
+                  title: L10n.instance.tr('device.no_devices_found'),
                   message: c.settings.discovery
-                      ? L10n.instance.tr('确保其他设备连接在同一局域网，并已打开 zchat。')
-                      : L10n.instance.tr('自动发现已关闭。可以开启自动发现，或通过 IP 地址手动连接。'),
+                      ? L10n.instance.tr('device.make_sure_other_devices_are_on_the_same_lan_and_have_zchat_open')
+                      : L10n.instance.tr('device.auto_discovery_is_off_enable_it_or_connect_manually_by_ip_address'),
                   action: c.settings.discovery
                       ? OutlinedButton.icon(
                           onPressed: () => connectByAddress(context, c),
                           icon: const Icon(Icons.add_link, size: 18),
-                          label: Text(L10n.instance.tr('手动连接')),
+                          label: Text(L10n.instance.tr('device.connect_manually')),
                         )
                       : FilledButton.icon(
                           onPressed: () => c.setDiscovery(true),
                           icon: const Icon(Icons.wifi_find, size: 18),
-                          label: Text(L10n.instance.tr('开启自动发现')),
+                          label: Text(L10n.instance.tr('device.enable_auto_discovery')),
                         ),
                 ),
               )
@@ -80,7 +80,7 @@ class DiscoverScreen extends StatelessWidget {
                 ),
             const SizedBox(height: 22),
             SectionCard(
-              title: L10n.instance.tr('提示'),
+              title: L10n.instance.tr('ui.tip_2'),
               child: Text(
                 L10n.instance.tr(
                   '设备之间通过 UDP 自动发现，聊天使用 TCP 直连，文件不经过云端。如果无法发现设备，请检查系统是否允许局域网访问。',
@@ -107,29 +107,29 @@ class DiscoverScreen extends StatelessWidget {
       title: peer.displayName,
       message: peer.connected
           ? '${peer.addr} · ${L10n.instance.tr(presenceLabelKey(peer.status))}'
-          : L10n.instance.tr('离线'),
+          : L10n.instance.tr('ui.offline'),
       actions: [
         AdaptiveSheetAction(
           value: 'chat',
           icon: Icons.chat_bubble_outline,
-          label: L10n.instance.tr('发送消息'),
+          label: L10n.instance.tr('chat.send_message'),
         ),
         AdaptiveSheetAction(
           value: 'connect',
           icon: Icons.wifi_tethering,
           label: peer.connected
-              ? L10n.instance.tr('刷新连接')
-              : L10n.instance.tr('连接设备'),
+              ? L10n.instance.tr('device.refresh_connection')
+              : L10n.instance.tr('device.connect_device'),
         ),
         AdaptiveSheetAction(
           value: 'alias',
           icon: Icons.edit_outlined,
-          label: L10n.instance.tr('修改备注'),
+          label: L10n.instance.tr('ui.edit_alias'),
         ),
         AdaptiveSheetAction(
           value: 'remove',
           icon: Icons.delete_outline,
-          label: L10n.instance.tr('从列表移除'),
+          label: L10n.instance.tr('ui.remove_from_list'),
           destructive: true,
         ),
       ],
@@ -142,7 +142,7 @@ class DiscoverScreen extends StatelessWidget {
       case 'connect':
         try {
           await c.connectPeer(peer.id);
-          if (context.mounted) showAppSnack(context, L10n.instance.tr('正在连接…'));
+          if (context.mounted) showAppSnack(context, L10n.instance.tr('device.connecting'));
         } catch (e) {
           if (context.mounted) showAppSnack(context, '$e');
         }
@@ -150,8 +150,8 @@ class DiscoverScreen extends StatelessWidget {
       case 'alias':
         final name = await promptText(
           context,
-          title: L10n.instance.tr('修改备注'),
-          label: L10n.instance.tr('备注名称'),
+          title: L10n.instance.tr('ui.edit_alias'),
+          label: L10n.instance.tr('ui.alias_2'),
           initial: peer.alias,
         );
         if (name != null) c.setAlias(peer.id, name);
@@ -159,9 +159,9 @@ class DiscoverScreen extends StatelessWidget {
       case 'remove':
         if (await confirmAction(
           context,
-          title: L10n.instance.tr('从列表移除设备？'),
-          message: L10n.instance.tr('如果设备再次广播，它会重新出现。'),
-          confirm: L10n.instance.tr('移除'),
+          title: L10n.instance.tr('device.remove_this_device_from_the_list'),
+          message: L10n.instance.tr('device.it_will_reappear_if_the_device_broadcasts_again'),
+          confirm: L10n.instance.tr('ui.remove_3'),
           destructive: true,
         )) {
           c.removePeer(peer.id);
@@ -178,7 +178,7 @@ class DiscoverScreen extends StatelessWidget {
     try {
       if (!peer.connected) await c.connectPeer(peer.id);
     } catch (e) {
-      if (context.mounted) showAppSnack(context, trf('无法连接：%s', ['$e']));
+      if (context.mounted) showAppSnack(context, trf('device.could_not_connect__arg_0', ['$e']));
       return;
     }
     final conv = c.ensureDirect(peer);
@@ -191,9 +191,9 @@ class DiscoverScreen extends StatelessWidget {
 Future<void> connectByAddress(BuildContext context, ChatController c) async {
   final input = await promptText(
     context,
-    title: L10n.instance.tr('通过地址连接'),
-    label: L10n.instance.tr('IP 或 IP:端口'),
-    confirm: L10n.instance.tr('连接'),
+    title: L10n.instance.tr('device.connect_by_address'),
+    label: L10n.instance.tr('device.ip_or_ip_port'),
+    confirm: L10n.instance.tr('device.connect'),
   );
   if (input == null || input.isEmpty || !context.mounted) return;
   try {
@@ -202,7 +202,7 @@ Future<void> connectByAddress(BuildContext context, ChatController c) async {
     if (!context.mounted) return;
     await openChatScreen(context, conv.id);
   } catch (e) {
-    if (context.mounted) showAppSnack(context, trf('连接失败：%s', ['$e']));
+    if (context.mounted) showAppSnack(context, trf('device.connection_failed__arg_0', ['$e']));
   }
 }
 
@@ -246,7 +246,7 @@ class _NetworkCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  controller.settings.discovery ? L10n.instance.tr('局域网自动发现') : L10n.instance.tr('仅手动连接'),
+                  controller.settings.discovery ? L10n.instance.tr('device.lan_auto_discovery') : L10n.instance.tr('device.manual_connection_only'),
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -255,8 +255,8 @@ class _NetworkCard extends StatelessWidget {
                 const SizedBox(height: 3),
                 Text(
                   ips.isEmpty
-                      ? L10n.instance.tr('没有可用的局域网地址')
-                      : trf('%s · 端口 %d', [ips.first, controller.settings.port]),
+                      ? L10n.instance.tr('device.no_lan_address_available')
+                      : trf('device.arg_0__port__arg_1', [ips.first, controller.settings.port]),
                   style: TextStyle(fontSize: 11.5, color: c.muted),
                 ),
               ],
@@ -334,7 +334,7 @@ class _PeerTile extends StatelessWidget {
                       peer.signature.isNotEmpty
                           ? peer.signature
                           : peer.addr.isEmpty
-                              ? L10n.instance.tr('地址未知')
+                              ? L10n.instance.tr('device.address_unknown')
                               : peer.addr,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -350,7 +350,7 @@ class _PeerTile extends StatelessWidget {
                   Text(
                     peer.connected
                         ? L10n.instance.tr(presenceLabelKey(peer.status))
-                        : L10n.instance.tr('离线'),
+                        : L10n.instance.tr('ui.offline'),
                     style: TextStyle(
                       fontSize: 10.5,
                       color: peer.connected

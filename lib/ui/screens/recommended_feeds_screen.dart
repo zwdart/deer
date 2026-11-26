@@ -43,11 +43,11 @@ class _RecommendedFeedsScreenState extends State<RecommendedFeedsScreen> {
     if (!mounted) return;
     setState(() => _busy.remove(feed.url));
     if (result == null) {
-      final message = rss.error ?? tr('添加失败，请检查地址');
+      final message = rss.error ?? tr('device.could_not_add_it_check_the_url');
       rss.clearError();
       showAppSnack(context, message);
     } else {
-      showAppSnack(context, trf('已订阅「%s」', [feed.name]));
+      showAppSnack(context, trf('rss.subscribed_to__arg_0', [feed.name]));
     }
   }
 
@@ -68,7 +68,7 @@ class _RecommendedFeedsScreenState extends State<RecommendedFeedsScreen> {
     return Scaffold(
       appBar: DchatAppBar(
         title: Text(
-          tr('推荐订阅'),
+          tr('rss.recommended'),
           style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
         ),
         actions: const [SizedBox(width: 4)],
@@ -92,7 +92,7 @@ class _RecommendedFeedsScreenState extends State<RecommendedFeedsScreen> {
                     child: Row(
                       children: [
                         _FilterChip(
-                          label: tr('全部'),
+                          label: tr('ui.all'),
                           selected: _category == null,
                           onTap: () => setState(() => _category = null),
                         ),
@@ -143,7 +143,7 @@ class _RecommendedFeedsScreenState extends State<RecommendedFeedsScreen> {
                         Icon(Icons.search_off, size: 34, color: c.faint),
                         const SizedBox(height: 10),
                         Text(
-                          tr('这个分类下暂时没有推荐'),
+                          tr('rss.no_recommendations_in_this_category_yet'),
                           style: TextStyle(fontSize: 13, color: c.muted),
                         ),
                       ],
@@ -198,12 +198,12 @@ class _HeroBanner extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  tr('精选订阅源'),
+                  tr('rss.curated_feeds'),
                   style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  trf('共 %d 个优质 RSS 与 Atom 源，点一下即可订阅，内容只保存在本机。', [count]),
+                  trf('rss.arg_0__curated_rss_and_atom_feeds_one_tap_to_subscribe_everything_stays_on_this_device', [count]),
                   style: TextStyle(fontSize: 12, color: c.muted, height: 1.45),
                 ),
               ],
@@ -400,7 +400,7 @@ class _SubscribeButton extends StatelessWidget {
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
         icon: const Icon(Icons.check, size: 15),
-        label: Text(tr('已订阅'), style: const TextStyle(fontSize: 12)),
+        label: Text(tr('rss.subscribed'), style: const TextStyle(fontSize: 12)),
       );
     }
     return FilledButton.icon(
@@ -418,7 +418,7 @@ class _SubscribeButton extends StatelessWidget {
             )
           : const Icon(Icons.add, size: 15),
       label: Text(
-        busy ? tr('订阅中…') : tr('立即订阅'),
+        busy ? tr('rss.subscribing') : tr('rss.subscribe'),
         style: const TextStyle(fontSize: 12),
       ),
     );

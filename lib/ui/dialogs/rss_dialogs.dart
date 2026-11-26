@@ -115,11 +115,11 @@ Future<T?> showRssSheet<T>({
 Future<String?> showAddFeedSheet(BuildContext context, RssController rss) async {
   final title = await showRssSheet<String>(
     context: context,
-    title: tr('添加订阅源'),
+    title: tr('rss.add_a_feed'),
     child: _AddFeedView(rss: rss),
   );
   if (title != null && context.mounted) {
-    showAppSnack(context, trf('已添加「%s」', [title]));
+    showAppSnack(context, trf('ui.added__arg_0', [title]));
   }
   return title;
 }
@@ -154,7 +154,7 @@ class _AddFeedViewState extends State<_AddFeedView> {
     if (!mounted) return;
     if (feed == null) {
       setState(() => _busy = false);
-      final message = widget.rss.error ?? tr('添加失败，请检查地址');
+      final message = widget.rss.error ?? tr('device.could_not_add_it_check_the_url');
       widget.rss.clearError();
       showAppSnack(context, message);
       return;
@@ -176,7 +176,7 @@ class _AddFeedViewState extends State<_AddFeedView> {
           minLines: 1,
           maxLines: 2,
           decoration: InputDecoration(
-            labelText: tr('RSS 地址'),
+            labelText: tr('rss.feed_url'),
             hintText: 'https://example.com/feed.xml',
             hintStyle: TextStyle(color: c.faint),
           ),
@@ -185,12 +185,12 @@ class _AddFeedViewState extends State<_AddFeedView> {
         const SizedBox(height: 10),
         TextField(
           controller: _title,
-          decoration: InputDecoration(labelText: tr('名称（可选）')),
+          decoration: InputDecoration(labelText: tr('ui.name_optional')),
           onSubmitted: (value) => _submit(_url.text, value),
         ),
         const SizedBox(height: 16),
         Text(
-          tr('或从推荐列表选择'),
+          tr('rss.or_pick_one_from_the_suggestions'),
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
@@ -225,7 +225,7 @@ class _AddFeedViewState extends State<_AddFeedView> {
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
               : const Icon(Icons.add),
-          label: Text(_busy ? tr('正在抓取') : tr('添加并订阅')),
+          label: Text(_busy ? tr('ui.fetching') : tr('rss.add_and_subscribe')),
         ),
       ],
     );
@@ -248,37 +248,37 @@ Future<void> showFeedMenu(
     actions: [
       AdaptiveSheetAction(
         value: RssFeedAction.sync,
-        label: tr('立即同步'),
+        label: tr('rss.sync_now'),
         icon: Icons.refresh,
       ),
       AdaptiveSheetAction(
         value: RssFeedAction.readAll,
-        label: tr('全部标记已读'),
+        label: tr('ui.mark_everything_read'),
         icon: Icons.done_all,
       ),
       AdaptiveSheetAction(
         value: RssFeedAction.organize,
-        label: tr('加入收藏夹'),
+        label: tr('rss.add_to_folder'),
         icon: Icons.folder_outlined,
       ),
       AdaptiveSheetAction(
         value: RssFeedAction.edit,
-        label: tr('编辑订阅源'),
+        label: tr('rss.edit_feed'),
         icon: Icons.edit_outlined,
       ),
       AdaptiveSheetAction(
         value: RssFeedAction.pause,
-        label: feed.syncEnabled ? tr('暂停同步') : tr('恢复同步'),
+        label: feed.syncEnabled ? tr('rss.pause_syncing') : tr('rss.resume_syncing'),
         icon: feed.syncEnabled ? Icons.pause_circle_outline : Icons.play_circle_outline,
       ),
       AdaptiveSheetAction(
         value: RssFeedAction.clear,
-        label: tr('清空文章'),
+        label: tr('rss.clear_articles'),
         icon: Icons.cleaning_services_outlined,
       ),
       AdaptiveSheetAction(
         value: RssFeedAction.delete,
-        label: tr('取消订阅'),
+        label: tr('rss.unsubscribe'),
         icon: Icons.delete_outline,
         destructive: true,
       ),
@@ -293,13 +293,13 @@ Future<void> showFeedMenu(
     case RssFeedAction.edit:
       await showRssSheet<void>(
         context: context,
-        title: tr('编辑订阅源'),
+        title: tr('rss.edit_feed'),
         child: _FeedEditorView(rss: rss, feed: feed),
       );
     case RssFeedAction.organize:
       await showRssSheet<void>(
         context: context,
-        title: trf('「%s」所在收藏夹', [feed.title]),
+        title: trf('rss.folders_with__arg_0', [feed.title]),
         child: _FeedFoldersView(rss: rss, feed: feed),
       );
     case RssFeedAction.pause:
@@ -307,20 +307,20 @@ Future<void> showFeedMenu(
     case RssFeedAction.clear:
       final ok = await confirmAction(
         context,
-        title: tr('清空文章'),
-        message: trf('要清空「%s」的本地文章吗？下次同步会重新抓取。', [feed.title]),
+        title: tr('rss.clear_articles'),
+        message: trf('rss.clear_saved_articles_from__arg_0__the_next_sync_refetches_them', [feed.title]),
       );
       if (ok) await rss.clearFeedArticles(id);
     case RssFeedAction.delete:
       final ok = await confirmAction(
         context,
-        title: tr('取消订阅'),
-        message: trf('移除「%s」及其本地文章？', [feed.title]),
+        title: tr('rss.unsubscribe'),
+        message: trf('rss.remove__arg_0__and_its_saved_articles', [feed.title]),
         destructive: true,
       );
       if (ok) {
         await rss.deleteFeed(id);
-        if (context.mounted) showAppSnack(context, tr('已取消订阅'));
+        if (context.mounted) showAppSnack(context, tr('rss.unsubscribed'));
       }
   }
 }
@@ -381,7 +381,7 @@ class _FeedEditorViewState extends State<_FeedEditorView> {
       children: [
         TextField(
           controller: _title,
-          decoration: InputDecoration(labelText: tr('名称')),
+          decoration: InputDecoration(labelText: tr('ui.name')),
         ),
         const SizedBox(height: 10),
         TextField(
@@ -389,17 +389,17 @@ class _FeedEditorViewState extends State<_FeedEditorView> {
           keyboardType: TextInputType.url,
           minLines: 1,
           maxLines: 2,
-          decoration: InputDecoration(labelText: tr('订阅地址')),
+          decoration: InputDecoration(labelText: tr('rss.feed_address')),
         ),
         const SizedBox(height: 10),
         TextField(
           controller: _site,
           keyboardType: TextInputType.url,
-          decoration: InputDecoration(labelText: tr('站点地址（可选）')),
+          decoration: InputDecoration(labelText: tr('device.site_url_optional')),
         ),
         const SizedBox(height: 14),
         Text(
-          tr('格式'),
+          tr('ui.format'),
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
@@ -422,12 +422,12 @@ class _FeedEditorViewState extends State<_FeedEditorView> {
         if (error.isNotEmpty) ...[
           const SizedBox(height: 14),
           Text(
-            '${tr('上次同步失败')}：$error',
+            '${tr('rss.last_sync_failed')}：$error',
             style: TextStyle(fontSize: 12, color: c.danger, height: 1.4),
           ),
         ],
         const SizedBox(height: 18),
-        FilledButton(onPressed: _save, child: Text(tr('保存'))),
+        FilledButton(onPressed: _save, child: Text(tr('ui.save'))),
       ],
     );
   }
@@ -473,8 +473,8 @@ class _FeedFoldersViewState extends State<_FeedFoldersView> {
   Future<void> _createFolder() async {
     final name = await promptText(
       context,
-      title: tr('新建收藏夹'),
-      label: tr('名称'),
+      title: tr('rss.new_folder'),
+      label: tr('ui.name'),
     );
     if (name == null || name.isEmpty) return;
     final folder = await widget.rss.createFolder(name);
@@ -516,7 +516,7 @@ class _FeedFoldersViewState extends State<_FeedFoldersView> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 14),
             child: Text(
-              tr('还没有收藏夹，先创建一个来归类订阅源。'),
+              tr('rss.no_folders_yet_create_one_to_group_your_feeds'),
               style: TextStyle(fontSize: 13, color: c.muted, height: 1.4),
             ),
           )
@@ -535,7 +535,7 @@ class _FeedFoldersViewState extends State<_FeedFoldersView> {
               }),
               title: Text(folder.name),
               subtitle: Text(
-                trf('%d 个订阅', [folder.sourceCount]),
+                trf('rss.arg_0__feeds', [folder.sourceCount]),
                 style: TextStyle(fontSize: 11.5, color: c.faint),
               ),
               controlAffinity: ListTileControlAffinity.leading,
@@ -545,10 +545,10 @@ class _FeedFoldersViewState extends State<_FeedFoldersView> {
         OutlinedButton.icon(
           onPressed: _createFolder,
           icon: const Icon(Icons.create_new_folder_outlined, size: 18),
-          label: Text(tr('新建收藏夹')),
+          label: Text(tr('rss.new_folder')),
         ),
         const SizedBox(height: 14),
-        FilledButton(onPressed: _save, child: Text(tr('保存'))),
+        FilledButton(onPressed: _save, child: Text(tr('ui.save'))),
       ],
     );
   }
@@ -569,17 +569,17 @@ Future<void> showFolderMenu(
     actions: [
       AdaptiveSheetAction(
         value: RssFolderAction.members,
-        label: tr('管理成员'),
+        label: tr('chat.manage_feeds'),
         icon: Icons.group_outlined,
       ),
       AdaptiveSheetAction(
         value: RssFolderAction.rename,
-        label: tr('重命名'),
+        label: tr('ui.rename_2'),
         icon: Icons.edit_outlined,
       ),
       AdaptiveSheetAction(
         value: RssFolderAction.delete,
-        label: tr('删除收藏夹'),
+        label: tr('rss.delete_folder'),
         icon: Icons.delete_outline,
         destructive: true,
       ),
@@ -590,14 +590,14 @@ Future<void> showFolderMenu(
     case RssFolderAction.members:
       await showRssSheet<void>(
         context: context,
-        title: trf('管理「%s」', [folder.name]),
+        title: trf('ui.manage__arg_0', [folder.name]),
         child: _FolderMembersView(rss: rss, folder: folder),
       );
     case RssFolderAction.rename:
       final name = await promptText(
         context,
-        title: tr('重命名收藏夹'),
-        label: tr('名称'),
+        title: tr('rss.rename_folder'),
+        label: tr('ui.name'),
         initial: folder.name,
       );
       if (name != null && name.isNotEmpty) {
@@ -606,8 +606,8 @@ Future<void> showFolderMenu(
     case RssFolderAction.delete:
       final ok = await confirmAction(
         context,
-        title: tr('删除收藏夹'),
-        message: trf('删除「%s」不会移除其中的订阅源。', [folder.name]),
+        title: tr('rss.delete_folder'),
+        message: trf('rss.removing__arg_0__keeps_its_feeds', [folder.name]),
         destructive: true,
       );
       if (ok) await rss.deleteFolder(id);
@@ -657,7 +657,7 @@ class _FolderMembersViewState extends State<_FolderMembersView> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 14),
             child: Text(
-              tr('还没有订阅源可以加入。'),
+              tr('rss.there_are_no_feeds_to_add_yet'),
               style: TextStyle(fontSize: 13, color: c.muted),
             ),
           )
@@ -683,7 +683,7 @@ class _FolderMembersViewState extends State<_FolderMembersView> {
               ),
             ),
         const SizedBox(height: 14),
-        FilledButton(onPressed: _save, child: Text(tr('保存'))),
+        FilledButton(onPressed: _save, child: Text(tr('ui.save'))),
       ],
     );
   }
@@ -703,32 +703,32 @@ Future<RssArticleAction?> showArticleMenu(
     actions: [
       AdaptiveSheetAction(
         value: RssArticleAction.star,
-        label: article.isStarred ? tr('取消收藏') : tr('收藏'),
+        label: article.isStarred ? tr('rss.unstar') : tr('rss.star'),
         icon: article.isStarred ? Icons.star : Icons.star_border,
       ),
       AdaptiveSheetAction(
         value: RssArticleAction.unread,
-        label: tr('标记为未读'),
+        label: tr('ui.mark_unread'),
         icon: Icons.mark_email_unread_outlined,
       ),
       AdaptiveSheetAction(
         value: RssArticleAction.copy,
-        label: tr('复制链接'),
+        label: tr('ui.copy_link'),
         icon: Icons.copy,
       ),
       AdaptiveSheetAction(
         value: RssArticleAction.share,
-        label: tr('分享'),
+        label: tr('share.share_2'),
         icon: Icons.share_outlined,
       ),
       AdaptiveSheetAction(
         value: RssArticleAction.original,
-        label: tr('在浏览器打开'),
+        label: tr('ui.open_in_browser_2'),
         icon: Icons.open_in_new,
       ),
       AdaptiveSheetAction(
         value: RssArticleAction.delete,
-        label: tr('删除'),
+        label: tr('ui.delete'),
         icon: Icons.delete_outline,
         destructive: true,
       ),
@@ -758,8 +758,8 @@ Future<RssArticleAction?> showArticleMenu(
     case RssArticleAction.delete:
       final ok = await confirmAction(
         context,
-        title: tr('删除文章'),
-        message: tr('删除后需要从订阅源重新抓取才会回来。'),
+        title: tr('rss.delete_article'),
+        message: tr('rss.it_only_comes_back_after_the_next_sync'),
         destructive: true,
       );
       if (ok) await rss.deleteArticle(article);
@@ -770,7 +770,7 @@ Future<RssArticleAction?> showArticleMenu(
 Future<void> openInBrowser(BuildContext context, String url) async {
   final uri = Uri.tryParse(url);
   if (uri == null || !uri.hasScheme) {
-    if (context.mounted) showAppSnack(context, tr('没有可用的原文链接'));
+    if (context.mounted) showAppSnack(context, tr('ui.no_source_link_available'));
     return;
   }
   await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -784,51 +784,51 @@ Future<RssMoreAction?> showRssMoreMenu(
 ) async {
   final action = await showAdaptiveActionSheet<RssMoreAction>(
     context,
-    title: tr('资讯工具'),
+    title: tr('rss.news_tools'),
     actions: [
       AdaptiveSheetAction(
         value: RssMoreAction.newFolder,
-        label: tr('新建收藏夹'),
+        label: tr('rss.new_folder'),
         icon: Icons.create_new_folder_outlined,
       ),
       AdaptiveSheetAction(
         value: RssMoreAction.importOpml,
-        label: tr('导入 OPML'),
+        label: tr('rss.import_opml'),
         icon: Icons.file_download_outlined,
       ),
       AdaptiveSheetAction(
         value: RssMoreAction.importCsv,
-        label: tr('导入 CSV'),
+        label: tr('ui.import_csv'),
         icon: Icons.file_download_outlined,
       ),
       AdaptiveSheetAction(
         value: RssMoreAction.exportOpml,
-        label: tr('导出 OPML'),
+        label: tr('rss.export_opml'),
         icon: Icons.file_upload_outlined,
       ),
       AdaptiveSheetAction(
         value: RssMoreAction.exportCsv,
-        label: tr('导出 CSV'),
+        label: tr('ui.export_csv'),
         icon: Icons.file_upload_outlined,
       ),
       AdaptiveSheetAction(
         value: RssMoreAction.markAllRead,
-        label: tr('全部标记已读'),
+        label: tr('ui.mark_everything_read'),
         icon: Icons.done_all,
       ),
       AdaptiveSheetAction(
         value: RssMoreAction.clearHistory,
-        label: tr('清理历史文章'),
+        label: tr('rss.clean_up_articles'),
         icon: Icons.cleaning_services_outlined,
       ),
       AdaptiveSheetAction(
         value: RssMoreAction.backup,
-        label: tr('立即备份订阅'),
+        label: tr('rss.back_up_now'),
         icon: Icons.backup_outlined,
       ),
       AdaptiveSheetAction(
         value: RssMoreAction.settings,
-        label: tr('资讯设置'),
+        label: tr('rss.news_settings'),
         icon: Icons.tune,
       ),
     ],
@@ -837,7 +837,7 @@ Future<RssMoreAction?> showRssMoreMenu(
   if (!context.mounted) return action;
   switch (action) {
     case RssMoreAction.newFolder:
-      final name = await promptText(context, title: tr('新建收藏夹'), label: tr('名称'));
+      final name = await promptText(context, title: tr('rss.new_folder'), label: tr('ui.name'));
       if (name != null && name.isNotEmpty) await rss.createFolder(name);
     case RssMoreAction.importOpml:
       await _importFile(context, rss, false);
@@ -854,15 +854,15 @@ Future<RssMoreAction?> showRssMoreMenu(
     case RssMoreAction.markAllRead:
       final ok = await confirmAction(
         context,
-        title: tr('全部标记已读'),
-        message: trf('把 %d 条未读全部标为已读？', [rss.totalUnread]),
+        title: tr('ui.mark_everything_read'),
+        message: trf('ui.mark__arg_0__unread_articles_as_read', [rss.totalUnread]),
       );
       if (ok) await rss.markAllRead();
     case RssMoreAction.clearHistory:
       await _clearHistory(context, rss);
     case RssMoreAction.backup:
       await rss.backupNow();
-      if (context.mounted) showAppSnack(context, tr('备份已写入本地目录'));
+      if (context.mounted) showAppSnack(context, tr('ui.backup_written_to_your_device'));
     case RssMoreAction.settings:
       break;
   }
@@ -884,13 +884,13 @@ Future<void> _importFile(
   try {
     text = await File(path).readAsString();
   } catch (e) {
-    if (context.mounted) showAppSnack(context, trf('读取文件失败：%s', ['$e']));
+    if (context.mounted) showAppSnack(context, trf('ui.could_not_read_the_file__arg_0', ['$e']));
     return;
   }
   final (added, folders) =
       csv ? await rss.importCsv(text) : await rss.importOpml(text);
   if (!context.mounted) return;
-  showAppSnack(context, trf('新增 %d 个订阅、%d 个收藏夹', [added, folders]));
+  showAppSnack(context, trf('rss.added__arg_0__feeds_and__arg_1__folders', [added, folders]));
 }
 
 Future<void> _exportFile(
@@ -906,7 +906,7 @@ Future<void> _exportFile(
       fileName: filename,
       bytes: bytes,
       mimeType: filename.endsWith('.csv') ? 'text/csv' : 'text/x-opml',
-      dialogTitle: tr('导出订阅源'),
+      dialogTitle: tr('rss.export_feeds'),
     );
   } catch (_) {
     target = null;
@@ -919,22 +919,22 @@ Future<void> _exportFile(
     try {
       await File(saved).writeAsString(content);
     } catch (e) {
-      if (context.mounted) showAppSnack(context, trf('写入失败：%s', ['$e']));
+      if (context.mounted) showAppSnack(context, trf('ui.could_not_write__arg_0', ['$e']));
       return;
     }
   }
-  if (context.mounted) showAppSnack(context, '${tr('已导出到')}$saved');
+  if (context.mounted) showAppSnack(context, '${tr('ui.exported_to')}$saved');
 }
 
 Future<void> _clearHistory(BuildContext context, RssController rss) async {
   final option = await showAdaptiveActionSheet<String>(
     context,
-    title: tr('清理历史文章'),
-    message: tr('只删除本地已抓取的文章，订阅关系保留。'),
+    title: tr('rss.clean_up_articles'),
+    message: tr('rss.deletes_synced_articles_but_keeps_the_subscription'),
     actions: [
-      AdaptiveSheetAction(value: '7', label: tr('保留最近 7 天')),
-      AdaptiveSheetAction(value: '30', label: tr('保留最近 30 天')),
-      AdaptiveSheetAction(value: 'all', label: tr('全部清空'), destructive: true),
+      AdaptiveSheetAction(value: '7', label: tr('ui.keep_the_last_7_days')),
+      AdaptiveSheetAction(value: '30', label: tr('ui.keep_the_last_30_days')),
+      AdaptiveSheetAction(value: 'all', label: tr('ui.clear_all'), destructive: true),
     ],
   );
   if (option == null) return;
@@ -943,17 +943,17 @@ Future<void> _clearHistory(BuildContext context, RssController rss) async {
     final removed = await rss.clearHistory(
       before: DateTime.now().subtract(Duration(days: days)),
     );
-    if (context.mounted) showAppSnack(context, trf('已清理 %d 条', [removed]));
+    if (context.mounted) showAppSnack(context, trf('ui.removed__arg_0__articles', [removed]));
     return;
   }
   if (!context.mounted) return;
   final ok = await confirmAction(
     context,
-    title: tr('全部清空'),
-    message: tr('会删除所有本地文章，下次同步会重新抓取。'),
+    title: tr('ui.clear_all'),
+    message: tr('rss.deletes_every_saved_article_the_next_sync_fetches_them_again'),
     destructive: true,
   );
   if (!ok) return;
   final removed = await rss.clearHistory();
-  if (context.mounted) showAppSnack(context, trf('已清理 %d 条', [removed]));
+  if (context.mounted) showAppSnack(context, trf('ui.removed__arg_0__articles', [removed]));
 }

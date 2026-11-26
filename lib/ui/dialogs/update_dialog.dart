@@ -30,7 +30,7 @@ class _UpdateDialog extends StatelessWidget {
         children: [
           Icon(Icons.system_update_alt, color: colors.accent),
           const SizedBox(width: 10),
-          Expanded(child: Text(L10n.instance.tr('版本更新'))),
+          Expanded(child: Text(L10n.instance.tr('update.version_update'))),
         ],
       ),
       content: SizedBox(
@@ -48,7 +48,7 @@ class _UpdateDialog extends StatelessWidget {
     final colors = appColors(context);
     switch (model.status) {
       case UpdateStatus.idle:
-        return Text(L10n.instance.tr('点击检查更新，从发布服务器获取最新版本信息。'));
+        return Text(L10n.instance.tr('update.check_for_updates_to_fetch_the_latest_release_information_from_the_server'));
       case UpdateStatus.checking:
         return Row(
           children: [
@@ -58,7 +58,7 @@ class _UpdateDialog extends StatelessWidget {
               child: CircularProgressIndicator(strokeWidth: 2),
             ),
             const SizedBox(width: 12),
-            Expanded(child: Text(L10n.instance.tr('正在检查更新…'))),
+            Expanded(child: Text(L10n.instance.tr('update.checking_for_updates'))),
           ],
         );
       case UpdateStatus.upToDate:
@@ -66,16 +66,16 @@ class _UpdateDialog extends StatelessWidget {
           context,
           icon: Icons.check_circle_outline,
           color: colors.accent,
-          title: L10n.instance.tr('已是最新版本'),
-          detail: trf('当前版本：%s', [model.result?.localVersion.toString() ?? model.localVersion]),
+          title: L10n.instance.tr('update.you_re_up_to_date'),
+          detail: trf('ui.current_version__arg_0', [model.result?.localVersion.toString() ?? model.localVersion]),
         );
       case UpdateStatus.noAsset:
         return _message(
           context,
           icon: Icons.info_outline,
           color: colors.muted,
-          title: L10n.instance.tr('发现新版本'),
-          detail: L10n.instance.tr('未找到适用于当前平台的安装包，可在发布页面手动下载。'),
+          title: L10n.instance.tr('update.new_version_available'),
+          detail: L10n.instance.tr('update.no_package_is_available_for_this_platform_download_it_manually_from_the_release_page'),
         );
       case UpdateStatus.available:
         return _available(context, model);
@@ -88,7 +88,7 @@ class _UpdateDialog extends StatelessWidget {
           context,
           icon: Icons.error_outline,
           color: colors.danger,
-          title: L10n.instance.tr('检查更新失败'),
+          title: L10n.instance.tr('update.update_check_failed'),
           detail: L10n.instance.tr(model.error ?? '请稍后重试'),
         );
     }
@@ -104,23 +104,23 @@ class _UpdateDialog extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          trf('发现新版本 %s', [release.tagName.isEmpty ? result.remoteVersion.toString() : release.tagName]),
+          trf('update.new_version_available__arg_0', [release.tagName.isEmpty ? result.remoteVersion.toString() : release.tagName]),
           style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 10),
-        _line(context, L10n.instance.tr('当前版本'), result.localVersion.toString()),
-        _line(context, L10n.instance.tr('最新版本'), result.remoteVersion.toString()),
-        _line(context, L10n.instance.tr('平台'), _platformLabel(result.platform)),
+        _line(context, L10n.instance.tr('ui.current_version_2'), result.localVersion.toString()),
+        _line(context, L10n.instance.tr('update.latest_version'), result.remoteVersion.toString()),
+        _line(context, L10n.instance.tr('ui.platform'), _platformLabel(result.platform)),
         if (release.publishedAt != null)
-          _line(context, L10n.instance.tr('发布日期'), _formatDate(release.publishedAt!)),
+          _line(context, L10n.instance.tr('ui.release_date'), _formatDate(release.publishedAt!)),
         if (asset != null) ...[
-          _line(context, L10n.instance.tr('安装包'), asset.name),
+          _line(context, L10n.instance.tr('update.package'), asset.name),
           if (asset.hasSize)
-            _line(context, L10n.instance.tr('安装包大小'), humanSize(asset.size)),
+            _line(context, L10n.instance.tr('update.package_size'), humanSize(asset.size)),
         ],
         const SizedBox(height: 10),
         Text(
-          L10n.instance.tr('更新说明'),
+          L10n.instance.tr('update.release_notes'),
           style: TextStyle(fontWeight: FontWeight.w600, color: colors.muted),
         ),
         const SizedBox(height: 4),
@@ -134,7 +134,7 @@ class _UpdateDialog extends StatelessWidget {
           ),
           child: SelectableText(
             release.notes.trim().isEmpty
-                ? L10n.instance.tr('暂无更新说明')
+                ? L10n.instance.tr('update.no_release_notes')
                 : release.notes.trim(),
             style: TextStyle(fontSize: 12.5, height: 1.45, color: colors.text),
           ),
@@ -151,7 +151,7 @@ class _UpdateDialog extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          L10n.instance.tr('正在下载安装包…'),
+          L10n.instance.tr('update.downloading_package'),
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 12),
@@ -181,8 +181,8 @@ class _UpdateDialog extends StatelessWidget {
           context,
           icon: Icons.download_done,
           color: colors.accent,
-          title: L10n.instance.tr('下载完成'),
-          detail: L10n.instance.tr('安装包已保存，可以直接打开或分享。'),
+          title: L10n.instance.tr('ui.download_complete'),
+          detail: L10n.instance.tr('share.the_package_has_been_saved_you_can_open_or_share_it_directly'),
         ),
         const SizedBox(height: 8),
         SelectableText(
@@ -259,22 +259,22 @@ class _UpdateDialog extends StatelessWidget {
       case UpdateStatus.idle:
         actions.add(TextButton(
           onPressed: () => model.check(),
-          child: Text(L10n.instance.tr('检查更新')),
+          child: Text(L10n.instance.tr('update.check_for_updates')),
         ));
       case UpdateStatus.checking:
         actions.add(TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(L10n.instance.tr('隐藏')),
+          child: Text(L10n.instance.tr('system.hide')),
         ));
       case UpdateStatus.upToDate:
         actions.add(TextButton(
           onPressed: () => model.check(localVersion: model.localVersion),
-          child: Text(L10n.instance.tr('重新检查')),
+          child: Text(L10n.instance.tr('ui.check_again')),
         ));
       case UpdateStatus.available:
         actions.add(TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(L10n.instance.tr('稍后')),
+          child: Text(L10n.instance.tr('ui.later')),
         ));
         actions.add(TextButton(
           onPressed: () async {
@@ -286,11 +286,11 @@ class _UpdateDialog extends StatelessWidget {
               );
             }
           },
-          child: Text(L10n.instance.tr('复制链接')),
+          child: Text(L10n.instance.tr('ui.copy_link')),
         ));
         actions.add(TextButton(
           onPressed: () => _openBrowser(context, model),
-          child: Text(L10n.instance.tr('在浏览器中打开')),
+          child: Text(L10n.instance.tr('ui.open_in_browser')),
         ));
         actions.add(FilledButton(
           onPressed: model.download,
@@ -299,21 +299,21 @@ class _UpdateDialog extends StatelessWidget {
       case UpdateStatus.noAsset:
         actions.add(TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(L10n.instance.tr('关闭')),
+          child: Text(L10n.instance.tr('system.close')),
         ));
         actions.add(FilledButton(
           onPressed: () => _openBrowser(context, model),
-          child: Text(L10n.instance.tr('在浏览器中打开')),
+          child: Text(L10n.instance.tr('ui.open_in_browser')),
         ));
       case UpdateStatus.downloading:
         actions.add(TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(L10n.instance.tr('隐藏')),
+          child: Text(L10n.instance.tr('system.hide')),
         ));
       case UpdateStatus.downloaded:
         actions.add(TextButton(
           onPressed: () => _openBrowser(context, model),
-          child: Text(L10n.instance.tr('在浏览器中打开')),
+          child: Text(L10n.instance.tr('ui.open_in_browser')),
         ));
         actions.add(TextButton(
           onPressed: () async {
@@ -325,7 +325,7 @@ class _UpdateDialog extends StatelessWidget {
               );
             }
           },
-          child: Text(L10n.instance.tr('复制链接')),
+          child: Text(L10n.instance.tr('ui.copy_link')),
         ));
         actions.add(FilledButton(
           onPressed: () async {
@@ -342,7 +342,7 @@ class _UpdateDialog extends StatelessWidget {
         final retryDownload = model.result?.asset != null;
         actions.add(TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(L10n.instance.tr('关闭')),
+          child: Text(L10n.instance.tr('system.close')),
         ));
         actions.add(FilledButton(
           onPressed: retryDownload
@@ -363,12 +363,12 @@ class _UpdateDialog extends StatelessWidget {
 
   static String _downloadLabel(UpdatePlatform platform) {
     return switch (platform) {
-      UpdatePlatform.android => L10n.instance.tr('下载 APK'),
-      UpdatePlatform.ios => L10n.instance.tr('下载并分享'),
+      UpdatePlatform.android => L10n.instance.tr('ui.download_apk'),
+      UpdatePlatform.ios => L10n.instance.tr('share.download_share'),
       UpdatePlatform.macOS ||
       UpdatePlatform.windows ||
       UpdatePlatform.linux =>
-        L10n.instance.tr('下载安装包'),
+        L10n.instance.tr('update.download_package'),
     };
   }
 

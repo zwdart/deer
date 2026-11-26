@@ -92,12 +92,12 @@ class DesktopService with WindowListener, tray.TrayListener {
       items: [
         tray.MenuItem(
           key: 'open',
-          label: L10n.instance.tr('打开 dchat'),
+          label: L10n.instance.tr('ui.open_dchat'),
           onClick: (_) => showWindow(),
         ),
         tray.MenuItem(
           key: 'devices',
-          label: L10n.instance.tr('发现设备'),
+          label: L10n.instance.tr('device.discover'),
           onClick: (_) {
             home.openDevices();
             showWindow();
@@ -105,7 +105,7 @@ class DesktopService with WindowListener, tray.TrayListener {
         ),
         tray.MenuItem(
           key: 'share',
-          label: L10n.instance.tr('文件共享'),
+          label: L10n.instance.tr('share.file_sharing'),
           onClick: (_) {
             home.openShare();
             showWindow();
@@ -113,7 +113,7 @@ class DesktopService with WindowListener, tray.TrayListener {
         ),
         tray.MenuItem(
           key: 'settings',
-          label: L10n.instance.tr('设置'),
+          label: L10n.instance.tr('settings.settings'),
           onClick: (_) {
             home.openSettings();
             showWindow();
@@ -122,7 +122,7 @@ class DesktopService with WindowListener, tray.TrayListener {
         tray.MenuItem.separator(),
         tray.MenuItem.submenu(
           key: 'status',
-          label: L10n.instance.tr('状态'),
+          label: L10n.instance.tr('ui.status'),
           submenu: tray.Menu(
             items: [
               for (final presence in presenceOptions)
@@ -138,7 +138,7 @@ class DesktopService with WindowListener, tray.TrayListener {
         tray.MenuItem.separator(),
         tray.MenuItem(
           key: 'quit',
-          label: L10n.instance.tr('退出'),
+          label: L10n.instance.tr('system.quit'),
           onClick: (_) => quit(),
         ),
       ],

@@ -135,17 +135,17 @@ class RssController extends ChangeNotifier {
   String get scopeTitle {
     switch (scope) {
       case RssScope.all:
-        return tr('全部动态');
+        return tr('ui.everything');
       case RssScope.unread:
-        return tr('待读');
+        return tr('ui.to_read');
       case RssScope.starred:
-        return tr('收藏');
+        return tr('rss.star');
       case RssScope.feed:
-        return currentFeed?.title ?? tr('订阅源');
+        return currentFeed?.title ?? tr('rss.feed');
       case RssScope.folder:
-        return currentFolder?.name ?? tr('收藏夹');
+        return currentFolder?.name ?? tr('rss.folders');
       case RssScope.search:
-        return trf('搜索「%s」', [keyword]);
+        return trf('ui.search__arg_0', [keyword]);
     }
   }
 
@@ -155,7 +155,7 @@ class RssController extends ChangeNotifier {
     try {
       await db.open();
     } catch (e) {
-      error = trf('资讯数据库打开失败：%s', ['$e']);
+      error = trf('rss.could_not_open_the_news_database__arg_0', ['$e']);
       return;
     }
     settings = await store.load();
@@ -337,7 +337,7 @@ class RssController extends ChangeNotifier {
 
     final parsed = RssParser.parse(body, feedId: id, baseUrl: source.url);
     if (parsed == null) {
-      await db.noteSyncResult(id, error: tr('无法解析订阅内容'));
+      await db.noteSyncResult(id, error: tr('rss.could_not_parse_the_feed'));
       _failures[id] = (_failures[id] ?? 0) + 1;
       return 0;
     }
@@ -379,7 +379,7 @@ class RssController extends ChangeNotifier {
     try {
       await syncFeed(source);
     } catch (e) {
-      error = trf('同步失败：%s', ['$e']);
+      error = trf('rss.sync_failed__arg_0', ['$e']);
     }
     syncing = false;
     syncTarget = null;
@@ -404,7 +404,7 @@ class RssController extends ChangeNotifier {
     error = null;
     syncDone = 0;
     syncTotal = candidates.length;
-    syncTarget = tr('正在同步');
+    syncTarget = tr('rss.syncing');
     notifyListeners();
 
     for (var i = 0; i < candidates.length; i += _syncBatchSize) {
@@ -443,7 +443,7 @@ class RssController extends ChangeNotifier {
     if (!clean.contains('://')) clean = 'https://$clean';
     final existing = await db.feedSourceByUrl(clean);
     if (existing != null) {
-      error = tr('这个订阅源已经添加过了');
+      error = tr('rss.this_feed_is_already_added');
       notifyListeners();
       return null;
     }
@@ -454,7 +454,7 @@ class RssController extends ChangeNotifier {
     );
     final id = await db.insertFeedSource(source);
     if (id == null || id == 0) {
-      error = tr('添加失败，请检查地址');
+      error = tr('device.could_not_add_it_check_the_url');
       notifyListeners();
       return null;
     }

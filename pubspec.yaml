@@ -77,6 +77,8 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
 
+  flutter_launcher_icons: "^0.14.4"
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -89,7 +91,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/en.tsv
     - assets/icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -117,3 +118,21 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+
+
+flutter_launcher_icons:
+  image_path: "assets/icon.png" # 替换为你的源图路径
+  android: true
+  ios: true
+  remove_alpha_ios: true # iOS 不支持透明背景，自动去除 Alpha 通道
+  min_sdk_android: 21
+  web:
+    generate: true
+    background_color: "#FFFFFF" # 按需修改背景色
+    theme_color: "#FFFFFF"
+  windows:
+    generate: true
+    icon_size: 48 # 最小48，最大256
+  macos:
+    generate: true

@@ -41,15 +41,15 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        title: Text(L10n.instance.tr('扫描二维码')),
+        title: Text(L10n.instance.tr('ui.scan_qr_code')),
         actions: [
           IconButton(
-            tooltip: L10n.instance.tr('切换摄像头'),
+            tooltip: L10n.instance.tr('ui.switch_camera'),
             onPressed: _controller.switchCamera,
             icon: const Icon(Icons.cameraswitch_outlined),
           ),
           IconButton(
-            tooltip: L10n.instance.tr('闪光灯'),
+            tooltip: L10n.instance.tr('ui.flash'),
             onPressed: _controller.toggleTorch,
             icon: const Icon(Icons.flash_on_outlined),
           ),
@@ -66,7 +66,7 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(32),
                   child: Text(
-                    trf('无法启动相机：%s', [error.errorDetails?.message ?? error.errorCode.name]),
+                    trf('image.could_not_start_camera__arg_0', [error.errorDetails?.message ?? error.errorCode.name]),
                     textAlign: TextAlign.center,
                     style: const TextStyle(color: Colors.white70),
                   ),
@@ -89,7 +89,7 @@ class _QrScannerScreenState extends State<QrScannerScreen> {
             right: 0,
             bottom: 56,
             child: Text(
-              L10n.instance.tr('将共享二维码放入框内'),
+              L10n.instance.tr('share.place_the_sharing_qr_code_inside_the_frame'),
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.white70, fontSize: 13),
             ),

@@ -1,0 +1,4442 @@
+[
+  {
+    "key": "ui.downloaded",
+    "zh": "· 已下载",
+    "en": "· Downloaded"
+  },
+  {
+    "key": "ui.last_seen",
+    "zh": "· 最后在线",
+    "en": "· Last seen"
+  },
+  {
+    "key": "device.port",
+    "zh": "· 端口",
+    "en": "· Port"
+  },
+  {
+    "key": "device.auto_discovery_off",
+    "zh": "· 自动发现已关闭",
+    "en": "· Auto-discovery off"
+  },
+  {
+    "key": "chat.conversations",
+    "zh": "个会话",
+    "en": "conversations"
+  },
+  {
+    "key": "ui.people",
+    "zh": "人",
+    "en": "people"
+  },
+  {
+    "key": "ui.online",
+    "zh": "人在线",
+    "en": "online"
+  },
+  {
+    "key": "chat.members",
+    "zh": "位成员",
+    "en": "members"
+  },
+  {
+    "key": "chat.members_2",
+    "zh": "位成员",
+    "en": "members"
+  },
+  {
+    "key": "chat.members_owner",
+    "zh": "位成员 · 群主",
+    "en": "members · Owner"
+  },
+  {
+    "key": "device.devices",
+    "zh": "台设备",
+    "en": "devices"
+  },
+  {
+    "key": "ui.online_2",
+    "zh": "在线",
+    "en": "Online"
+  },
+  {
+    "key": "ui.is_busy_using",
+    "zh": "已被占用，改用",
+    "en": "is busy; using"
+  },
+  {
+    "key": "ui.unread",
+    "zh": "条未读",
+    "en": "unread"
+  },
+  {
+    "key": "chat.messages",
+    "zh": "条消息",
+    "en": "messages"
+  },
+  {
+    "key": "ui.results",
+    "zh": "条结果",
+    "en": "results"
+  },
+  {
+    "key": "chat.typing",
+    "zh": "正在输入…",
+    "en": "typing…"
+  },
+  {
+    "key": "chat.was_removed_from_the_group",
+    "zh": "被移出了群聊",
+    "en": "was removed from the group"
+  },
+  {
+    "key": "chat.left_the_group",
+    "zh": "退出了群聊",
+    "en": "left the group"
+  },
+  {
+    "key": "chat.invited_you_to_a_group",
+    "zh": "邀请你加入群聊",
+    "en": "invited you to a group"
+  },
+  {
+    "key": "ui.arg_0___arg_1___arg_2",
+    "zh": "%d年%d月%d日",
+    "en": "%d/%d/%d"
+  },
+  {
+    "key": "ui.arg_0___arg_1",
+    "zh": "%d月%d日",
+    "en": "%d/%d"
+  },
+  {
+    "key": "ui.192_168_1_8_or_192_168_1_8_42224",
+    "zh": "192.168.1.8 或 192.168.1.8:42224",
+    "en": "192.168.1.8 or 192.168.1.8:42224"
+  },
+  {
+    "key": "ui.jan_2",
+    "zh": "1月2日",
+    "en": "Jan 2"
+  },
+  {
+    "key": "device.http_service_port_default_42230",
+    "zh": "HTTP 服务端口，默认 42230",
+    "en": "HTTP service port, default 42230"
+  },
+  {
+    "key": "device.ip_address",
+    "zh": "IP 地址",
+    "en": "IP address"
+  },
+  {
+    "key": "ui.sqlite_database",
+    "zh": "SQLite 数据库",
+    "en": "SQLite database"
+  },
+  {
+    "key": "device.tcp_port_default_42224_restart_the_network_after_changing_it",
+    "zh": "TCP 端口，默认 42224；修改后重启网络生效",
+    "en": "TCP port, default 42224; restart the network after changing it"
+  },
+  {
+    "key": "image.image",
+    "zh": "[图片]",
+    "en": "[Image]"
+  },
+  {
+    "key": "image.image_2",
+    "zh": "[图片]",
+    "en": "[Image]"
+  },
+  {
+    "key": "ui.file",
+    "zh": "[文件]",
+    "en": "[File]"
+  },
+  {
+    "key": "ui.file_2",
+    "zh": "[文件]",
+    "en": "[File]"
+  },
+  {
+    "key": "settings.zchat_settings",
+    "zh": "zchat 设置",
+    "en": "zchat Settings"
+  },
+  {
+    "key": "ui.zchat_project_page",
+    "zh": "zchat 项目主页",
+    "en": "zchat project page"
+  },
+  {
+    "key": "ui.item_1529",
+    "zh": "」吗？",
+    "en": "\"?"
+  },
+  {
+    "key": "chat.chat_history_will_be_kept",
+    "zh": "」吗？聊天记录会保留。",
+    "en": "\"? Chat history will be kept."
+  },
+  {
+    "key": "ui.was_dissolved",
+    "zh": "」已解散",
+    "en": "\" was dissolved"
+  },
+  {
+    "key": "chat.from_the_group",
+    "zh": "」移出群聊吗？",
+    "en": "\" from the group?"
+  },
+  {
+    "key": "device.a_short_bio_shown_on_your_device_card",
+    "zh": "一句介绍，显示在设备卡片里",
+    "en": "A short bio shown on your device card"
+  },
+  {
+    "key": "ui.download",
+    "zh": "下载",
+    "en": "Download"
+  },
+  {
+    "key": "ui.download_failed",
+    "zh": "下载失败：",
+    "en": "Download failed:"
+  },
+  {
+    "key": "share.downloads",
+    "zh": "下载目录",
+    "en": "Downloads"
+  },
+  {
+    "key": "share.download_folder_updated",
+    "zh": "下载目录已更新",
+    "en": "Download folder updated"
+  },
+  {
+    "key": "ui.profile",
+    "zh": "个人资料",
+    "en": "Profile"
+  },
+  {
+    "key": "settings.theme",
+    "zh": "主题",
+    "en": "Theme"
+  },
+  {
+    "key": "ui.today",
+    "zh": "今天",
+    "en": "Today"
+  },
+  {
+    "key": "update.get_updates_from_github_releases",
+    "zh": "从 GitHub Releases 获取更新",
+    "en": "Get updates from GitHub Releases"
+  },
+  {
+    "key": "device.remove_from_device_list",
+    "zh": "从设备列表移除",
+    "en": "Remove from device list"
+  },
+  {
+    "key": "chat.chats",
+    "zh": "会话",
+    "en": "Chats"
+  },
+  {
+    "key": "ui.you",
+    "zh": "你",
+    "en": "You"
+  },
+  {
+    "key": "chat.you_created_group",
+    "zh": "你创建了群聊「",
+    "en": "You created group \""
+  },
+  {
+    "key": "chat.you_joined_group",
+    "zh": "你加入了群聊「",
+    "en": "You joined group \""
+  },
+  {
+    "key": "chat.you_were_removed_from_group",
+    "zh": "你已被移出群聊「",
+    "en": "You were removed from group \""
+  },
+  {
+    "key": "ui.use",
+    "zh": "使用",
+    "en": "Use"
+  },
+  {
+    "key": "ui.e_g_meeting_room_3",
+    "zh": "例如：三号会议室",
+    "en": "e.g. Meeting Room 3"
+  },
+  {
+    "key": "ui.save",
+    "zh": "保存",
+    "en": "Save"
+  },
+  {
+    "key": "ui.save_file",
+    "zh": "保存文件",
+    "en": "Save file"
+  },
+  {
+    "key": "ui.save_profile",
+    "zh": "保存资料",
+    "en": "Save profile"
+  },
+  {
+    "key": "share.stop_sharing",
+    "zh": "停止共享",
+    "en": "Stop sharing"
+  },
+  {
+    "key": "chat.open_a_chat_first",
+    "zh": "先打开一个聊天",
+    "en": "Open a chat first"
+  },
+  {
+    "key": "ui.select_none",
+    "zh": "全不选",
+    "en": "Select none"
+  },
+  {
+    "key": "ui.select_all",
+    "zh": "全选",
+    "en": "Select all"
+  },
+  {
+    "key": "ui.show_all",
+    "zh": "全部显示",
+    "en": "Show All"
+  },
+  {
+    "key": "share.share",
+    "zh": "共享",
+    "en": "Share"
+  },
+  {
+    "key": "share.sharing",
+    "zh": "共享中",
+    "en": "Sharing"
+  },
+  {
+    "key": "share.sharing_is_off",
+    "zh": "共享未开启",
+    "en": "Sharing is off"
+  },
+  {
+    "key": "share.shared_folder",
+    "zh": "共享目录",
+    "en": "Shared folder"
+  },
+  {
+    "key": "share.shared_folder_does_not_exist",
+    "zh": "共享目录不存在",
+    "en": "Shared folder does not exist"
+  },
+  {
+    "key": "share.shared_folder_updated",
+    "zh": "共享目录已更新",
+    "en": "Shared folder updated"
+  },
+  {
+    "key": "share.the_shared_folder_is_read_only_visitors_cannot_upload_or_modify_files_n_nfiles_in_messages_are_sent_through_one_time_links_and_saved_locally_after_the_recipient_downloads_them_n_nlinks_stop_working_when_zchat_closes",
+    "zh": "共享目录是只读的，访客不能上传或修改文件。\\n\\n消息里的文件通过一次性地址发送，收件人下载后才能保存到本地。\\n\\n关闭 zchat 后链接会失效。",
+    "en": "The shared folder is read-only; visitors cannot upload or modify files.\\n\\nFiles in messages are sent through one-time links and saved locally after the recipient downloads them.\\n\\nLinks stop working when zchat closes."
+  },
+  {
+    "key": "share.share_port",
+    "zh": "共享端口",
+    "en": "Share port"
+  },
+  {
+    "key": "system.about",
+    "zh": "关于",
+    "en": "About"
+  },
+  {
+    "key": "system.about_zchat",
+    "zh": "关于 zchat",
+    "en": "About zchat"
+  },
+  {
+    "key": "system.close",
+    "zh": "关闭",
+    "en": "Close"
+  },
+  {
+    "key": "system.close_search",
+    "zh": "关闭搜索",
+    "en": "Close search"
+  },
+  {
+    "key": "chat.keep_receiving_messages_after_closing_the_window_reopen_from_the_menu_bar_or_notification_area",
+    "zh": "关闭窗口后继续接收消息，可从菜单栏或通知区重新打开",
+    "en": "Keep receiving messages after closing the window; reopen from the menu bar or notification area"
+  },
+  {
+    "key": "settings.keep_running_in_the_tray_when_the_window_closes",
+    "zh": "关闭窗口时留在托盘",
+    "en": "Keep running in the tray when the window closes"
+  },
+  {
+    "key": "device.the_name_other_devices_see_on_the_lan",
+    "zh": "其他设备在局域网里看到的名字",
+    "en": "The name other devices see on the LAN"
+  },
+  {
+    "key": "ui.create",
+    "zh": "创建",
+    "en": "Create"
+  },
+  {
+    "key": "ui.delete",
+    "zh": "删除",
+    "en": "Delete"
+  },
+  {
+    "key": "chat.delete_chat",
+    "zh": "删除会话",
+    "en": "Delete chat"
+  },
+  {
+    "key": "chat.delete_current_chat",
+    "zh": "删除当前会话",
+    "en": "Delete current chat"
+  },
+  {
+    "key": "chat.delete_messages_in_all_chats_keeping_chats_profile_and_offline_queue",
+    "zh": "删除所有会话的消息，保留会话、资料和离线队列",
+    "en": "Delete messages in all chats, keeping chats, profile, and offline queue"
+  },
+  {
+    "key": "chat.reclaim_disk_space_after_deleting_chat_history_this_can_take_a_few_seconds_with_many_records",
+    "zh": "删除聊天记录后回收磁盘空间，记录很多时可能需要几秒",
+    "en": "Reclaim disk space after deleting chat history; this can take a few seconds with many records"
+  },
+  {
+    "key": "ui.refresh",
+    "zh": "刷新",
+    "en": "Refresh"
+  },
+  {
+    "key": "system.bring_all_to_front",
+    "zh": "前置全部窗口",
+    "en": "Bring All to Front"
+  },
+  {
+    "key": "ui.cut",
+    "zh": "剪切",
+    "en": "Cut"
+  },
+  {
+    "key": "image.no_image_in_the_clipboard",
+    "zh": "剪贴板里没有图片",
+    "en": "No image in the clipboard"
+  },
+  {
+    "key": "chat.message",
+    "zh": "发消息",
+    "en": "Message"
+  },
+  {
+    "key": "device.discover",
+    "zh": "发现设备",
+    "en": "Discover"
+  },
+  {
+    "key": "ui.send",
+    "zh": "发送",
+    "en": "Send"
+  },
+  {
+    "key": "share.send_share_link",
+    "zh": "发送共享链接",
+    "en": "Send share link"
+  },
+  {
+    "key": "image.send_clipboard_image",
+    "zh": "发送剪贴板图片",
+    "en": "Send clipboard image"
+  },
+  {
+    "key": "image.send_image",
+    "zh": "发送图片",
+    "en": "Send image"
+  },
+  {
+    "key": "ui.send_failed",
+    "zh": "发送失败",
+    "en": "Send failed"
+  },
+  {
+    "key": "ui.send_interrupted",
+    "zh": "发送中断：",
+    "en": "Send interrupted:"
+  },
+  {
+    "key": "ui.waiting_for_the_other_side",
+    "zh": "等待对方接收",
+    "en": "Waiting for the other side"
+  },
+  {
+    "key": "ui.sending",
+    "zh": "发送中",
+    "en": "Sending"
+  },
+  {
+    "key": "ui.send_file",
+    "zh": "发送文件",
+    "en": "Send file"
+  },
+  {
+    "key": "ui.send_file_2",
+    "zh": "发送文件…",
+    "en": "Send file…"
+  },
+  {
+    "key": "chat.send_message",
+    "zh": "发送消息",
+    "en": "Send message"
+  },
+  {
+    "key": "ui.send_link",
+    "zh": "发送链接",
+    "en": "Send link"
+  },
+  {
+    "key": "ui.cancel",
+    "zh": "取消",
+    "en": "Cancel"
+  },
+  {
+    "key": "ui.save_as",
+    "zh": "另存为…",
+    "en": "Save As…"
+  },
+  {
+    "key": "device.only_records_on_this_device_will_be_deleted",
+    "zh": "只会删除这台设备上的记录。",
+    "en": "Only records on this device will be deleted."
+  },
+  {
+    "key": "ui.read_only_access",
+    "zh": "只读访问",
+    "en": "Read-only access"
+  },
+  {
+    "key": "ui.you_can_back_up_zchat_db_in_your_file_manager",
+    "zh": "可以在文件管理器里备份 zchat.db",
+    "en": "You can back up zchat.db in your file manager"
+  },
+  {
+    "key": "ui.optional",
+    "zh": "可选",
+    "en": "Optional"
+  },
+  {
+    "key": "device.devices_running_zchat_on_the_same_lan_appear_automatically",
+    "zh": "同一局域网里运行 zchat 的设备会自动出现",
+    "en": "Devices running zchat on the same LAN appear automatically"
+  },
+  {
+    "key": "ui.name",
+    "zh": "名称",
+    "en": "Name"
+  },
+  {
+    "key": "share.share_automatically_on_startup",
+    "zh": "启动时自动共享",
+    "en": "Share automatically on startup"
+  },
+  {
+    "key": "image.images",
+    "zh": "图片",
+    "en": "Images"
+  },
+  {
+    "key": "share.enable_it_on_the_file_sharing_page_so_visitors_can_browse_this_folder",
+    "zh": "在「文件共享」页面开启后，访客可以浏览这个目录",
+    "en": "Enable it on the File sharing page so visitors can browse this folder"
+  },
+  {
+    "key": "device.open_in_a_browser_on_the_same_lan",
+    "zh": "在同一局域网的浏览器打开",
+    "en": "Open in a browser on the same LAN"
+  },
+  {
+    "key": "update.download_new_versions_in_the_background_they_apply_on_the_next_launch",
+    "zh": "在后台下载新版本，下次打开时生效",
+    "en": "Download new versions in the background; they apply on the next launch"
+  },
+  {
+    "key": "share.open_it_in_a_browser_on_the_lan_to_download_files_from_the_shared_folder",
+    "zh": "在局域网里用浏览器打开，就能下载共享目录里的文件",
+    "en": "Open it in a browser on the LAN to download files from the shared folder"
+  },
+  {
+    "key": "ui.open_on_phone",
+    "zh": "在手机上打开",
+    "en": "Open on phone"
+  },
+  {
+    "key": "ui.show_in_folder",
+    "zh": "在文件夹中显示",
+    "en": "Show in folder"
+  },
+  {
+    "key": "ui.online_3",
+    "zh": "在线",
+    "en": "Online"
+  },
+  {
+    "key": "ui.online_4",
+    "zh": "在线",
+    "en": "Online"
+  },
+  {
+    "key": "device.your_status_is_broadcast_to_connected_devices",
+    "zh": "在线状态会广播给已连接的设备",
+    "en": "Your status is broadcast to connected devices"
+  },
+  {
+    "key": "device.address_unknown",
+    "zh": "地址未知",
+    "en": "Address unknown"
+  },
+  {
+    "key": "ui.alias",
+    "zh": "备注",
+    "en": "Alias"
+  },
+  {
+    "key": "device.aliases_are_stored_only_on_this_device_and_replace_the_device_s_name",
+    "zh": "备注只保存在这台设备上，会替换设备原来的名称。",
+    "en": "Aliases are stored only on this device and replace the device's name."
+  },
+  {
+    "key": "ui.alias_saved",
+    "zh": "备注已保存",
+    "en": "Alias saved"
+  },
+  {
+    "key": "ui.copy",
+    "zh": "复制",
+    "en": "Copy"
+  },
+  {
+    "key": "device.copy_ip_address",
+    "zh": "复制 IP 地址",
+    "en": "Copy IP address"
+  },
+  {
+    "key": "ui.copy_download_link",
+    "zh": "复制下载链接",
+    "en": "Copy download link"
+  },
+  {
+    "key": "ui.copy_text",
+    "zh": "复制文本",
+    "en": "Copy text"
+  },
+  {
+    "key": "ui.copy_bio",
+    "zh": "复制签名",
+    "en": "Copy bio"
+  },
+  {
+    "key": "ui.appearance",
+    "zh": "外观",
+    "en": "Appearance"
+  },
+  {
+    "key": "chat.several_people_are_typing",
+    "zh": "多人正在输入…",
+    "en": "Several people are typing…"
+  },
+  {
+    "key": "ui.avatar",
+    "zh": "头像",
+    "en": "Avatar"
+  },
+  {
+    "key": "device.if_you_cannot_connect_allow_zchat_to_receive_incoming_connections_in_your_firewall_and_make_sure_the_visiting_device_is_on_the_same_subnet",
+    "zh": "如果无法访问，请检查系统防火墙是否允许 zchat 接收入站连接，并确认访问设备和本机在同一个网段。",
+    "en": "If you cannot connect, allow zchat to receive incoming connections in your firewall and make sure the visiting device is on the same subnet."
+  },
+  {
+    "key": "ui.done",
+    "zh": "完成",
+    "en": "Done"
+  },
+  {
+    "key": "ui.tip",
+    "zh": "小提示",
+    "en": "Tip"
+  },
+  {
+    "key": "device.peer_to_peer_on_your_lan_files_transfer_directly_over_tcp",
+    "zh": "局域网内点对点发送 · 文件通过 TCP 直连传输",
+    "en": "Peer-to-peer on your LAN · Files transfer directly over TCP"
+  },
+  {
+    "key": "chat.lan_chat_no_server_involved",
+    "zh": "局域网聊天 · 不经过服务器",
+    "en": "LAN chat · No server involved"
+  },
+  {
+    "key": "chat.lan_chat_guide",
+    "zh": "局域网聊天使用说明",
+    "en": "LAN chat guide"
+  },
+  {
+    "key": "chat.lan_chat_without_a_server",
+    "zh": "局域网聊天，不经过服务器",
+    "en": "LAN chat without a server"
+  },
+  {
+    "key": "ui.saved_to",
+    "zh": "已保存到",
+    "en": "Saved to"
+  },
+  {
+    "key": "ui.stopped",
+    "zh": "已停止",
+    "en": "Stopped"
+  },
+  {
+    "key": "ui.sent",
+    "zh": "已发送",
+    "en": "Sent"
+  },
+  {
+    "key": "ui.copied",
+    "zh": "已复制",
+    "en": "Copied"
+  },
+  {
+    "key": "ui.copied_2",
+    "zh": "已复制",
+    "en": "Copied"
+  },
+  {
+    "key": "ui.download_link_copied",
+    "zh": "已复制下载链接",
+    "en": "Download link copied"
+  },
+  {
+    "key": "ui.bio_copied",
+    "zh": "已复制签名",
+    "en": "Bio copied"
+  },
+  {
+    "key": "ui.link_copied",
+    "zh": "已复制链接",
+    "en": "Link copied"
+  },
+  {
+    "key": "share.shared_folder_cleared",
+    "zh": "已清除共享目录",
+    "en": "Shared folder cleared"
+  },
+  {
+    "key": "ui.read",
+    "zh": "已读",
+    "en": "Read"
+  },
+  {
+    "key": "device.connected_to",
+    "zh": "已连接",
+    "en": "Connected to"
+  },
+  {
+    "key": "chat.you_left_group",
+    "zh": "已退出群聊「",
+    "en": "You left group \""
+  },
+  {
+    "key": "chat.delivered",
+    "zh": "已送达",
+    "en": "Delivered"
+  },
+  {
+    "key": "system.help",
+    "zh": "帮助",
+    "en": "Help"
+  },
+  {
+    "key": "ui.on",
+    "zh": "开启",
+    "en": "On"
+  },
+  {
+    "key": "share.start_sharing",
+    "zh": "开启共享",
+    "en": "Start sharing"
+  },
+  {
+    "key": "device.when_enabled_this_device_serves_a_read_only_page_on_the_lan_that_phones_and_other_computers_can_open",
+    "zh": "开启后，本机会在局域网提供一个只读的网页，手机和其他电脑都能访问。",
+    "en": "When enabled, this device serves a read-only page on the LAN that phones and other computers can open."
+  },
+  {
+    "key": "ui.current_version",
+    "zh": "当前版本",
+    "en": "Current version"
+  },
+  {
+    "key": "ui.busy",
+    "zh": "忙碌",
+    "en": "Busy"
+  },
+  {
+    "key": "chat.members_3",
+    "zh": "成员",
+    "en": "Members"
+  },
+  {
+    "key": "ui.me",
+    "zh": "我",
+    "en": "Me"
+  },
+  {
+    "key": "share.i_shared_a_folder_with_zchat",
+    "zh": "我在 zchat 共享了一个目录：",
+    "en": "I shared a folder with zchat:"
+  },
+  {
+    "key": "ui.my_zchat",
+    "zh": "我的 zchat",
+    "en": "My zchat"
+  },
+  {
+    "key": "ui.me_2",
+    "zh": "我：",
+    "en": "Me:"
+  },
+  {
+    "key": "ui.manual",
+    "zh": "手动",
+    "en": "Manual"
+  },
+  {
+    "key": "ui.open",
+    "zh": "打开",
+    "en": "Open"
+  },
+  {
+    "key": "ui.open_zchat",
+    "zh": "打开 zchat",
+    "en": "Open zchat"
+  },
+  {
+    "key": "share.reopen_the_last_shared_folder_when_zchat_starts",
+    "zh": "打开 zchat 后自动开启上一个共享目录",
+    "en": "Reopen the last shared folder when zchat starts"
+  },
+  {
+    "key": "share.open_sharing",
+    "zh": "打开共享",
+    "en": "Open sharing"
+  },
+  {
+    "key": "ui.open_database_location",
+    "zh": "打开数据库位置",
+    "en": "Open database location"
+  },
+  {
+    "key": "ui.open_the_page_to_browse",
+    "zh": "打开网页即可浏览",
+    "en": "Open the page to browse"
+  },
+  {
+    "key": "device.give_these_addresses_to_devices_that_cannot_auto_discover",
+    "zh": "把这些地址告诉无法自动发现的设备",
+    "en": "Give these addresses to devices that cannot auto-discover"
+  },
+  {
+    "key": "ui.copy_2",
+    "zh": "拷贝",
+    "en": "Copy"
+  },
+  {
+    "key": "chat.search_chats",
+    "zh": "搜索会话",
+    "en": "Search chats"
+  },
+  {
+    "key": "chat.search_chats_or_messages",
+    "zh": "搜索会话或消息",
+    "en": "Search chats or messages"
+  },
+  {
+    "key": "chat.search_chat_history",
+    "zh": "搜索聊天记录",
+    "en": "Search chat history"
+  },
+  {
+    "key": "chat.unsend",
+    "zh": "撤回",
+    "en": "Unsend"
+  },
+  {
+    "key": "chat.unsent_a_message",
+    "zh": "撤回了一条消息",
+    "en": "unsent a message"
+  },
+  {
+    "key": "ui.undo",
+    "zh": "撤销",
+    "en": "Undo"
+  },
+  {
+    "key": "image.cache_received_images_locally_open_the_chat_to_view_them",
+    "zh": "收到图片后自动缓存到本机，打开聊天即可查看",
+    "en": "Cache received images locally; open the chat to view them"
+  },
+  {
+    "key": "ui.database_compacted",
+    "zh": "数据库已整理",
+    "en": "Database compacted"
+  },
+  {
+    "key": "ui.data_folder",
+    "zh": "数据目录",
+    "en": "Data folder"
+  },
+  {
+    "key": "ui.compact",
+    "zh": "整理",
+    "en": "Compact"
+  },
+  {
+    "key": "ui.compaction_failed",
+    "zh": "整理失败：",
+    "en": "Compaction failed:"
+  },
+  {
+    "key": "ui.compact_database",
+    "zh": "整理数据库",
+    "en": "Compact database"
+  },
+  {
+    "key": "ui.files",
+    "zh": "文件",
+    "en": "Files"
+  },
+  {
+    "key": "ui.file_is_missing_or_was_moved",
+    "zh": "文件不存在或已被移动",
+    "en": "File is missing or was moved"
+  },
+  {
+    "key": "image.file_transfer_service_is_not_running_cannot_send_image",
+    "zh": "文件传输服务未启动，无法发送图片",
+    "en": "File transfer service is not running; cannot send image"
+  },
+  {
+    "key": "ui.file_transfer_service_is_not_running_cannot_send_file",
+    "zh": "文件传输服务未启动，无法发送文件",
+    "en": "File transfer service is not running; cannot send file"
+  },
+  {
+    "key": "device.file_transfer_port",
+    "zh": "文件传输端口",
+    "en": "File transfer port"
+  },
+  {
+    "key": "device.file_transfer_port_2",
+    "zh": "文件传输端口",
+    "en": "File transfer port"
+  },
+  {
+    "key": "share.file_sharing",
+    "zh": "文件共享",
+    "en": "File sharing"
+  },
+  {
+    "key": "share.file_sharing_2",
+    "zh": "文件共享…",
+    "en": "File sharing…"
+  },
+  {
+    "key": "share.file_sharing_is_on",
+    "zh": "文件共享已开启",
+    "en": "File sharing is on"
+  },
+  {
+    "key": "share.file_sharing_is_off",
+    "zh": "文件共享还没有开启",
+    "en": "File sharing is off"
+  },
+  {
+    "key": "ui.size_mismatch_received__arg_0__expected__arg_1",
+    "zh": "文件大小不一致：收到 %d，预期 %d",
+    "en": "Size mismatch: received %d, expected %d"
+  },
+  {
+    "key": "ui.files_are_sent_through_this_device_s_http_service_without_any_server",
+    "zh": "文件通过本机 HTTP 服务发送，不经过任何服务器。",
+    "en": "Files are sent through this device's HTTP service, without any server."
+  },
+  {
+    "key": "ui.added",
+    "zh": "新增了",
+    "en": "added"
+  },
+  {
+    "key": "chat.new_group",
+    "zh": "新建群聊",
+    "en": "New group"
+  },
+  {
+    "key": "chat.new_group_2",
+    "zh": "新建群聊…",
+    "en": "New group…"
+  },
+  {
+    "key": "chat.message_notifications",
+    "zh": "新消息通知",
+    "en": "Message notifications"
+  },
+  {
+    "key": "ui.cannot_download_sender_is_offline_or_does_not_support_file_transfer",
+    "zh": "无法下载：发送方离线，或不支持文件传输",
+    "en": "Cannot download: sender is offline or does not support file transfer"
+  },
+  {
+    "key": "ui.could_not_save_to__arg_0___arg_1",
+    "zh": "无法保存到 %s：%v",
+    "en": "Could not save to %s: %v"
+  },
+  {
+    "key": "image.could_not_save_the_pasted_image",
+    "zh": "无法保存粘贴的图片",
+    "en": "Could not save the pasted image"
+  },
+  {
+    "key": "share.could_not_create_download_folder__arg_0___arg_1",
+    "zh": "无法创建下载目录 %s：%v",
+    "en": "Could not create download folder %s: %v"
+  },
+  {
+    "key": "share.could_not_create_download_folder",
+    "zh": "无法创建下载目录：",
+    "en": "Could not create download folder:"
+  },
+  {
+    "key": "ui.could_not_create_cache_folder__arg_0___arg_1",
+    "zh": "无法创建缓存目录 %s：%v",
+    "en": "Could not create cache folder %s: %v"
+  },
+  {
+    "key": "ui.could_not_start_file_transfer_service",
+    "zh": "无法启动文件传输服务：",
+    "en": "Could not start file transfer service:"
+  },
+  {
+    "key": "share.could_not_start_file_sharing",
+    "zh": "无法开启文件共享：",
+    "en": "Could not start file sharing:"
+  },
+  {
+    "key": "ui.could_not_open_data_folder",
+    "zh": "无法打开数据目录：",
+    "en": "Could not open data folder:"
+  },
+  {
+    "key": "ui.could_not_open_file",
+    "zh": "无法打开文件：",
+    "en": "Could not open file:"
+  },
+  {
+    "key": "ui.could_not_open_link",
+    "zh": "无法打开链接：",
+    "en": "Could not open link:"
+  },
+  {
+    "key": "device.could_not_listen_on_port",
+    "zh": "无法监听端口：",
+    "en": "Could not listen on port:"
+  },
+  {
+    "key": "image.could_not_read_image",
+    "zh": "无法读取图片：",
+    "en": "Could not read image:"
+  },
+  {
+    "key": "ui.could_not_read_data",
+    "zh": "无法读取数据：",
+    "en": "Could not read data:"
+  },
+  {
+    "key": "device.could_not_connect",
+    "zh": "无法连接：",
+    "en": "Could not connect:"
+  },
+  {
+    "key": "ui.yesterday",
+    "zh": "昨天",
+    "en": "Yesterday"
+  },
+  {
+    "key": "ui.more",
+    "zh": "更多",
+    "en": "More"
+  },
+  {
+    "key": "update.update",
+    "zh": "更新",
+    "en": "Update"
+  },
+  {
+    "key": "system.minimize",
+    "zh": "最小化",
+    "en": "Minimize"
+  },
+  {
+    "key": "ui.services",
+    "zh": "服务",
+    "en": "Services"
+  },
+  {
+    "key": "chat.unnamed_group",
+    "zh": "未命名群聊",
+    "en": "Unnamed group"
+  },
+  {
+    "key": "chat.unknown_member",
+    "zh": "未知成员",
+    "en": "Unknown member"
+  },
+  {
+    "key": "device.unknown_device",
+    "zh": "未知设备",
+    "en": "Unknown device"
+  },
+  {
+    "key": "device.not_connected_to_a_lan",
+    "zh": "未连接局域网",
+    "en": "Not connected to a LAN"
+  },
+  {
+    "key": "ui.this_device",
+    "zh": "本机",
+    "en": "This device"
+  },
+  {
+    "key": "device.local_address",
+    "zh": "本机地址",
+    "en": "Local address"
+  },
+  {
+    "key": "update.check_for_updates",
+    "zh": "检查更新",
+    "en": "Check for Updates"
+  },
+  {
+    "key": "update.check_for_updates_2",
+    "zh": "检查更新…",
+    "en": "Check for Updates…"
+  },
+  {
+    "key": "ui.downloading",
+    "zh": "正在下载…",
+    "en": "Downloading…"
+  },
+  {
+    "key": "device.connecting_to",
+    "zh": "正在连接",
+    "en": "Connecting to"
+  },
+  {
+    "key": "device.searching_the_lan_again",
+    "zh": "正在重新搜索局域网设备",
+    "en": "Searching the LAN again"
+  },
+  {
+    "key": "update.check_for_updates_once_a_day",
+    "zh": "每天检查一次是否有新版本",
+    "en": "Check for updates once a day"
+  },
+  {
+    "key": "chat.no_other_devices_found_you_can_create_a_group_with_just_yourself_first",
+    "zh": "没有发现其他设备，也可以先创建一个只有自己的群聊。",
+    "en": "No other devices found. You can create a group with just yourself first."
+  },
+  {
+    "key": "device.no_devices_available_to_invite",
+    "zh": "没有可以邀请的设备。",
+    "en": "No devices available to invite."
+  },
+  {
+    "key": "ui.no_files_to_send",
+    "zh": "没有可发送的文件",
+    "en": "No files to send"
+  },
+  {
+    "key": "device.no_usable_lan_address_found",
+    "zh": "没有找到可用的局域网地址。",
+    "en": "No usable LAN address found."
+  },
+  {
+    "key": "ui.light",
+    "zh": "浅色",
+    "en": "Light"
+  },
+  {
+    "key": "chat.messages_2",
+    "zh": "消息",
+    "en": "Messages"
+  },
+  {
+    "key": "chat.mute_chat",
+    "zh": "消息免打扰",
+    "en": "Mute chat"
+  },
+  {
+    "key": "chat.message_unsent",
+    "zh": "消息已撤回",
+    "en": "Message unsent"
+  },
+  {
+    "key": "ui.dark",
+    "zh": "深色",
+    "en": "Dark"
+  },
+  {
+    "key": "ui.add",
+    "zh": "添加",
+    "en": "Add"
+  },
+  {
+    "key": "chat.add_members",
+    "zh": "添加成员",
+    "en": "Add members"
+  },
+  {
+    "key": "chat.add_members_2",
+    "zh": "添加成员…",
+    "en": "Add members…"
+  },
+  {
+    "key": "ui.clear",
+    "zh": "清空…",
+    "en": "Clear…"
+  },
+  {
+    "key": "chat.clear_all_chat_history",
+    "zh": "清空全部聊天记录",
+    "en": "Clear all chat history"
+  },
+  {
+    "key": "chat.clear_chat_history",
+    "zh": "清空聊天记录",
+    "en": "Clear chat history"
+  },
+  {
+    "key": "ui.clear_2",
+    "zh": "清除",
+    "en": "Clear"
+  },
+  {
+    "key": "ui.clear_alias",
+    "zh": "清除备注",
+    "en": "Clear alias"
+  },
+  {
+    "key": "image.click_to_download_image",
+    "zh": "点击下载图片",
+    "en": "Click to download image"
+  },
+  {
+    "key": "ui.status",
+    "zh": "状态",
+    "en": "Status"
+  },
+  {
+    "key": "image.scan_the_qr_code_with_a_camera_or_browser_to_browse_the_shared_folder",
+    "zh": "用相机或浏览器扫描二维码，就能浏览共享目录。",
+    "en": "Scan the QR code with a camera or browser to browse the shared folder."
+  },
+  {
+    "key": "device.listen_port",
+    "zh": "监听端口",
+    "en": "Listen port"
+  },
+  {
+    "key": "ui.ok",
+    "zh": "确定",
+    "en": "OK"
+  },
+  {
+    "key": "ui.delete_2",
+    "zh": "确定删除「",
+    "en": "Delete \""
+  },
+  {
+    "key": "ui.remove",
+    "zh": "确定把「",
+    "en": "Remove \""
+  },
+  {
+    "key": "ui.remove_2",
+    "zh": "确定移除「",
+    "en": "Remove \""
+  },
+  {
+    "key": "ui.away",
+    "zh": "离开",
+    "en": "Away"
+  },
+  {
+    "key": "ui.offline",
+    "zh": "离线",
+    "en": "Offline"
+  },
+  {
+    "key": "chat.remove_member",
+    "zh": "移出成员",
+    "en": "Remove member"
+  },
+  {
+    "key": "chat.remove_from_group",
+    "zh": "移出群聊",
+    "en": "Remove from group"
+  },
+  {
+    "key": "ui.remove_3",
+    "zh": "移除",
+    "en": "Remove"
+  },
+  {
+    "key": "device.remove_device",
+    "zh": "移除设备",
+    "en": "Remove device"
+  },
+  {
+    "key": "system.window",
+    "zh": "窗口",
+    "en": "Window"
+  },
+  {
+    "key": "settings.show_system_notifications_when_the_window_is_in_the_background",
+    "zh": "窗口不在前台时显示系统通知",
+    "en": "Show system notifications when the window is in the background"
+  },
+  {
+    "key": "device.port_2",
+    "zh": "端口",
+    "en": "Port"
+  },
+  {
+    "key": "ui.bio",
+    "zh": "签名",
+    "en": "Bio"
+  },
+  {
+    "key": "ui.paste",
+    "zh": "粘贴",
+    "en": "Paste"
+  },
+  {
+    "key": "ui.edit",
+    "zh": "编辑",
+    "en": "Edit"
+  },
+  {
+    "key": "ui.zoom",
+    "zh": "缩放",
+    "en": "Zoom"
+  },
+  {
+    "key": "network.network",
+    "zh": "网络",
+    "en": "Network"
+  },
+  {
+    "key": "network.network_restarted",
+    "zh": "网络已重启",
+    "en": "Network restarted"
+  },
+  {
+    "key": "settings.network_settings",
+    "zh": "网络设置",
+    "en": "Network settings"
+  },
+  {
+    "key": "chat.pin_chat",
+    "zh": "置顶会话",
+    "en": "Pin chat"
+  },
+  {
+    "key": "chat.owner",
+    "zh": "群主",
+    "en": "Owner"
+  },
+  {
+    "key": "chat.group",
+    "zh": "群聊",
+    "en": "Group"
+  },
+  {
+    "key": "chat.group_2",
+    "zh": "群聊「",
+    "en": "Group \""
+  },
+  {
+    "key": "chat.group_info",
+    "zh": "群聊信息",
+    "en": "Group info"
+  },
+  {
+    "key": "chat.groups_send_only_to_joined_members_messages_reach_each_online_device_separately",
+    "zh": "群聊只在加入的成员之间发送，消息会分别送达每台在线设备。",
+    "en": "Groups send only to joined members; messages reach each online device separately."
+  },
+  {
+    "key": "chat.group_name",
+    "zh": "群聊名称",
+    "en": "Group name"
+  },
+  {
+    "key": "chat.group_renamed_to",
+    "zh": "群聊改名为「",
+    "en": "Group renamed to \""
+  },
+  {
+    "key": "chat.chat",
+    "zh": "聊天",
+    "en": "Chat"
+  },
+  {
+    "key": "chat.chat_history",
+    "zh": "聊天记录",
+    "en": "Chat history"
+  },
+  {
+    "key": "chat.chat_history_cleared",
+    "zh": "聊天记录已清空",
+    "en": "Chat history cleared"
+  },
+  {
+    "key": "chat.chat_attachments_transfer_directly_over_this_tcp_port_default_42225",
+    "zh": "聊天附件通过这个 TCP 端口直连传输，默认 42225",
+    "en": "Chat attachments transfer directly over this TCP port; default 42225"
+  },
+  {
+    "key": "image.auto_download_images",
+    "zh": "自动下载图片",
+    "en": "Auto-download images"
+  },
+  {
+    "key": "settings.download_and_install_automatically",
+    "zh": "自动下载并安装",
+    "en": "Download and install automatically"
+  },
+  {
+    "key": "device.if_discovery_is_blocked_by_the_network_enter_the_other_device_s_ip_address_or_ip_port",
+    "zh": "自动发现被网络屏蔽时，输入对方的 IP 地址或 IP:端口。",
+    "en": "If discovery is blocked by the network, enter the other device's IP address or IP:port."
+  },
+  {
+    "key": "device.discover_devices_automatically",
+    "zh": "自动发现设备",
+    "en": "Discover devices automatically"
+  },
+  {
+    "key": "update.check_for_updates_automatically",
+    "zh": "自动检查更新",
+    "en": "Check for updates automatically"
+  },
+  {
+    "key": "ui.dissolve",
+    "zh": "解散",
+    "en": "Dissolve"
+  },
+  {
+    "key": "chat.dissolve_group",
+    "zh": "解散群聊",
+    "en": "Dissolve group"
+  },
+  {
+    "key": "device.apply_port_file_transfer_or_discovery_changes_now",
+    "zh": "让端口、文件传输或发现设置立即生效",
+    "en": "Apply port, file transfer, or discovery changes now"
+  },
+  {
+    "key": "chat.records_are_indexed_by_chat_and_time_in_zchat_db_in_the_data_folder",
+    "zh": "记录按会话和时间建立索引，保存在数据目录的 zchat.db 中",
+    "en": "Records are indexed by chat and time in zchat.db in the data folder"
+  },
+  {
+    "key": "device.devices_2",
+    "zh": "设备",
+    "en": "Devices"
+  },
+  {
+    "key": "settings.settings",
+    "zh": "设置",
+    "en": "Settings"
+  },
+  {
+    "key": "settings.settings_2",
+    "zh": "设置…",
+    "en": "Settings…"
+  },
+  {
+    "key": "settings.set_alias",
+    "zh": "设置备注",
+    "en": "Set alias"
+  },
+  {
+    "key": "settings.set_alias_2",
+    "zh": "设置备注…",
+    "en": "Set alias…"
+  },
+  {
+    "key": "device.access_address",
+    "zh": "访问地址",
+    "en": "Access address"
+  },
+  {
+    "key": "ui.do_not_disturb",
+    "zh": "请勿打扰",
+    "en": "Do Not Disturb"
+  },
+  {
+    "key": "device.make_sure_the_other_device_also_has_zchat_open_and_both_are_on_the_same_wi_fi_or_lan_nif_the_network_blocks_broadcasts_connect_directly_by_ip_address",
+    "zh": "请确认对方也打开了 zchat，并且两台设备在同一个 Wi-Fi 或局域网内。\\n如果网络屏蔽了广播，可以用 IP 地址直接连接。",
+    "en": "Make sure the other device also has zchat open and both are on the same Wi-Fi or LAN.\\nIf the network blocks broadcasts, connect directly by IP address."
+  },
+  {
+    "key": "chat.your_profile_chat_history_and_file_cache_are_stored_here",
+    "zh": "资料、聊天记录和文件缓存都保存在这里",
+    "en": "Your profile, chat history, and file cache are stored here"
+  },
+  {
+    "key": "ui.profile_saved",
+    "zh": "资料已保存",
+    "en": "Profile saved"
+  },
+  {
+    "key": "chat.messages_older_than_2_minutes_cannot_be_unsent",
+    "zh": "超过 2 分钟的消息不能撤回",
+    "en": "Messages older than 2 minutes cannot be unsent"
+  },
+  {
+    "key": "settings.use_system_setting",
+    "zh": "跟随系统",
+    "en": "Use system setting"
+  },
+  {
+    "key": "settings.follow_the_system_or_fix_light_or_dark_mode",
+    "zh": "跟随系统，或固定浅色、深色",
+    "en": "Follow the system, or fix light or dark mode"
+  },
+  {
+    "key": "chat.type_a_message_enter_sends_shift_enter_adds_a_new_line",
+    "zh": "输入消息，Enter 发送，Shift+Enter 换行",
+    "en": "Type a message; Enter sends, Shift+Enter adds a new line"
+  },
+  {
+    "key": "ui.running",
+    "zh": "运行中",
+    "en": "Running"
+  },
+  {
+    "key": "chat.no_chats_yet_nfind_someone_in_discover_to_start_chatting",
+    "zh": "还没有会话\\n在「发现设备」里找人聊聊",
+    "en": "No chats yet\\nFind someone in Discover to start chatting"
+  },
+  {
+    "key": "device.no_devices_found_yet",
+    "zh": "还没有发现设备",
+    "en": "No devices found yet"
+  },
+  {
+    "key": "chat.no_messages_yet",
+    "zh": "还没有消息",
+    "en": "No messages yet"
+  },
+  {
+    "key": "ui.no_folder_selected_attachments_can_still_be_sent",
+    "zh": "还没有选择目录，附件仍然可以发送",
+    "en": "No folder selected; attachments can still be sent"
+  },
+  {
+    "key": "device.these_settings_only_affect_this_device",
+    "zh": "这些设置只影响这台设备。",
+    "en": "These settings only affect this device."
+  },
+  {
+    "key": "chat.this_deletes_messages_in_every_chat_on_this_device_it_cannot_be_undone",
+    "zh": "这会删除这台设备上所有会话的消息，且无法恢复。",
+    "en": "This deletes messages in every chat on this device. It cannot be undone."
+  },
+  {
+    "key": "device.connect",
+    "zh": "连接",
+    "en": "Connect"
+  },
+  {
+    "key": "device.connection_lost",
+    "zh": "连接已断开",
+    "en": "Connection lost"
+  },
+  {
+    "key": "ui.the_other_side_cancelled",
+    "zh": "对方已取消",
+    "en": "The other side cancelled"
+  },
+  {
+    "key": "system.quit",
+    "zh": "退出",
+    "en": "Quit"
+  },
+  {
+    "key": "system.quit_zchat",
+    "zh": "退出 zchat",
+    "en": "Quit zchat"
+  },
+  {
+    "key": "chat.leave_group",
+    "zh": "退出群聊",
+    "en": "Leave group"
+  },
+  {
+    "key": "chat.leave_group_2",
+    "zh": "退出群聊…",
+    "en": "Leave group…"
+  },
+  {
+    "key": "ui.select",
+    "zh": "选择",
+    "en": "Select"
+  },
+  {
+    "key": "ui.select_2",
+    "zh": "选择…",
+    "en": "Select…"
+  },
+  {
+    "key": "image.choose_an_image_it_is_scaled_down_and_stored_on_this_device",
+    "zh": "选择一张图片，会缩放到小尺寸后保存在本机",
+    "en": "Choose an image; it is scaled down and stored on this device"
+  },
+  {
+    "key": "share.choose_download_folder",
+    "zh": "选择下载目录",
+    "en": "Choose download folder"
+  },
+  {
+    "key": "share.choose_shared_folder",
+    "zh": "选择共享目录",
+    "en": "Choose shared folder"
+  },
+  {
+    "key": "ui.choose_avatar",
+    "zh": "选择头像",
+    "en": "Choose avatar"
+  },
+  {
+    "key": "chat.select_members",
+    "zh": "选择成员",
+    "en": "Select members"
+  },
+  {
+    "key": "ui.choose_folder",
+    "zh": "选择目录…",
+    "en": "Choose folder…"
+  },
+  {
+    "key": "settings.notifications",
+    "zh": "通知",
+    "en": "Notifications"
+  },
+  {
+    "key": "device.connect_by_ip",
+    "zh": "通过 IP 连接",
+    "en": "Connect by IP"
+  },
+  {
+    "key": "device.connect_by_ip_2",
+    "zh": "通过 IP 连接…",
+    "en": "Connect by IP…"
+  },
+  {
+    "key": "device.find_other_zchat_devices_on_the_lan_using_udp_multicast_and_broadcast",
+    "zh": "通过 UDP 组播和广播在局域网里寻找其他 zchat",
+    "en": "Find other zchat devices on the LAN using UDP multicast and broadcast"
+  },
+  {
+    "key": "chat.inviting_someone_sends_them_this_group_s_details",
+    "zh": "邀请后会把自己的群聊信息发送给新成员。",
+    "en": "Inviting someone sends them this group's details."
+  },
+  {
+    "key": "ui.redo",
+    "zh": "重做",
+    "en": "Redo"
+  },
+  {
+    "key": "network.restart_network",
+    "zh": "重启网络",
+    "en": "Restart network"
+  },
+  {
+    "key": "network.restart_network_2",
+    "zh": "重新启动网络",
+    "en": "Restart network"
+  },
+  {
+    "key": "ui.search_again",
+    "zh": "重新搜索",
+    "en": "Search again"
+  },
+  {
+    "key": "system.hide",
+    "zh": "隐藏",
+    "en": "Hide"
+  },
+  {
+    "key": "system.hide_others",
+    "zh": "隐藏其他",
+    "en": "Hide Others"
+  },
+  {
+    "key": "ui.invisible",
+    "zh": "隐身",
+    "en": "Invisible"
+  },
+  {
+    "key": "ui.project_page",
+    "zh": "项目主页",
+    "en": "Project page"
+  },
+  {
+    "key": "ui.last_checked",
+    "zh": "；上次检查：",
+    "en": "; last checked:"
+  },
+  {
+    "key": "settings.language",
+    "zh": "语言",
+    "en": "Language"
+  },
+  {
+    "key": "settings.interface_language_changes_apply_immediately",
+    "zh": "界面语言，切换后立即生效",
+    "en": "Interface language; changes apply immediately"
+  },
+  {
+    "key": "ui.simplified_chinese",
+    "zh": "简体中文",
+    "en": "Simplified Chinese"
+  },
+  {
+    "key": "ui.item",
+    "zh": "」",
+    "en": "\""
+  },
+  {
+    "key": "ui.item_2",
+    "zh": "、",
+    "en": ","
+  },
+  {
+    "key": "chat.leave_group_3",
+    "zh": "确定退出群聊「",
+    "en": "Leave group \""
+  },
+  {
+    "key": "chat.dissolve_group_2",
+    "zh": "确定解散群聊「",
+    "en": "Dissolve group \""
+  },
+  {
+    "key": "ui.user_id",
+    "zh": "用户 ID",
+    "en": "User ID"
+  },
+  {
+    "key": "ui.off",
+    "zh": "未启用",
+    "en": "Off"
+  },
+  {
+    "key": "ui.version",
+    "zh": "版本",
+    "en": "Version"
+  },
+  {
+    "key": "ui.platform",
+    "zh": "平台",
+    "en": "Platform"
+  },
+  {
+    "key": "ui.last_seen_2",
+    "zh": "最后在线",
+    "en": "Last seen"
+  },
+  {
+    "key": "ui.edit_profile",
+    "zh": "编辑资料",
+    "en": "Edit profile"
+  },
+  {
+    "key": "ui.view_profile",
+    "zh": "查看资料",
+    "en": "View profile"
+  },
+  {
+    "key": "ui.item_3",
+    "zh": "：",
+    "en": ":"
+  },
+  {
+    "key": "ui.bad_request",
+    "zh": "请求格式错误",
+    "en": "Bad request"
+  },
+  {
+    "key": "ui.file_is_gone_or_the_sender_restarted",
+    "zh": "文件不存在或发送方已重启",
+    "en": "File is gone or the sender restarted"
+  },
+  {
+    "key": "ui.file_was_moved_or_deleted",
+    "zh": "文件已被移动或删除",
+    "en": "File was moved or deleted"
+  },
+  {
+    "key": "ui.invalid_resume_position",
+    "zh": "续传位置无效",
+    "en": "Invalid resume position"
+  },
+  {
+    "key": "ui.could_not_read_file",
+    "zh": "无法读取文件",
+    "en": "Could not read file"
+  },
+  {
+    "key": "ui.could_not_seek_in_file",
+    "zh": "无法定位文件",
+    "en": "Could not seek in file"
+  },
+  {
+    "key": "ui.could_not_transfer_file",
+    "zh": "无法传输文件",
+    "en": "Could not transfer file"
+  },
+  {
+    "key": "device.zchat_cannot_connect_to_yourself",
+    "zh": "zchat: 不能连接自己",
+    "en": "zchat: cannot connect to yourself"
+  },
+  {
+    "key": "ui.jan_2_2006",
+    "zh": "2006年1月2日",
+    "en": "Jan 2, 2006"
+  },
+  {
+    "key": "share.the_shared_folder_is_served_over_this_device_s_http_service_without_any_server",
+    "zh": "共享目录通过本机 HTTP 服务提供，不经过任何服务器。",
+    "en": "The shared folder is served over this device's HTTP service, without any server."
+  },
+  {
+    "key": "share.the_shared_folder_is_read_only_visitors_cannot_upload_or_modify_files_n_nchat_attachments_are_sent_directly_over_a_separate_tcp_port_and_do_not_depend_on_this_shared_folder_n_nsharing_links_stop_working_when_zchat_closes",
+    "zh": "共享目录是只读的，访客不能上传或修改文件。\\n\\n聊天附件通过独立的 TCP 端口直连发送，不依赖这个共享目录。\\n\\n关闭 zchat 后共享链接会失效。",
+    "en": "The shared folder is read-only; visitors cannot upload or modify files.\\n\\nChat attachments are sent directly over a separate TCP port and do not depend on this shared folder.\\n\\nSharing links stop working when zchat closes."
+  },
+  {
+    "key": "ui.file_is_gone",
+    "zh": "文件已不存在",
+    "en": "File is gone"
+  },
+  {
+    "key": "share.search_in_shared_folder",
+    "zh": "在共享目录中搜索",
+    "en": "Search in shared folder"
+  },
+  {
+    "key": "ui.search",
+    "zh": "搜索",
+    "en": "Search"
+  },
+  {
+    "key": "ui.back",
+    "zh": "返回上一级",
+    "en": "Back"
+  },
+  {
+    "key": "ui.this_folder_is_empty",
+    "zh": "这个目录是空的",
+    "en": "This folder is empty"
+  },
+  {
+    "key": "share.shared_by_zchat_on_the_lan_read_only",
+    "zh": "由 zchat 在局域网共享 · 只读",
+    "en": "Shared by zchat on the LAN · Read-only"
+  },
+  {
+    "key": "share.zchat_file_sharing",
+    "zh": "zchat 文件共享",
+    "en": "zchat File Sharing"
+  },
+  {
+    "key": "share.this_service_is_running_but_no_shared_folder_has_been_selected",
+    "zh": "这个服务正在运行，但还没有选择共享目录。",
+    "en": "This service is running, but no shared folder has been selected."
+  },
+  {
+    "key": "ui.invalid_path",
+    "zh": "无效的路径",
+    "en": "Invalid path"
+  },
+  {
+    "key": "ui.could_not_read_folder",
+    "zh": "无法读取目录",
+    "en": "Could not read folder"
+  },
+  {
+    "key": "ui.folder",
+    "zh": "文件夹",
+    "en": "Folder"
+  },
+  {
+    "key": "ui.arg_0__files",
+    "zh": "%d 个文件",
+    "en": "%d files"
+  },
+  {
+    "key": "ui.search__arg_0___arg_1__results",
+    "zh": "搜索 “%s” · %d 个结果",
+    "en": "Search “%s” · %d results"
+  },
+  {
+    "key": "share.upload_folder",
+    "zh": "上传目录",
+    "en": "Upload folder"
+  },
+  {
+    "key": "share.upload_folder_does_not_exist",
+    "zh": "上传目录不存在",
+    "en": "Upload folder does not exist"
+  },
+  {
+    "key": "share.upload_folder_updated",
+    "zh": "上传目录已更新",
+    "en": "Upload folder updated"
+  },
+  {
+    "key": "share.upload_folder_cleared",
+    "zh": "已清除上传目录",
+    "en": "Upload folder cleared"
+  },
+  {
+    "key": "share.choose_upload_folder",
+    "zh": "选择上传目录",
+    "en": "Choose upload folder"
+  },
+  {
+    "key": "share.browse_and_upload",
+    "zh": "浏览与上传",
+    "en": "Browse and upload"
+  },
+  {
+    "key": "share.uploads_off",
+    "zh": "未开启上传",
+    "en": "Uploads off"
+  },
+  {
+    "key": "share.visitors_can_upload",
+    "zh": "允许访客上传",
+    "en": "Visitors can upload"
+  },
+  {
+    "key": "share.takes_effect_when_sharing_starts",
+    "zh": "开启共享后生效",
+    "en": "Takes effect when sharing starts"
+  },
+  {
+    "key": "share.anyone_on_the_lan_with_the_address_can_upload",
+    "zh": "同一局域网内知道地址的访客都可以上传",
+    "en": "Anyone on the LAN with the address can upload"
+  },
+  {
+    "key": "share.no_upload_folder_selected_visitors_can_only_browse_and_download",
+    "zh": "还没有选择上传目录，访客只能浏览和下载",
+    "en": "No upload folder selected; visitors can only browse and download"
+  },
+  {
+    "key": "share.open_it_in_a_browser_on_the_lan_to_browse_the_shared_folder_and_upload_files",
+    "zh": "在局域网里用浏览器打开，就能浏览共享目录并上传文件",
+    "en": "Open it in a browser on the LAN to browse the shared folder and upload files"
+  },
+  {
+    "key": "device.when_enabled_this_device_serves_a_file_page_on_the_lan_that_phones_and_other_computers_can_open",
+    "zh": "开启后，本机会在局域网提供文件网页，手机和其他电脑都能访问。",
+    "en": "When enabled, this device serves a file page on the LAN that phones and other computers can open."
+  },
+  {
+    "key": "share.the_shared_and_upload_folders_are_served_over_this_device_s_http_service_without_any_server",
+    "zh": "共享目录和上传目录通过本机 HTTP 服务提供，不经过任何服务器。",
+    "en": "The shared and upload folders are served over this device's HTTP service, without any server."
+  },
+  {
+    "key": "share.the_shared_folder_is_read_only_files_visitors_upload_go_to_the_upload_folder_and_do_not_modify_it_n_nchat_attachments_are_sent_directly_over_a_separate_tcp_port_and_do_not_depend_on_this_shared_folder_n_nsharing_links_stop_working_when_zchat_closes",
+    "zh": "共享目录只读；访客上传的文件会保存到「上传目录」，不会修改共享目录。\\n\\n聊天附件通过独立的 TCP 端口直连发送，不依赖这个共享目录。\\n\\n关闭 zchat 后共享链接会失效。",
+    "en": "The shared folder is read-only; files visitors upload go to the upload folder and do not modify it.\\n\\nChat attachments are sent directly over a separate TCP port and do not depend on this shared folder.\\n\\nSharing links stop working when zchat closes."
+  },
+  {
+    "key": "share.open_the_page_to_browse_or_upload",
+    "zh": "打开网页即可浏览或上传",
+    "en": "Open the page to browse or upload"
+  },
+  {
+    "key": "share.after_sharing_is_enabled_on_the_file_sharing_page_visitors_can_upload_files_to_this_folder_from_the_web_page",
+    "zh": "在「文件共享」页面开启后，访客可以通过网页上传文件到这个目录",
+    "en": "After sharing is enabled on the File Sharing page, visitors can upload files to this folder from the web page"
+  },
+  {
+    "key": "share.no_shared_folder_is_set_but_files_can_still_be_uploaded",
+    "zh": "共享目录未设置，但可以上传文件",
+    "en": "No shared folder is set, but files can still be uploaded."
+  },
+  {
+    "key": "share.choose_files_to_upload_to_the_sharer_s_upload_folder",
+    "zh": "选择文件后上传到共享者的上传目录",
+    "en": "Choose files to upload to the sharer's upload folder"
+  },
+  {
+    "key": "share.upload",
+    "zh": "上传",
+    "en": "Upload"
+  },
+  {
+    "key": "share.uploaded__arg_0__file_s",
+    "zh": "已上传 %d 个文件",
+    "en": "Uploaded %d file(s)"
+  },
+  {
+    "key": "ui.file_too_large",
+    "zh": "文件过大",
+    "en": "File too large"
+  },
+  {
+    "key": "ui.could_not_save_the_file",
+    "zh": "无法保存文件",
+    "en": "Could not save the file"
+  },
+  {
+    "key": "ui.no_files_selected",
+    "zh": "没有选择文件",
+    "en": "No files selected"
+  },
+  {
+    "key": "share.shared_by_zchat_on_the_lan",
+    "zh": "由 zchat 在局域网共享",
+    "en": "Shared by zchat on the LAN"
+  },
+  {
+    "key": "share.shared_by_zchat_on_the_lan_uploads_allowed",
+    "zh": "由 zchat 在局域网共享 · 可上传",
+    "en": "Shared by zchat on the LAN · Uploads allowed"
+  },
+  {
+    "key": "image.screenshot",
+    "zh": "截图",
+    "en": "Screenshot"
+  },
+  {
+    "key": "image.screenshot_failed",
+    "zh": "截图失败",
+    "en": "Screenshot failed"
+  },
+  {
+    "key": "image.screenshot_copied_to_the_clipboard",
+    "zh": "截图已复制到剪贴板",
+    "en": "Screenshot copied to the clipboard"
+  },
+  {
+    "key": "image.screenshot_saved",
+    "zh": "截图已保存：",
+    "en": "Screenshot saved:"
+  },
+  {
+    "key": "image.screenshot_folder_updated",
+    "zh": "截图保存目录已更新",
+    "en": "Screenshot folder updated"
+  },
+  {
+    "key": "image.screenshot_shortcut_updated",
+    "zh": "截图快捷键已更新",
+    "en": "Screenshot shortcut updated"
+  },
+  {
+    "key": "image.could_not_register_the_screenshot_shortcut",
+    "zh": "截图快捷键注册失败：",
+    "en": "Could not register the screenshot shortcut:"
+  },
+  {
+    "key": "image.save_screenshot",
+    "zh": "保存截图",
+    "en": "Save screenshot"
+  },
+  {
+    "key": "image.choose_screenshot_folder",
+    "zh": "选择截图保存目录",
+    "en": "Choose screenshot folder"
+  },
+  {
+    "key": "image.could_not_create_the_screenshot",
+    "zh": "无法生成截图",
+    "en": "Could not create the screenshot"
+  },
+  {
+    "key": "image.could_not_copy_the_screenshot",
+    "zh": "无法复制截图：",
+    "en": "Could not copy the screenshot:"
+  },
+  {
+    "key": "image.could_not_save_the_screenshot",
+    "zh": "无法保存截图：",
+    "en": "Could not save the screenshot:"
+  },
+  {
+    "key": "ui.could_not_create_the_save_folder",
+    "zh": "无法创建保存目录：",
+    "en": "Could not create the save folder:"
+  },
+  {
+    "key": "ui.could_not_read_display_information",
+    "zh": "无法读取显示器信息",
+    "en": "Could not read display information"
+  },
+  {
+    "key": "settings.zchat_does_not_have_screen_recording_permission_allow_it_in_system_settings_and_try_again",
+    "zh": "没有屏幕录制权限。请在系统设置中允许 zchat 录制屏幕后重试。",
+    "en": "zchat does not have screen recording permission. Allow it in System Settings and try again."
+  },
+  {
+    "key": "ui.screen_captured_drag_to_select_an_area_then_edit_it",
+    "zh": "已截取屏幕，请拖选区域后编辑",
+    "en": "Screen captured. Drag to select an area, then edit it."
+  },
+  {
+    "key": "ui.drag_to_select_an_area_or_press_esc_to_cancel",
+    "zh": "拖动选择区域，按 Esc 取消",
+    "en": "Drag to select an area, or press Esc to cancel"
+  },
+  {
+    "key": "image.pin",
+    "zh": "贴图",
+    "en": "Pin"
+  },
+  {
+    "key": "ui.save_2",
+    "zh": "保存…",
+    "en": "Save…"
+  },
+  {
+    "key": "ui.opacity",
+    "zh": "不透明度",
+    "en": "Opacity"
+  },
+  {
+    "key": "ui.global_shortcut",
+    "zh": "全局快捷键",
+    "en": "Global shortcut"
+  },
+  {
+    "key": "image.capture_from_any_window_leave_empty_or_enter_off_to_disable",
+    "zh": "在其他窗口前面也能截图；留空或填 off 可关闭",
+    "en": "Capture from any window; leave empty or enter off to disable"
+  },
+  {
+    "key": "ui.apply",
+    "zh": "应用",
+    "en": "Apply"
+  },
+  {
+    "key": "ui.save_folder",
+    "zh": "保存目录",
+    "en": "Save folder"
+  },
+  {
+    "key": "ui.capture_the_mouse_pointer",
+    "zh": "捕获鼠标指针",
+    "en": "Capture the mouse pointer"
+  },
+  {
+    "key": "image.include_the_mouse_pointer_in_the_screenshot",
+    "zh": "截图时把鼠标指针一起截取下来",
+    "en": "Include the mouse pointer in the screenshot"
+  },
+  {
+    "key": "image.take_a_screenshot_now",
+    "zh": "立即截图",
+    "en": "Take a screenshot now"
+  },
+  {
+    "key": "image.select_an_area_to_annotate_copy_save_pin_or_send_it_to_a_chat",
+    "zh": "选择区域后可以标注、复制、保存、贴图或发送到聊天",
+    "en": "Select an area to annotate, copy, save, pin or send it to a chat"
+  },
+  {
+    "key": "image.enable_screenshots",
+    "zh": "启用截图",
+    "en": "Enable screenshots"
+  },
+  {
+    "key": "image.use_screenshots_from_the_chat_toolbar_menus_and_shortcuts",
+    "zh": "在聊天工具栏、菜单和快捷键中使用截图",
+    "en": "Use screenshots from the chat toolbar, menus and shortcuts"
+  },
+  {
+    "key": "ui.save_as_2",
+    "zh": "保存为…",
+    "en": "Save as…"
+  },
+  {
+    "key": "ui.click_through",
+    "zh": "鼠标穿透",
+    "en": "Click-through"
+  },
+  {
+    "key": "image.show_all_pins",
+    "zh": "显示全部贴图",
+    "en": "Show all pins"
+  },
+  {
+    "key": "image.restore_pin_interaction",
+    "zh": "恢复贴图鼠标交互",
+    "en": "Restore pin interaction"
+  },
+  {
+    "key": "image.close_all_pins",
+    "zh": "关闭全部贴图",
+    "en": "Close all pins"
+  },
+  {
+    "key": "image.pins_respond_to_the_mouse_again",
+    "zh": "贴图已恢复鼠标交互",
+    "en": "Pins respond to the mouse again"
+  },
+  {
+    "key": "image.pins_are_now_click_through",
+    "zh": "贴图已开启鼠标穿透",
+    "en": "Pins are now click-through"
+  },
+  {
+    "key": "image.screenshots_and_pins",
+    "zh": "截图与贴图",
+    "en": "Screenshots and pins"
+  },
+  {
+    "key": "image.screenshot_options",
+    "zh": "截图选项",
+    "en": "Screenshot options"
+  },
+  {
+    "key": "image.include_window_in_screenshot",
+    "zh": "显示窗口截图",
+    "en": "Include window in screenshot"
+  },
+  {
+    "key": "image.hide_window_in_screenshot",
+    "zh": "隐藏窗口截图",
+    "en": "Hide window in screenshot"
+  },
+  {
+    "key": "chat.include_the_chat_window_by_default",
+    "zh": "默认包含聊天页面",
+    "en": "Include the chat window by default"
+  },
+  {
+    "key": "image.include_the_current_chat_window_by_default_when_taking_a_screenshot_from_the_chat_toolbar",
+    "zh": "点击聊天工具栏的截图按钮时，默认把当前聊天页面一起截入",
+    "en": "Include the current chat window by default when taking a screenshot from the chat toolbar"
+  },
+  {
+    "key": "chat.include_the_current_chat_window",
+    "zh": "包含当前聊天窗口",
+    "en": "Include the current chat window"
+  },
+  {
+    "key": "chat.do_not_include_the_current_chat_window",
+    "zh": "不包含当前聊天窗口",
+    "en": "Do not include the current chat window"
+  },
+  {
+    "key": "chat.shortcut_with_the_chat_window",
+    "zh": "包含聊天窗口的快捷键",
+    "en": "Shortcut with the chat window"
+  },
+  {
+    "key": "chat.shortcut_without_the_chat_window",
+    "zh": "不包含聊天窗口的快捷键",
+    "en": "Shortcut without the chat window"
+  },
+  {
+    "key": "chat.include_the_chat_window_leave_empty_or_enter_off_to_disable",
+    "zh": "连当前聊天窗口一起截取；留空或填 off 可关闭",
+    "en": "Include the chat window; leave empty or enter off to disable"
+  },
+  {
+    "key": "system.hide_zchat_first_leave_empty_or_enter_off_to_disable",
+    "zh": "先隐藏 zchat 再截取；留空或填 off 可关闭",
+    "en": "Hide zchat first; leave empty or enter off to disable"
+  },
+  {
+    "key": "image.screenshot_2",
+    "zh": "截图…",
+    "en": "Screenshot…"
+  },
+  {
+    "key": "ui.shortcuts",
+    "zh": "快捷键",
+    "en": "Shortcuts"
+  },
+  {
+    "key": "settings.not_set",
+    "zh": "未设置",
+    "en": "Not set"
+  },
+  {
+    "key": "ui.change_status",
+    "zh": "切换状态",
+    "en": "Change status"
+  },
+  {
+    "key": "ui.download_link",
+    "zh": "下载链接",
+    "en": "Download link"
+  },
+  {
+    "key": "update.copy_it_into_a_browser_or_open_the_release_page",
+    "zh": "可以复制到浏览器，或直接打开发布页面。",
+    "en": "Copy it into a browser, or open the release page."
+  },
+  {
+    "key": "ui.copy_link",
+    "zh": "复制链接",
+    "en": "Copy link"
+  },
+  {
+    "key": "update.open_release_page",
+    "zh": "打开发布页面",
+    "en": "Open release page"
+  },
+  {
+    "key": "update.this_build_cannot_update_itself_download_the_new_version_from_the_release_page",
+    "zh": "这个版本无法自动更新，请从发布页面下载新版本。",
+    "en": "This build cannot update itself. Download the new version from the release page."
+  },
+  {
+    "key": "update.manual_update",
+    "zh": "手动更新",
+    "en": "Manual update"
+  },
+  {
+    "key": "image.lan_chat_for_text_images_files_and_shared_folders_with_no_server_in_between",
+    "zh": "局域网聊天工具，支持文字、图片、文件与目录共享，不经过服务器。",
+    "en": "LAN chat for text, images, files and shared folders, with no server in between."
+  },
+  {
+    "key": "ui.invalid_transfer_request",
+    "zh": "传输请求无效",
+    "en": "Invalid transfer request"
+  },
+  {
+    "key": "ui.the_sender_cannot_read_the_file",
+    "zh": "发送方无法读取文件",
+    "en": "The sender cannot read the file"
+  },
+  {
+    "key": "ui.the_sender_is_busy_try_again_later",
+    "zh": "发送方正忙，请稍后再试",
+    "en": "The sender is busy; try again later"
+  },
+  {
+    "key": "ui.file_checksum_mismatch",
+    "zh": "文件校验失败",
+    "en": "File checksum mismatch"
+  },
+  {
+    "key": "ui.the_file_changed_download_it_again",
+    "zh": "文件已发生变化，请重新下载",
+    "en": "The file changed; download it again"
+  },
+  {
+    "key": "ui.the_file_is_gone_or_has_expired",
+    "zh": "文件不存在或已过期",
+    "en": "The file is gone or has expired"
+  },
+  {
+    "key": "ui.keep_the_screen_awake",
+    "zh": "保持屏幕常亮",
+    "en": "Keep the screen awake"
+  },
+  {
+    "key": "settings.prevent_the_screen_from_sleeping_while_the_app_is_in_use",
+    "zh": "在应用使用期间防止屏幕自动熄灭",
+    "en": "Prevent the screen from sleeping while the app is in use"
+  },
+  {
+    "key": "chat.send_to_current_chat",
+    "zh": "发送到当前聊天",
+    "en": "Send to current chat"
+  },
+  {
+    "key": "share.share_2",
+    "zh": "分享",
+    "en": "Share"
+  },
+  {
+    "key": "image.screenshot_saved_2",
+    "zh": "截图已保存",
+    "en": "Screenshot saved"
+  },
+  {
+    "key": "image.could_not_copy_the_screenshot_2",
+    "zh": "无法复制截图",
+    "en": "Could not copy the screenshot"
+  },
+  {
+    "key": "ui.change",
+    "zh": "更改",
+    "en": "Change"
+  },
+  {
+    "key": "ui.sender_busy",
+    "zh": "发送方正忙",
+    "en": "Sender busy"
+  },
+  {
+    "key": "ui.downloaded_2",
+    "zh": "已下载",
+    "en": "Downloaded"
+  },
+  {
+    "key": "ui.open_dchat",
+    "zh": "打开 dchat",
+    "en": "Open dchat"
+  },
+  {
+    "key": "ui.incomplete_receive",
+    "zh": "接收不完整",
+    "en": "Incomplete receive"
+  },
+  {
+    "key": "ui.file_transfer_service_is_not_running",
+    "zh": "文件传输服务未启动：",
+    "en": "File transfer service is not running:"
+  },
+  {
+    "key": "ui.file_size_mismatch_received",
+    "zh": "文件大小不一致：收到",
+    "en": "File size mismatch: received"
+  },
+  {
+    "key": "ui.file_changed",
+    "zh": "文件已改变",
+    "en": "File changed"
+  },
+  {
+    "key": "chat.new_message",
+    "zh": "新消息",
+    "en": "New message"
+  },
+  {
+    "key": "ui.could_not_compact_database",
+    "zh": "无法整理数据库：",
+    "en": "Could not compact database:"
+  },
+  {
+    "key": "image.could_not_read_image_2",
+    "zh": "无法读取图片",
+    "en": "Could not read image"
+  },
+  {
+    "key": "ui.expected",
+    "zh": "，预期",
+    "en": ", expected"
+  },
+  {
+    "key": "device.ip_or_ip_port",
+    "zh": "IP 或 IP:端口",
+    "en": "IP or IP:port"
+  },
+  {
+    "key": "ui.download_open",
+    "zh": "下载 / 打开",
+    "en": "Download / open"
+  },
+  {
+    "key": "ui.download_failed_tap_to_retry",
+    "zh": "下载失败，点按重试",
+    "en": "Download failed, tap to retry"
+  },
+  {
+    "key": "ui.bio_2",
+    "zh": "个性签名",
+    "en": "Bio"
+  },
+  {
+    "key": "device.manual_connection_only",
+    "zh": "仅手动连接",
+    "en": "Manual connection only"
+  },
+  {
+    "key": "ui.remove_from_list",
+    "zh": "从列表移除",
+    "en": "Remove from list"
+  },
+  {
+    "key": "device.remove_this_device_from_the_list",
+    "zh": "从列表移除设备？",
+    "en": "Remove this device from the list?"
+  },
+  {
+    "key": "image.choose_from_library",
+    "zh": "从相册选择",
+    "en": "Choose from library"
+  },
+  {
+    "key": "chat.chat_not_found",
+    "zh": "会话不存在",
+    "en": "Chat not found"
+  },
+  {
+    "key": "chat.chat_info",
+    "zh": "会话信息",
+    "en": "Chat info"
+  },
+  {
+    "key": "device.transfer_port",
+    "zh": "传输端口",
+    "en": "Transfer port"
+  },
+  {
+    "key": "settings.keep_contacts_and_settings",
+    "zh": "保留联系人和设置",
+    "en": "Keep contacts and settings"
+  },
+  {
+    "key": "ui.change_2",
+    "zh": "修改",
+    "en": "Change"
+  },
+  {
+    "key": "device.change_transfer_port",
+    "zh": "修改传输端口",
+    "en": "Change transfer port"
+  },
+  {
+    "key": "share.change_sharing_port",
+    "zh": "修改共享端口",
+    "en": "Change sharing port"
+  },
+  {
+    "key": "ui.edit_name",
+    "zh": "修改名称",
+    "en": "Edit name"
+  },
+  {
+    "key": "ui.edit_alias",
+    "zh": "修改备注",
+    "en": "Edit alias"
+  },
+  {
+    "key": "ui.change_avatar",
+    "zh": "修改头像",
+    "en": "Change avatar"
+  },
+  {
+    "key": "ui.edit_bio",
+    "zh": "修改签名",
+    "en": "Edit bio"
+  },
+  {
+    "key": "ui.rename_group",
+    "zh": "修改群名",
+    "en": "Rename group"
+  },
+  {
+    "key": "chat.change_chat_port",
+    "zh": "修改聊天端口",
+    "en": "Change chat port"
+  },
+  {
+    "key": "system.about_dchat",
+    "zh": "关于 dchat",
+    "en": "About dchat"
+  },
+  {
+    "key": "ui.others_can_browse_and_download_files_here_in_a_browser",
+    "zh": "其他人可以在浏览器中浏览并下载这里的文件。",
+    "en": "Others can browse and download files here in a browser."
+  },
+  {
+    "key": "share.share_file",
+    "zh": "分享文件",
+    "en": "Share file"
+  },
+  {
+    "key": "ui.switch_camera",
+    "zh": "切换摄像头",
+    "en": "Switch camera"
+  },
+  {
+    "key": "chat.new_group_3",
+    "zh": "创建群聊",
+    "en": "New group"
+  },
+  {
+    "key": "chat.delete_chat_2",
+    "zh": "删除会话？",
+    "en": "Delete chat?"
+  },
+  {
+    "key": "chat.delete_this_message",
+    "zh": "删除这条消息？",
+    "en": "Delete this message?"
+  },
+  {
+    "key": "device.refresh_connection",
+    "zh": "刷新连接",
+    "en": "Refresh connection"
+  },
+  {
+    "key": "ui.protocol_version",
+    "zh": "协议版本",
+    "en": "Protocol version"
+  },
+  {
+    "key": "chat.send_to_chat",
+    "zh": "发送到聊天",
+    "en": "Send to chat"
+  },
+  {
+    "key": "chat.unmute",
+    "zh": "取消免打扰",
+    "en": "Unmute"
+  },
+  {
+    "key": "chat.unpin",
+    "zh": "取消置顶",
+    "en": "Unpin"
+  },
+  {
+    "key": "device.devices_online",
+    "zh": "台设备在线",
+    "en": "devices online"
+  },
+  {
+    "key": "device.devices_connected",
+    "zh": "台设备已连接",
+    "en": "devices connected"
+  },
+  {
+    "key": "chat.send_the_first_message_to_the_devices_in_this_group",
+    "zh": "向群里的设备发送第一条消息。",
+    "en": "Send the first message to the devices in this group."
+  },
+  {
+    "key": "chat.reclaim_space_and_optimize_chat_history",
+    "zh": "回收空间并优化聊天记录",
+    "en": "Reclaim space and optimize chat history"
+  },
+  {
+    "key": "image.use_the_screenshot_button_in_the_chat_toolbar",
+    "zh": "在聊天工具栏中使用截图按钮",
+    "en": "Use the screenshot button in the chat toolbar"
+  },
+  {
+    "key": "chat.show_message_content_in_notifications",
+    "zh": "在通知中显示消息内容",
+    "en": "Show message content in notifications"
+  },
+  {
+    "key": "device.address",
+    "zh": "地址",
+    "en": "Address"
+  },
+  {
+    "key": "ui.alias_2",
+    "zh": "备注名称",
+    "en": "Alias"
+  },
+  {
+    "key": "ui.copy_file_link",
+    "zh": "复制文件链接",
+    "en": "Copy file link"
+  },
+  {
+    "key": "device.it_will_reappear_if_the_device_broadcasts_again",
+    "zh": "如果设备再次广播，它会重新出现。",
+    "en": "It will reappear if the device broadcasts again."
+  },
+  {
+    "key": "ui.it_may_have_already_been_deleted",
+    "zh": "它可能已经被删除。",
+    "en": "It may have already been deleted."
+  },
+  {
+    "key": "share.place_the_sharing_qr_code_inside_the_frame",
+    "zh": "将共享二维码放入框内",
+    "en": "Place the sharing QR code inside the frame"
+  },
+  {
+    "key": "device.lan_direct",
+    "zh": "局域网直连",
+    "en": "LAN direct"
+  },
+  {
+    "key": "device.lan_auto_discovery",
+    "zh": "局域网自动发现",
+    "en": "LAN auto-discovery"
+  },
+  {
+    "key": "share.sharing_link_sent",
+    "zh": "已发送共享链接",
+    "en": "Sharing link sent"
+  },
+  {
+    "key": "device.connected",
+    "zh": "已连接",
+    "en": "Connected"
+  },
+  {
+    "key": "share.once_enabled_files_can_be_downloaded_or_uploaded_from_a_browser",
+    "zh": "开启后可通过浏览器下载或上传文件",
+    "en": "Once enabled, files can be downloaded or uploaded from a browser"
+  },
+  {
+    "key": "share.once_enabled_browsers_can_upload_files_to_this_directory",
+    "zh": "开启后，浏览器可以通过上传页面把文件发送到此目录。",
+    "en": "Once enabled, browsers can upload files to this directory."
+  },
+  {
+    "key": "device.enable_auto_discovery",
+    "zh": "开启自动发现",
+    "en": "Enable auto-discovery"
+  },
+  {
+    "key": "chat.start_chatting",
+    "zh": "开始聊天",
+    "en": "Start chatting"
+  },
+  {
+    "key": "ui.my_status",
+    "zh": "我的状态",
+    "en": "My status"
+  },
+  {
+    "key": "chat.all_members_will_be_notified_that_the_group_was_disbanded",
+    "zh": "所有成员都会收到解散通知。",
+    "en": "All members will be notified that the group was disbanded."
+  },
+  {
+    "key": "chat.all_messages_on_this_device_will_be_deleted_and_cannot_be_recovered",
+    "zh": "所有本机消息都会删除，无法恢复。",
+    "en": "All messages on this device will be deleted and cannot be recovered."
+  },
+  {
+    "key": "device.connect_manually",
+    "zh": "手动连接",
+    "en": "Connect manually"
+  },
+  {
+    "key": "chat.open_discover_to_find_contacts_on_your_lan_or_create_a_group_with_the_button_below",
+    "zh": "打开“设备”发现局域网内的联系人，或点击右下角创建群聊。",
+    "en": "Open Discover to find contacts on your LAN, or create a group with the button below."
+  },
+  {
+    "key": "share.automatically_start_file_sharing_when_the_app_opens",
+    "zh": "打开应用后自动开启文件共享",
+    "en": "Automatically start file sharing when the app opens"
+  },
+  {
+    "key": "ui.open_web_page",
+    "zh": "打开网页",
+    "en": "Open web page"
+  },
+  {
+    "key": "image.automatically_fetch_images_when_opening_a_chat",
+    "zh": "打开聊天时自动获取图片",
+    "en": "Automatically fetch images when opening a chat"
+  },
+  {
+    "key": "ui.scan",
+    "zh": "扫描",
+    "en": "Scan"
+  },
+  {
+    "key": "ui.scan_qr_code",
+    "zh": "扫描二维码",
+    "en": "Scan QR code"
+  },
+  {
+    "key": "share.scan_sharing_qr_code",
+    "zh": "扫描共享二维码",
+    "en": "Scan sharing QR code"
+  },
+  {
+    "key": "share.scan_the_qr_code_shown_on_another_device_to_download_files_from_their_sharing_page",
+    "zh": "扫描其他设备展示的二维码，即可在他们的共享页面下载文件。",
+    "en": "Scan the QR code shown on another device to download files from their sharing page."
+  },
+  {
+    "key": "ui.scan_result",
+    "zh": "扫描结果",
+    "en": "Scan result"
+  },
+  {
+    "key": "image.take_photo",
+    "zh": "拍照",
+    "en": "Take photo"
+  },
+  {
+    "key": "device.receive_files_from_other_devices",
+    "zh": "接收其他设备的文件",
+    "en": "Receive files from other devices"
+  },
+  {
+    "key": "ui.tip_2",
+    "zh": "提示",
+    "en": "Tip"
+  },
+  {
+    "key": "chat.search_chats_ctrl_f",
+    "zh": "搜索会话  Ctrl/⌘+F",
+    "en": "Search chats  Ctrl/⌘+F"
+  },
+  {
+    "key": "ui.use_light_vibration_for_actions",
+    "zh": "操作时使用轻微振动",
+    "en": "Use light vibration for actions"
+  },
+  {
+    "key": "chat.show_system_notifications_for_new_messages",
+    "zh": "收到新消息时显示系统通知",
+    "en": "Show system notifications for new messages"
+  },
+  {
+    "key": "ui.rename",
+    "zh": "改名",
+    "en": "Rename"
+  },
+  {
+    "key": "ui.data",
+    "zh": "数据",
+    "en": "Data"
+  },
+  {
+    "key": "ui.database_location",
+    "zh": "数据库位置",
+    "en": "Database location"
+  },
+  {
+    "key": "ui.database_size",
+    "zh": "数据库大小",
+    "en": "Database size"
+  },
+  {
+    "key": "ui.file_transfer_service",
+    "zh": "文件传输服务",
+    "en": "File transfer service"
+  },
+  {
+    "key": "share.file_sharing_is_off_2",
+    "zh": "文件共享已关闭",
+    "en": "File sharing is off"
+  },
+  {
+    "key": "share.file_sharing_service",
+    "zh": "文件共享服务",
+    "en": "File sharing service"
+  },
+  {
+    "key": "image.could_not_save_the_screenshot_2",
+    "zh": "无法保存截图",
+    "en": "Could not save the screenshot"
+  },
+  {
+    "key": "image.could_not_open_image",
+    "zh": "无法打开图片",
+    "en": "Could not open image"
+  },
+  {
+    "key": "chat.no_devices_online_yet_you_can_add_members_later",
+    "zh": "暂无在线设备，可以稍后添加成员",
+    "en": "No devices online yet; you can add members later"
+  },
+  {
+    "key": "settings.service_settings",
+    "zh": "服务设置",
+    "en": "Service settings"
+  },
+  {
+    "key": "ui.unknown",
+    "zh": "未知",
+    "en": "Unknown"
+  },
+  {
+    "key": "ui.not_running",
+    "zh": "未运行",
+    "en": "Not running"
+  },
+  {
+    "key": "device.not_connected",
+    "zh": "未连接",
+    "en": "Not connected"
+  },
+  {
+    "key": "ui.not_selected_transfer_downloads_only",
+    "zh": "未选择（仅提供传输下载）",
+    "en": "Not selected (transfer downloads only)"
+  },
+  {
+    "key": "chat.chats_and_messages_on_this_device_will_be_deleted",
+    "zh": "本机上的会话和消息将被删除。",
+    "en": "Chats and messages on this device will be deleted."
+  },
+  {
+    "key": "chat.messages_on_this_device_will_be_deleted_and_cannot_be_recovered",
+    "zh": "本机上的消息将被删除，无法恢复。",
+    "en": "Messages on this device will be deleted and cannot be recovered."
+  },
+  {
+    "key": "chat.messages_on_this_device_will_be_deleted_the_device_will_remain_in_discover",
+    "zh": "本机上的消息将被删除，设备仍会保留在发现列表。",
+    "en": "Messages on this device will be deleted; the device will remain in Discover."
+  },
+  {
+    "key": "ui.release_to_send_files",
+    "zh": "松开即可发送文件",
+    "en": "Release to send files"
+  },
+  {
+    "key": "ui.desktop",
+    "zh": "桌面",
+    "en": "Desktop"
+  },
+  {
+    "key": "share.sharing_2",
+    "zh": "正在共享",
+    "en": "Sharing"
+  },
+  {
+    "key": "ui.starting",
+    "zh": "正在启动",
+    "en": "Starting"
+  },
+  {
+    "key": "device.connecting",
+    "zh": "正在连接…",
+    "en": "Connecting…"
+  },
+  {
+    "key": "chat.no_matching_chats",
+    "zh": "没有匹配的会话",
+    "en": "No matching chats"
+  },
+  {
+    "key": "device.no_devices_found",
+    "zh": "没有发现设备",
+    "en": "No devices found"
+  },
+  {
+    "key": "device.no_lan_address_available",
+    "zh": "没有可用的局域网地址",
+    "en": "No LAN address available"
+  },
+  {
+    "key": "ui.no_file_link_available",
+    "zh": "没有可用的文件链接",
+    "en": "No file link available"
+  },
+  {
+    "key": "chat.messages_and_files_travel_only_between_devices_on_your_lan_never_through_a_server",
+    "zh": "消息和文件只在局域网设备之间传输，不经过任何服务器。",
+    "en": "Messages and files travel only between devices on your LAN, never through a server."
+  },
+  {
+    "key": "chat.message_actions",
+    "zh": "消息操作",
+    "en": "Message actions"
+  },
+  {
+    "key": "chat.messages_are_sent_directly_over_the_lan_without_a_server",
+    "zh": "消息通过局域网直接发送，不经过服务器。",
+    "en": "Messages are sent directly over the LAN, without a server."
+  },
+  {
+    "key": "ui.add_attachment",
+    "zh": "添加附件",
+    "en": "Add attachment"
+  },
+  {
+    "key": "ui.clear_3",
+    "zh": "清空",
+    "en": "Clear"
+  },
+  {
+    "key": "chat.clear_all_chat_history_2",
+    "zh": "清空所有聊天记录",
+    "en": "Clear all chat history"
+  },
+  {
+    "key": "chat.clear_all_chat_history_3",
+    "zh": "清空所有聊天记录？",
+    "en": "Clear all chat history?"
+  },
+  {
+    "key": "chat.clear_chat_history_2",
+    "zh": "清空聊天记录？",
+    "en": "Clear chat history?"
+  },
+  {
+    "key": "chat.keep_receiving_messages_in_the_background_after_closing",
+    "zh": "点击关闭后继续在后台接收消息",
+    "en": "Keep receiving messages in the background after closing"
+  },
+  {
+    "key": "ui.tap_to_edit_your_profile",
+    "zh": "点击编辑个人信息",
+    "en": "Tap to edit your profile"
+  },
+  {
+    "key": "image.tap_to_download_image",
+    "zh": "点按下载图片",
+    "en": "Tap to download image"
+  },
+  {
+    "key": "ui.directory",
+    "zh": "目录",
+    "en": "Directory"
+  },
+  {
+    "key": "device.make_sure_other_devices_are_on_the_same_lan_and_have_zchat_open",
+    "zh": "确保其他设备连接在同一局域网，并已打开 zchat。",
+    "en": "Make sure other devices are on the same LAN and have zchat open."
+  },
+  {
+    "key": "chat.offline_messages_will_be_sent_after_connecting",
+    "zh": "离线 · 消息将在连接后发送",
+    "en": "Offline · messages will be sent after connecting"
+  },
+  {
+    "key": "ui.remove_4",
+    "zh": "移出",
+    "en": "Remove"
+  },
+  {
+    "key": "ui.remove_avatar",
+    "zh": "移除头像",
+    "en": "Remove avatar"
+  },
+  {
+    "key": "device.port_1024_65535",
+    "zh": "端口（1024 - 65535）",
+    "en": "Port (1024 - 65535)"
+  },
+  {
+    "key": "ui.waiting_for_the_other_side_to_download",
+    "zh": "等待对方下载",
+    "en": "Waiting for the other side to download"
+  },
+  {
+    "key": "image.paste_image",
+    "zh": "粘贴图片",
+    "en": "Paste image"
+  },
+  {
+    "key": "chat.group_members",
+    "zh": "群成员",
+    "en": "Group members"
+  },
+  {
+    "key": "chat.chat_port",
+    "zh": "聊天端口",
+    "en": "Chat port"
+  },
+  {
+    "key": "device.auto_discovery",
+    "zh": "自动发现",
+    "en": "Auto-discovery"
+  },
+  {
+    "key": "device.auto_discovery_off_2",
+    "zh": "自动发现已关闭",
+    "en": "Auto-discovery off"
+  },
+  {
+    "key": "device.auto_discovery_is_off_enable_it_or_connect_manually_by_ip_address",
+    "zh": "自动发现已关闭。可以开启自动发现，或通过 IP 地址手动连接。",
+    "en": "Auto-discovery is off. Enable it or connect manually by IP address."
+  },
+  {
+    "key": "device.auto_discovery_on",
+    "zh": "自动发现已开启",
+    "en": "Auto-discovery on"
+  },
+  {
+    "key": "ui.draft",
+    "zh": "草稿",
+    "en": "Draft"
+  },
+  {
+    "key": "chat.disband_group",
+    "zh": "解散群聊？",
+    "en": "Disband group?"
+  },
+  {
+    "key": "ui.haptic_feedback",
+    "zh": "触感反馈",
+    "en": "Haptic feedback"
+  },
+  {
+    "key": "device.device_info_unavailable",
+    "zh": "设备信息不可用",
+    "en": "Device info unavailable"
+  },
+  {
+    "key": "settings.settings_ctrl",
+    "zh": "设置  Ctrl/⌘+,",
+    "en": "Settings  Ctrl/⌘+,"
+  },
+  {
+    "key": "ui.download_the_file_first",
+    "zh": "请先下载文件",
+    "en": "Download the file first"
+  },
+  {
+    "key": "chat.open_a_chat_first_2",
+    "zh": "请先打开一个聊天",
+    "en": "Open a chat first"
+  },
+  {
+    "key": "device.enter_a_valid_port",
+    "zh": "请输入有效端口",
+    "en": "Enter a valid port"
+  },
+  {
+    "key": "ui.identity_id",
+    "zh": "身份 ID",
+    "en": "Identity ID"
+  },
+  {
+    "key": "chat.no_chats_yet",
+    "zh": "还没有会话",
+    "en": "No chats yet"
+  },
+  {
+    "key": "device.connect_device",
+    "zh": "连接设备",
+    "en": "Connect device"
+  },
+  {
+    "key": "chat.leave_group_4",
+    "zh": "退出群聊？",
+    "en": "Leave group?"
+  },
+  {
+    "key": "image.choose_image",
+    "zh": "选择图片",
+    "en": "Choose image"
+  },
+  {
+    "key": "settings.notification_preview",
+    "zh": "通知内容预览",
+    "en": "Notification preview"
+  },
+  {
+    "key": "device.find_lan_devices_via_udp_broadcast",
+    "zh": "通过 UDP 广播寻找局域网设备",
+    "en": "Find LAN devices via UDP broadcast"
+  },
+  {
+    "key": "device.connect_by_address",
+    "zh": "通过地址连接",
+    "en": "Connect by address"
+  },
+  {
+    "key": "device.restart_discovery",
+    "zh": "重新开始发现",
+    "en": "Restart discovery"
+  },
+  {
+    "key": "ui.flash",
+    "zh": "闪光灯",
+    "en": "Flash"
+  },
+  {
+    "key": "device.nearby_devices",
+    "zh": "附近设备",
+    "en": "Nearby devices"
+  },
+  {
+    "key": "chat.arg_0__is_typing",
+    "zh": "%s 正在输入…",
+    "en": "%s is typing…"
+  },
+  {
+    "key": "chat.arg_0__members",
+    "zh": "%d 位成员",
+    "en": "%d members"
+  },
+  {
+    "key": "ui.arg_0__me",
+    "zh": "%s（我）",
+    "en": "%s (me)"
+  },
+  {
+    "key": "chat.remove__arg_0__from_the_group",
+    "zh": "将 %s 移出群聊？",
+    "en": "Remove %s from the group?"
+  },
+  {
+    "key": "ui.arg_0___arg_1_2",
+    "zh": "%d 月 %d 日",
+    "en": "%d/%d"
+  },
+  {
+    "key": "ui.arg_0___arg_1___arg_2_2",
+    "zh": "%d 年 %d 月 %d 日",
+    "en": "%d/%d/%d"
+  },
+  {
+    "key": "ui.tap_to_open__arg_0",
+    "zh": "点按打开 · %s",
+    "en": "Tap to open · %s"
+  },
+  {
+    "key": "ui.tap_to_download__arg_0",
+    "zh": "点按下载 · %s",
+    "en": "Tap to download · %s"
+  },
+  {
+    "key": "ui.arg_0___arg_1__online",
+    "zh": "%d / %d 在线",
+    "en": "%d / %d online"
+  },
+  {
+    "key": "device.port__arg_0__reachable_on_lan",
+    "zh": "端口 %s · 局域网可访问",
+    "en": "Port %s · reachable on LAN"
+  },
+  {
+    "key": "device.connected_to__arg_0",
+    "zh": "已连接 %s",
+    "en": "Connected to %s"
+  },
+  {
+    "key": "ui.system",
+    "zh": "系统",
+    "en": "System"
+  },
+  {
+    "key": "ui.chinese",
+    "zh": "中文",
+    "en": "Chinese"
+  },
+  {
+    "key": "chat.devices_discover_each_other_over_udp_and_chat_directly_over_tcp_files_never_go_through_the_cloud_if_no_devices_are_found_check_whether_the_system_allows_lan_access",
+    "zh": "设备之间通过 UDP 自动发现，聊天使用 TCP 直连，文件不经过云端。如果无法发现设备，请检查系统是否允许局域网访问。",
+    "en": "Devices discover each other over UDP and chat directly over TCP. Files never go through the cloud. If no devices are found, check whether the system allows LAN access."
+  },
+  {
+    "key": "image.could_not_choose_image__arg_0",
+    "zh": "无法选择图片：%s",
+    "en": "Could not choose image: %s"
+  },
+  {
+    "key": "image.could_not_take_photo__arg_0",
+    "zh": "无法拍照：%s",
+    "en": "Could not take photo: %s"
+  },
+  {
+    "key": "ui.could_not_choose_file__arg_0",
+    "zh": "无法选择文件：%s",
+    "en": "Could not choose file: %s"
+  },
+  {
+    "key": "ui.could_not_open_file__arg_0",
+    "zh": "无法打开文件：%s",
+    "en": "Could not open file: %s"
+  },
+  {
+    "key": "device.could_not_connect__arg_0",
+    "zh": "无法连接：%s",
+    "en": "Could not connect: %s"
+  },
+  {
+    "key": "device.connection_failed__arg_0",
+    "zh": "连接失败：%s",
+    "en": "Connection failed: %s"
+  },
+  {
+    "key": "device.arg_0__port__arg_1",
+    "zh": "%s · 端口 %d",
+    "en": "%s · port %d"
+  },
+  {
+    "key": "image.could_not_start_camera__arg_0",
+    "zh": "无法启动相机：%s",
+    "en": "Could not start camera: %s"
+  },
+  {
+    "key": "ui.could_not_choose_directory__arg_0",
+    "zh": "无法选择目录：%s",
+    "en": "Could not choose directory: %s"
+  },
+  {
+    "key": "ui.could_not_open_directory__arg_0",
+    "zh": "无法打开目录：%s",
+    "en": "Could not open directory: %s"
+  },
+  {
+    "key": "update.could_not_update_avatar__arg_0",
+    "zh": "无法更新头像：%s",
+    "en": "Could not update avatar: %s"
+  },
+  {
+    "key": "ui.download_apk",
+    "zh": "下载 APK",
+    "en": "Download APK"
+  },
+  {
+    "key": "update.download_package",
+    "zh": "下载安装包",
+    "en": "Download package"
+  },
+  {
+    "key": "ui.download_complete",
+    "zh": "下载完成",
+    "en": "Download complete"
+  },
+  {
+    "key": "share.download_share",
+    "zh": "下载并分享",
+    "en": "Download & share"
+  },
+  {
+    "key": "ui.release_date",
+    "zh": "发布日期",
+    "en": "Release date"
+  },
+  {
+    "key": "update.new_version_available",
+    "zh": "发现新版本",
+    "en": "New version available"
+  },
+  {
+    "key": "update.new_version_available__arg_0",
+    "zh": "发现新版本 %s",
+    "en": "New version available: %s"
+  },
+  {
+    "key": "ui.open_in_browser",
+    "zh": "在浏览器中打开",
+    "en": "Open in browser"
+  },
+  {
+    "key": "update.package",
+    "zh": "安装包",
+    "en": "Package"
+  },
+  {
+    "key": "update.package_size",
+    "zh": "安装包大小",
+    "en": "Package size"
+  },
+  {
+    "key": "share.the_package_has_been_saved_you_can_open_or_share_it_directly",
+    "zh": "安装包已保存，可以直接打开或分享。",
+    "en": "The package has been saved. You can open or share it directly."
+  },
+  {
+    "key": "update.you_re_up_to_date",
+    "zh": "已是最新版本",
+    "en": "You're up to date"
+  },
+  {
+    "key": "ui.current_version_2",
+    "zh": "当前版本",
+    "en": "Current version"
+  },
+  {
+    "key": "ui.current_version__arg_0",
+    "zh": "当前版本：%s",
+    "en": "Current version: %s"
+  },
+  {
+    "key": "update.no_release_notes",
+    "zh": "暂无更新说明",
+    "en": "No release notes"
+  },
+  {
+    "key": "update.release_notes",
+    "zh": "更新说明",
+    "en": "Release notes"
+  },
+  {
+    "key": "update.latest_version",
+    "zh": "最新版本",
+    "en": "Latest version"
+  },
+  {
+    "key": "update.no_package_is_available_for_this_platform_download_it_manually_from_the_release_page",
+    "zh": "未找到适用于当前平台的安装包，可在发布页面手动下载。",
+    "en": "No package is available for this platform. Download it manually from the release page."
+  },
+  {
+    "key": "update.update_check_failed",
+    "zh": "检查更新失败",
+    "en": "Update check failed"
+  },
+  {
+    "key": "update.downloading_package",
+    "zh": "正在下载安装包…",
+    "en": "Downloading package…"
+  },
+  {
+    "key": "update.checking_for_updates",
+    "zh": "正在检查更新…",
+    "en": "Checking for updates…"
+  },
+  {
+    "key": "update.check_for_updates_to_fetch_the_latest_release_information_from_the_server",
+    "zh": "点击检查更新，从发布服务器获取最新版本信息。",
+    "en": "Check for updates to fetch the latest release information from the server."
+  },
+  {
+    "key": "update.version_update",
+    "zh": "版本更新",
+    "en": "Version update"
+  },
+  {
+    "key": "ui.later",
+    "zh": "稍后",
+    "en": "Later"
+  },
+  {
+    "key": "ui.please_try_again_later",
+    "zh": "请稍后重试",
+    "en": "Please try again later"
+  },
+  {
+    "key": "ui.check_again",
+    "zh": "重新检查",
+    "en": "Check again"
+  },
+  {
+    "key": "ui.retry",
+    "zh": "重试",
+    "en": "Retry"
+  },
+  {
+    "key": "ui.no_download_link_available",
+    "zh": "没有可用的下载链接",
+    "en": "No download link available"
+  },
+  {
+    "key": "share.share_package",
+    "zh": "分享安装包",
+    "en": "Share package"
+  },
+  {
+    "key": "update.open_package",
+    "zh": "打开安装包",
+    "en": "Open package"
+  },
+  {
+    "key": "update.the_package_has_not_been_downloaded_yet",
+    "zh": "安装包尚未下载",
+    "en": "The package has not been downloaded yet"
+  },
+  {
+    "key": "ui.could_not_open_the_browser",
+    "zh": "无法打开浏览器",
+    "en": "Could not open the browser"
+  },
+  {
+    "key": "update.update_check_timed_out_please_try_again_later",
+    "zh": "检查更新超时，请稍后重试",
+    "en": "Update check timed out. Please try again later"
+  },
+  {
+    "key": "update.could_not_connect_to_the_update_server_check_your_network",
+    "zh": "无法连接更新服务器，请检查网络",
+    "en": "Could not connect to the update server. Check your network"
+  },
+  {
+    "key": "update.the_update_server_returned_an_invalid_response",
+    "zh": "更新服务器返回了无效的响应",
+    "en": "The update server returned an invalid response"
+  },
+  {
+    "key": "update.could_not_parse_the_update_server_json",
+    "zh": "更新接口返回的 JSON 无法解析",
+    "en": "Could not parse the update server JSON"
+  },
+  {
+    "key": "ui.download_timed_out_please_try_again_later",
+    "zh": "下载超时，请稍后重试",
+    "en": "Download timed out. Please try again later"
+  },
+  {
+    "key": "device.download_failed_check_your_network_connection",
+    "zh": "下载失败，请检查网络连接",
+    "en": "Download failed. Check your network connection"
+  },
+  {
+    "key": "update.could_not_open_the_package",
+    "zh": "无法打开安装包",
+    "en": "Could not open the package"
+  },
+  {
+    "key": "ui.github_api_rate_limit_reached_try_again_later_or_open_the_release_page_in_a_browser",
+    "zh": "GitHub API 访问频率受限，请稍后重试或使用浏览器打开",
+    "en": "GitHub API rate limit reached. Try again later or open the release page in a browser"
+  },
+  {
+    "key": "ui.no_release_found",
+    "zh": "没有找到发布版本",
+    "en": "No release found"
+  },
+  {
+    "key": "update.the_update_api_returned_an_empty_release_list",
+    "zh": "更新接口返回了空的版本列表",
+    "en": "The update API returned an empty release list"
+  },
+  {
+    "key": "update.the_update_api_returned_an_unexpected_data_format",
+    "zh": "更新接口返回的数据格式不正确",
+    "en": "The update API returned an unexpected data format"
+  },
+  {
+    "key": "update.the_update_api_response_is_missing_a_version_number",
+    "zh": "更新接口缺少版本号",
+    "en": "The update API response is missing a version number"
+  },
+  {
+    "key": "ui.retry_download",
+    "zh": "重试下载",
+    "en": "Retry download"
+  },
+  {
+    "key": "ui.arg_0__items",
+    "zh": "%d 个",
+    "en": "%d items"
+  },
+  {
+    "key": "rss.arg_0__feeds",
+    "zh": "%d 个订阅",
+    "en": "%d feeds"
+  },
+  {
+    "key": "ui.arg_0__min_ago",
+    "zh": "%d 分钟前",
+    "en": "%d min ago"
+  },
+  {
+    "key": "ui.arg_0__days_ago",
+    "zh": "%d 天前",
+    "en": "%d days ago"
+  },
+  {
+    "key": "ui.arg_0__hr_ago",
+    "zh": "%d 小时前",
+    "en": "%d hr ago"
+  },
+  {
+    "key": "ui.arg_0__unread",
+    "zh": "%d 未读",
+    "en": "%d unread"
+  },
+  {
+    "key": "ui.arg_0___arg_1___arg_2_3",
+    "zh": "%s · %d/%d",
+    "en": "%s · %d/%d"
+  },
+  {
+    "key": "ui.untitled",
+    "zh": "(无标题)",
+    "en": "(Untitled)"
+  },
+  {
+    "key": "ui.1_hour",
+    "zh": "1 小时",
+    "en": "1 hour"
+  },
+  {
+    "key": "ui.10_min",
+    "zh": "10 分钟",
+    "en": "10 min"
+  },
+  {
+    "key": "ui.180_days",
+    "zh": "180 天",
+    "en": "180 days"
+  },
+  {
+    "key": "ui.30_min",
+    "zh": "30 分钟",
+    "en": "30 min"
+  },
+  {
+    "key": "ui.30_days",
+    "zh": "30 天",
+    "en": "30 days"
+  },
+  {
+    "key": "ui.6_hours",
+    "zh": "6 小时",
+    "en": "6 hours"
+  },
+  {
+    "key": "ui.90_days",
+    "zh": "90 天",
+    "en": "90 days"
+  },
+  {
+    "key": "rss.feed_url",
+    "zh": "RSS 地址",
+    "en": "Feed URL"
+  },
+  {
+    "key": "rss.folders_with__arg_0",
+    "zh": "「%s」所在收藏夹",
+    "en": "Folders with “%s”"
+  },
+  {
+    "key": "rss.last_sync_failed",
+    "zh": "上次同步失败",
+    "en": "Last sync failed"
+  },
+  {
+    "key": "ui.last_backup",
+    "zh": "上次备份",
+    "en": "Last backup"
+  },
+  {
+    "key": "ui.pull_to_refresh_or_use_the_refresh_button_above",
+    "zh": "下拉或点右上角刷新即可抓取最新内容。",
+    "en": "Pull to refresh, or use the refresh button above."
+  },
+  {
+    "key": "ui.keep_all",
+    "zh": "不限",
+    "en": "Keep all"
+  },
+  {
+    "key": "ui.never",
+    "zh": "从未备份",
+    "en": "Never"
+  },
+  {
+    "key": "rss.deletes_every_saved_article_the_next_sync_fetches_them_again",
+    "zh": "会删除所有本地文章，下次同步会重新抓取。",
+    "en": "Deletes every saved article; the next sync fetches them again."
+  },
+  {
+    "key": "ui.keep_the_last_30_days",
+    "zh": "保留最近 30 天",
+    "en": "Keep the last 30 days"
+  },
+  {
+    "key": "ui.keep_the_last_7_days",
+    "zh": "保留最近 7 天",
+    "en": "Keep the last 7 days"
+  },
+  {
+    "key": "rss.stream",
+    "zh": "信息流",
+    "en": "Stream"
+  },
+  {
+    "key": "ui.all",
+    "zh": "全部",
+    "en": "All"
+  },
+  {
+    "key": "ui.everything",
+    "zh": "全部动态",
+    "en": "Everything"
+  },
+  {
+    "key": "rss.sync_all",
+    "zh": "全部同步",
+    "en": "Sync all"
+  },
+  {
+    "key": "ui.all_read",
+    "zh": "全部已读",
+    "en": "All read"
+  },
+  {
+    "key": "ui.mark_everything_read",
+    "zh": "全部标记已读",
+    "en": "Mark everything read"
+  },
+  {
+    "key": "ui.clear_all",
+    "zh": "全部清空",
+    "en": "Clear all"
+  },
+  {
+    "key": "system.when_off_older_articles_come_first",
+    "zh": "关闭后按发布时间从旧到新排列",
+    "en": "When off, older articles come first"
+  },
+  {
+    "key": "ui.could_not_write__arg_0",
+    "zh": "写入失败：%s",
+    "en": "Could not write: %s"
+  },
+  {
+    "key": "ui.just_now",
+    "zh": "刚刚",
+    "en": "Just now"
+  },
+  {
+    "key": "rss.removing__arg_0__keeps_its_feeds",
+    "zh": "删除「%s」不会移除其中的订阅源。",
+    "en": "Removing “%s” keeps its feeds."
+  },
+  {
+    "key": "rss.it_only_comes_back_after_the_next_sync",
+    "zh": "删除后需要从订阅源重新抓取才会回来。",
+    "en": "It only comes back after the next sync."
+  },
+  {
+    "key": "rss.delete_folder",
+    "zh": "删除收藏夹",
+    "en": "Delete folder"
+  },
+  {
+    "key": "rss.delete_article",
+    "zh": "删除文章",
+    "en": "Delete article"
+  },
+  {
+    "key": "rss.add_to_folder",
+    "zh": "加入收藏夹",
+    "en": "Add to folder"
+  },
+  {
+    "key": "ui.load_more",
+    "zh": "加载更多",
+    "en": "Load more"
+  },
+  {
+    "key": "rss.unstar",
+    "zh": "取消收藏",
+    "en": "Unstar"
+  },
+  {
+    "key": "rss.unsubscribe",
+    "zh": "取消订阅",
+    "en": "Unsubscribe"
+  },
+  {
+    "key": "rss.deletes_synced_articles_but_keeps_the_subscription",
+    "zh": "只删除本地已抓取的文章，订阅关系保留。",
+    "en": "Deletes synced articles but keeps the subscription."
+  },
+  {
+    "key": "rss.sync_all_feeds",
+    "zh": "同步全部订阅",
+    "en": "Sync all feeds"
+  },
+  {
+    "key": "rss.write_an_opml_copy_to_the_backup_folder_after_each_sync",
+    "zh": "同步后导出一份 OPML 到本机备份目录",
+    "en": "Write an OPML copy to the backup folder after each sync"
+  },
+  {
+    "key": "rss.sync_failed__arg_0",
+    "zh": "同步失败：%s",
+    "en": "Sync failed: %s"
+  },
+  {
+    "key": "rss.sync_again_to_pick_up_new_articles",
+    "zh": "同步新文章后即可继续阅读。",
+    "en": "Sync again to pick up new articles."
+  },
+  {
+    "key": "rss.sync_interval",
+    "zh": "同步间隔",
+    "en": "Sync interval"
+  },
+  {
+    "key": "ui.name_optional",
+    "zh": "名称（可选）",
+    "en": "Name (optional)"
+  },
+  {
+    "key": "rss.long_press_an_article_and_choose_star_to_keep_it_here",
+    "zh": "在文章卡片上长按，选择收藏即可留存在这里。",
+    "en": "Long-press an article and choose Star to keep it here."
+  },
+  {
+    "key": "ui.open_in_browser_2",
+    "zh": "在浏览器打开",
+    "en": "Open in browser"
+  },
+  {
+    "key": "ui.backup_written_to_your_device",
+    "zh": "备份已写入本地目录",
+    "en": "Backup written to your device"
+  },
+  {
+    "key": "ui.large",
+    "zh": "大",
+    "en": "Large"
+  },
+  {
+    "key": "ui.type_and_display",
+    "zh": "字号与显示",
+    "en": "Type and display"
+  },
+  {
+    "key": "ui.wide",
+    "zh": "宽",
+    "en": "Wide"
+  },
+  {
+    "key": "ui.import_csv",
+    "zh": "导入 CSV",
+    "en": "Import CSV"
+  },
+  {
+    "key": "rss.import_opml",
+    "zh": "导入 OPML",
+    "en": "Import OPML"
+  },
+  {
+    "key": "ui.export_csv",
+    "zh": "导出 CSV",
+    "en": "Export CSV"
+  },
+  {
+    "key": "rss.export_opml",
+    "zh": "导出 OPML",
+    "en": "Export OPML"
+  },
+  {
+    "key": "rss.export_feeds",
+    "zh": "导出订阅源",
+    "en": "Export feeds"
+  },
+  {
+    "key": "ui.small",
+    "zh": "小",
+    "en": "Small"
+  },
+  {
+    "key": "rss.unsubscribed",
+    "zh": "已取消订阅",
+    "en": "Unsubscribed"
+  },
+  {
+    "key": "ui.exported_to",
+    "zh": "已导出到",
+    "en": "Exported to"
+  },
+  {
+    "key": "rss.starred",
+    "zh": "已收藏",
+    "en": "Starred"
+  },
+  {
+    "key": "ui.added__arg_0",
+    "zh": "已添加「%s」",
+    "en": "Added “%s”"
+  },
+  {
+    "key": "ui.removed__arg_0__articles",
+    "zh": "已清理 %d 条",
+    "en": "Removed %d articles"
+  },
+  {
+    "key": "ui.that_s_everything",
+    "zh": "已经到底了",
+    "en": "That's everything"
+  },
+  {
+    "key": "ui.to_read",
+    "zh": "待读",
+    "en": "To read"
+  },
+  {
+    "key": "rss.resume_syncing",
+    "zh": "恢复同步",
+    "en": "Resume syncing"
+  },
+  {
+    "key": "ui.mark_read_on_open",
+    "zh": "打开即标记已读",
+    "en": "Mark read on open"
+  },
+  {
+    "key": "ui.mark__arg_0__unread_articles_as_read",
+    "zh": "把 %d 条未读全部标为已读？",
+    "en": "Mark %d unread articles as read?"
+  },
+  {
+    "key": "rss.save_current_subscriptions_as_opml",
+    "zh": "把当前订阅导出为 OPML",
+    "en": "Save current subscriptions as OPML"
+  },
+  {
+    "key": "rss.fetch_every_feed_on_a_fixed_schedule",
+    "zh": "按固定间隔抓取全部订阅源",
+    "en": "Fetch every feed on a fixed schedule"
+  },
+  {
+    "key": "ui.search__arg_0",
+    "zh": "搜索「%s」",
+    "en": "Search “%s”"
+  },
+  {
+    "key": "rss.search_saved_articles",
+    "zh": "搜索本地文章",
+    "en": "Search saved articles"
+  },
+  {
+    "key": "ui.search_titles_and_text",
+    "zh": "搜索标题与正文",
+    "en": "Search titles and text"
+  },
+  {
+    "key": "rss.search_covers_articles_already_on_this_device",
+    "zh": "搜索范围是本地已经抓取过的文章。",
+    "en": "Search covers articles already on this device."
+  },
+  {
+    "key": "rss.star",
+    "zh": "收藏",
+    "en": "Star"
+  },
+  {
+    "key": "rss.folders",
+    "zh": "收藏夹",
+    "en": "Folders"
+  },
+  {
+    "key": "rss.folder_actions",
+    "zh": "收藏夹操作",
+    "en": "Folder actions"
+  },
+  {
+    "key": "rss.keep_articles",
+    "zh": "文章保留",
+    "en": "Keep articles"
+  },
+  {
+    "key": "rss.added__arg_0__feeds_and__arg_1__folders",
+    "zh": "新增 %d 个订阅、%d 个收藏夹",
+    "en": "Added %d feeds and %d folders"
+  },
+  {
+    "key": "ui.new",
+    "zh": "新建",
+    "en": "New"
+  },
+  {
+    "key": "rss.new_folder",
+    "zh": "新建收藏夹",
+    "en": "New folder"
+  },
+  {
+    "key": "ui.no_unread",
+    "zh": "无未读",
+    "en": "No unread"
+  },
+  {
+    "key": "rss.could_not_parse_the_feed",
+    "zh": "无法解析订阅内容",
+    "en": "Could not parse the feed"
+  },
+  {
+    "key": "image.show_images",
+    "zh": "显示图片",
+    "en": "Show images"
+  },
+  {
+    "key": "rss.pause_syncing",
+    "zh": "暂停同步",
+    "en": "Pause syncing"
+  },
+  {
+    "key": "rss.newest_first",
+    "zh": "最新文章优先",
+    "en": "Newest first"
+  },
+  {
+    "key": "ui.unread_2",
+    "zh": "未读",
+    "en": "Unread"
+  },
+  {
+    "key": "ui.regular",
+    "zh": "标准",
+    "en": "Regular"
+  },
+  {
+    "key": "ui.mark_unread",
+    "zh": "标记为未读",
+    "en": "Mark unread"
+  },
+  {
+    "key": "ui.format",
+    "zh": "格式",
+    "en": "Format"
+  },
+  {
+    "key": "rss.syncing",
+    "zh": "正在同步",
+    "en": "Syncing"
+  },
+  {
+    "key": "ui.fetching",
+    "zh": "正在抓取",
+    "en": "Fetching"
+  },
+  {
+    "key": "ui.article",
+    "zh": "正文",
+    "en": "Article"
+  },
+  {
+    "key": "ui.text_size",
+    "zh": "正文字号",
+    "en": "Text size"
+  },
+  {
+    "key": "ui.column_width",
+    "zh": "正文宽度",
+    "en": "Column width"
+  },
+  {
+    "key": "ui.no_source_link_available",
+    "zh": "没有可用的原文链接",
+    "en": "No source link available"
+  },
+  {
+    "key": "ui.nothing_found",
+    "zh": "没有找到相关内容",
+    "en": "Nothing found"
+  },
+  {
+    "key": "rss.add_an_rss_or_atom_url_everything_stays_on_this_device",
+    "zh": "添加一个 RSS 或 Atom 地址，内容只保存在这台设备上。",
+    "en": "Add an RSS or Atom URL. Everything stays on this device."
+  },
+  {
+    "key": "device.could_not_add_it_check_the_url",
+    "zh": "添加失败，请检查地址",
+    "en": "Could not add it. Check the URL."
+  },
+  {
+    "key": "rss.add_and_subscribe",
+    "zh": "添加并订阅",
+    "en": "Add and subscribe"
+  },
+  {
+    "key": "rss.add_feed",
+    "zh": "添加订阅",
+    "en": "Add feed"
+  },
+  {
+    "key": "rss.add_a_feed",
+    "zh": "添加订阅源",
+    "en": "Add a feed"
+  },
+  {
+    "key": "rss.clean_up_articles",
+    "zh": "清理历史文章",
+    "en": "Clean up articles"
+  },
+  {
+    "key": "rss.clear_articles",
+    "zh": "清空文章",
+    "en": "Clear articles"
+  },
+  {
+    "key": "rss.use_refresh_above_or_long_press_a_feed_card_to_sync_it_alone",
+    "zh": "点右上角刷新，或长按订阅卡片单独同步某个源。",
+    "en": "Use refresh above, or long-press a feed card to sync it alone."
+  },
+  {
+    "key": "ui.huge",
+    "zh": "特大",
+    "en": "Huge"
+  },
+  {
+    "key": "ui.narrow",
+    "zh": "窄",
+    "en": "Narrow"
+  },
+  {
+    "key": "rss.sync_now",
+    "zh": "立即同步",
+    "en": "Sync now"
+  },
+  {
+    "key": "rss.back_up_now",
+    "zh": "立即备份订阅",
+    "en": "Back up now"
+  },
+  {
+    "key": "device.site_url_optional",
+    "zh": "站点地址（可选）",
+    "en": "Site URL (optional)"
+  },
+  {
+    "key": "ui.manage__arg_0",
+    "zh": "管理「%s」",
+    "en": "Manage “%s”"
+  },
+  {
+    "key": "chat.manage_feeds",
+    "zh": "管理成员",
+    "en": "Manage feeds"
+  },
+  {
+    "key": "rss.edit_feed",
+    "zh": "编辑订阅源",
+    "en": "Edit feed"
+  },
+  {
+    "key": "rss.auto_sync",
+    "zh": "自动同步",
+    "en": "Auto sync"
+  },
+  {
+    "key": "rss.auto_backup",
+    "zh": "自动备份订阅",
+    "en": "Auto backup"
+  },
+  {
+    "key": "ui.line_height",
+    "zh": "行距",
+    "en": "Line height"
+  },
+  {
+    "key": "rss.clear_saved_articles_from__arg_0__the_next_sync_refetches_them",
+    "zh": "要清空「%s」的本地文章吗？下次同步会重新抓取。",
+    "en": "Clear saved articles from “%s”? The next sync refetches them."
+  },
+  {
+    "key": "rss.feeds",
+    "zh": "订阅",
+    "en": "Feeds"
+  },
+  {
+    "key": "rss.feed_address",
+    "zh": "订阅地址",
+    "en": "Feed address"
+  },
+  {
+    "key": "rss.feed",
+    "zh": "订阅源",
+    "en": "Feed"
+  },
+  {
+    "key": "rss.feeds_and_articles_stay_on_this_device",
+    "zh": "订阅源与文章只保存在本机",
+    "en": "Feeds and articles stay on this device"
+  },
+  {
+    "key": "rss.feed_actions",
+    "zh": "订阅源操作",
+    "en": "Feed actions"
+  },
+  {
+    "key": "ui.could_not_read_the_file__arg_0",
+    "zh": "读取文件失败：%s",
+    "en": "Could not read the file: %s"
+  },
+  {
+    "key": "rss.news",
+    "zh": "资讯",
+    "en": "News"
+  },
+  {
+    "key": "rss.news_tools",
+    "zh": "资讯工具",
+    "en": "News tools"
+  },
+  {
+    "key": "rss.could_not_open_the_news_database__arg_0",
+    "zh": "资讯数据库打开失败：%s",
+    "en": "Could not open the news database: %s"
+  },
+  {
+    "key": "rss.news_settings",
+    "zh": "资讯设置",
+    "en": "News settings"
+  },
+  {
+    "key": "ui.back_2",
+    "zh": "返回",
+    "en": "Back"
+  },
+  {
+    "key": "rss.nothing_starred",
+    "zh": "还没有收藏",
+    "en": "Nothing starred"
+  },
+  {
+    "key": "rss.no_folders_yet_create_one_to_group_your_feeds",
+    "zh": "还没有收藏夹，先创建一个来归类订阅源。",
+    "en": "No folders yet. Create one to group your feeds."
+  },
+  {
+    "key": "rss.no_articles_yet",
+    "zh": "还没有文章",
+    "en": "No articles yet"
+  },
+  {
+    "key": "rss.no_feeds_yet",
+    "zh": "还没有订阅源",
+    "en": "No feeds yet"
+  },
+  {
+    "key": "rss.there_are_no_feeds_to_add_yet",
+    "zh": "还没有订阅源可以加入。",
+    "en": "There are no feeds to add yet."
+  },
+  {
+    "key": "rss.this_feed_is_already_added",
+    "zh": "这个订阅源已经添加过了",
+    "en": "This feed is already added"
+  },
+  {
+    "key": "ui.this_item_only_has_a_summary",
+    "zh": "这条内容没有正文，只有摘要。",
+    "en": "This item only has a summary."
+  },
+  {
+    "key": "rss.nothing_here_yet",
+    "zh": "这里还没有文章",
+    "en": "Nothing here yet"
+  },
+  {
+    "key": "ui.rename_2",
+    "zh": "重命名",
+    "en": "Rename"
+  },
+  {
+    "key": "rss.rename_folder",
+    "zh": "重命名收藏夹",
+    "en": "Rename folder"
+  },
+  {
+    "key": "ui.read_original",
+    "zh": "阅读原文",
+    "en": "Read original"
+  },
+  {
+    "key": "rss.or_pick_one_from_the_suggestions",
+    "zh": "或从推荐列表选择",
+    "en": "Or pick one from the suggestions"
+  },
+  {
+    "key": "rss.remove__arg_0__and_its_saved_articles",
+    "zh": "移除「%s」及其本地文章？",
+    "en": "Remove “%s” and its saved articles?"
+  },
+  {
+    "key": "rss.discover",
+    "zh": "推荐",
+    "en": "Discover"
+  },
+  {
+    "key": "rss.recommended",
+    "zh": "推荐订阅",
+    "en": "Recommended"
+  },
+  {
+    "key": "rss.curated_feeds",
+    "zh": "精选订阅源",
+    "en": "Curated feeds"
+  },
+  {
+    "key": "rss.subscribed",
+    "zh": "已订阅",
+    "en": "Subscribed"
+  },
+  {
+    "key": "rss.subscribe",
+    "zh": "立即订阅",
+    "en": "Subscribe"
+  },
+  {
+    "key": "rss.subscribing",
+    "zh": "订阅中…",
+    "en": "Subscribing…"
+  },
+  {
+    "key": "rss.subscribed_to__arg_0",
+    "zh": "已订阅「%s」",
+    "en": "Subscribed to “%s”"
+  },
+  {
+    "key": "rss.no_recommendations_in_this_category_yet",
+    "zh": "这个分类下暂时没有推荐",
+    "en": "No recommendations in this category yet"
+  },
+  {
+    "key": "rss.arg_0__curated_rss_and_atom_feeds_one_tap_to_subscribe_everything_stays_on_this_device",
+    "zh": "共 %d 个优质 RSS 与 Atom 源，点一下即可订阅，内容只保存在本机。",
+    "en": "%d curated RSS and Atom feeds. One tap to subscribe; everything stays on this device."
+  },
+  {
+    "key": "ui.business_tech",
+    "zh": "商业科技",
+    "en": "Business & Tech"
+  },
+  {
+    "key": "ui.engineering_blogs",
+    "zh": "技术博客",
+    "en": "Engineering blogs"
+  },
+  {
+    "key": "ui.independent_blogs",
+    "zh": "独立博客",
+    "en": "Independent blogs"
+  },
+  {
+    "key": "ui.science",
+    "zh": "科学",
+    "en": "Science"
+  },
+  {
+    "key": "rss.english_news",
+    "zh": "英文资讯",
+    "en": "English news"
+  },
+  {
+    "key": "ui.in_depth_reporting_and_opinion_on_tech_and_business",
+    "zh": "聚焦科技与商业的深度报道和观点。",
+    "en": "In-depth reporting and opinion on tech and business."
+  },
+  {
+    "key": "rss.industry_news_company_updates_and_commentary_in_tmt",
+    "zh": "TMT 领域的产业资讯、公司动态与评论。",
+    "en": "Industry news, company updates and commentary in TMT."
+  },
+  {
+    "key": "share.architecture_algorithms_and_engineering_practices_from_frontline_engineers",
+    "zh": "一线工程师分享的架构、算法与工程实践。",
+    "en": "Architecture, algorithms and engineering practices from frontline engineers."
+  },
+  {
+    "key": "share.weekly_observations_on_tech_programming_and_the_internet",
+    "zh": "每周分享科技、编程与互联网的观察。",
+    "en": "Weekly observations on tech, programming and the internet."
+  },
+  {
+    "key": "system.independent_observations_on_products_design_and_the_internet",
+    "zh": "关于产品、设计与互联网的独立观察。",
+    "en": "Independent observations on products, design and the internet."
+  },
+  {
+    "key": "ui.abstracts_of_the_latest_research_from_a_top_science_journal",
+    "zh": "国际顶级科学期刊的最新研究摘要。",
+    "en": "Abstracts of the latest research from a top science journal."
+  },
+  {
+    "key": "ui.popular_threads_from_the_developer_community",
+    "zh": "全球开发者关注的技术社区热帖。",
+    "en": "Popular threads from the developer community."
+  },
+  {
+    "key": "ui.consumer_tech_gadgets_and_industry_news",
+    "zh": "消费科技、数码产品与行业新闻。",
+    "en": "Consumer tech, gadgets and industry news."
+  },
+  {
+    "key": "chat.members_fragment",
+    "zh": " 位成员",
+    "en": " members"
+  },
+  {
+    "key": "chat.was_removed_fragment",
+    "zh": " 被移出了群聊",
+    "en": " was removed from the group"
+  },
+  {
+    "key": "chat.left_group_fragment",
+    "zh": " 退出了群聊",
+    "en": " left the group"
+  },
+  {
+    "key": "chat.invited_you_fragment",
+    "zh": " 邀请你加入群聊",
+    "en": " invited you to a group"
+  },
+  {
+    "key": "image.saving",
+    "zh": "保存中…",
+    "en": "Saving…"
+  },
+  {
+    "key": "image.save_image",
+    "zh": "保存图片到本地",
+    "en": "Save image to local"
+  },
+  {
+    "key": "image.download_failed",
+    "zh": "图片下载失败",
+    "en": "Image download failed"
+  },
+  {
+    "key": "image.save_failed",
+    "zh": "图片保存失败",
+    "en": "Image save failed"
+  },
+  {
+    "key": "image.saved_to",
+    "zh": "已保存到 ",
+    "en": "Saved to "
+  },
+  {
+    "key": "image.saved_to_path",
+    "zh": "已保存到 %s",
+    "en": "Saved to %s"
+  },
+  {
+    "key": "share.size_mismatch_recv",
+    "zh": "文件大小不一致：收到 ",
+    "en": "Size mismatch: received "
+  },
+  {
+    "key": "chat.added_fragment",
+    "zh": "新增了 ",
+    "en": " added "
+  },
+  {
+    "key": "image.cannot_locate_dir",
+    "zh": "无法定位保存目录",
+    "en": "Cannot locate save dir"
+  },
+  {
+    "key": "comma_expected",
+    "zh": "，预期 ",
+    "en": ", expected "
+  }
+]

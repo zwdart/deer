@@ -43,23 +43,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final stats = c.dbStats;
 
     return Scaffold(
-      appBar: DchatAppBar(title: Text(L10n.instance.tr('设置'))),
+      appBar: DchatAppBar(title: Text(L10n.instance.tr('settings.settings'))),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
         children: [
           _ProfileCard(controller: c),
           const SizedBox(height: 14),
           SectionCard(
-            title: L10n.instance.tr('外观'),
+            title: L10n.instance.tr('ui.appearance'),
             child: Column(
               children: [
                 _ChoiceRow(
-                  label: L10n.instance.tr('主题'),
+                  label: L10n.instance.tr('settings.theme'),
                   child: AdaptiveSegmentedControl(
                     segments: [
-                      AdaptiveSegment('system', L10n.instance.tr('跟随系统')),
-                      AdaptiveSegment('light', L10n.instance.tr('浅色')),
-                      AdaptiveSegment('dark', L10n.instance.tr('深色')),
+                      AdaptiveSegment('system', L10n.instance.tr('settings.use_system_setting')),
+                      AdaptiveSegment('light', L10n.instance.tr('ui.light')),
+                      AdaptiveSegment('dark', L10n.instance.tr('ui.dark')),
                     ],
                     selected: c.settings.appearance,
                     onChanged: c.setAppearance,
@@ -67,11 +67,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 const SizedBox(height: 10),
                 _ChoiceRow(
-                  label: L10n.instance.tr('语言'),
+                  label: L10n.instance.tr('settings.language'),
                   child: AdaptiveSegmentedControl(
                     segments: [
-                      AdaptiveSegment('system', L10n.instance.tr('系统')),
-                      AdaptiveSegment('zh', L10n.instance.tr('中文')),
+                      AdaptiveSegment('system', L10n.instance.tr('ui.system')),
+                      AdaptiveSegment('zh', L10n.instance.tr('ui.chinese')),
                       AdaptiveSegment('en', 'English'),
                     ],
                     selected: c.settings.language,
@@ -80,31 +80,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 const Divider(height: 24),
                 _SwitchRow(
-                  label: L10n.instance.tr('触感反馈'),
-                  subtitle: L10n.instance.tr('操作时使用轻微振动'),
+                  label: L10n.instance.tr('ui.haptic_feedback'),
+                  subtitle: L10n.instance.tr('ui.use_light_vibration_for_actions'),
                   value: c.settings.haptics,
                   onChanged: c.setHaptics,
                 ),
                 _SwitchRow(
-                  label: L10n.instance.tr('保持屏幕常亮'),
-                  subtitle: L10n.instance.tr('在应用使用期间防止屏幕自动熄灭'),
+                  label: L10n.instance.tr('ui.keep_the_screen_awake'),
+                  subtitle: L10n.instance.tr('settings.prevent_the_screen_from_sleeping_while_the_app_is_in_use'),
                   value: c.settings.keepAwake,
                   onChanged: c.setKeepAwake,
                 ),
                 _SwitchRow(
-                  label: L10n.instance.tr('启用截图'),
-                  subtitle: L10n.instance.tr('在聊天工具栏中使用截图按钮'),
+                  label: L10n.instance.tr('image.enable_screenshots'),
+                  subtitle: L10n.instance.tr('image.use_the_screenshot_button_in_the_chat_toolbar'),
                   value: c.settings.screenshotEnabled,
                   onChanged: c.setScreenshotEnabled,
                 ),
                 InfoRow(
-                  label: L10n.instance.tr('保存目录'),
+                  label: L10n.instance.tr('ui.save_folder'),
                   value: c.settings.screenshotDir.isEmpty
-                      ? L10n.instance.tr('未设置')
+                      ? L10n.instance.tr('settings.not_set')
                       : c.settings.screenshotDir,
                   trailing: TextButton(
                     onPressed: () => _pickScreenshotDir(context, c),
-                    child: Text(L10n.instance.tr('更改')),
+                    child: Text(L10n.instance.tr('ui.change')),
                   ),
                 ),
               ],
@@ -112,34 +112,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const SizedBox(height: 14),
           SectionCard(
-            title: L10n.instance.tr('消息'),
+            title: L10n.instance.tr('chat.messages_2'),
             child: Column(
               children: [
                 _SwitchRow(
-                  label: L10n.instance.tr('通知'),
-                  subtitle: L10n.instance.tr('收到新消息时显示系统通知'),
+                  label: L10n.instance.tr('settings.notifications'),
+                  subtitle: L10n.instance.tr('chat.show_system_notifications_for_new_messages'),
                   value: c.settings.notifications,
                   onChanged: c.setNotifications,
                 ),
                 _SwitchRow(
-                  label: L10n.instance.tr('通知内容预览'),
-                  subtitle: L10n.instance.tr('在通知中显示消息内容'),
+                  label: L10n.instance.tr('settings.notification_preview'),
+                  subtitle: L10n.instance.tr('chat.show_message_content_in_notifications'),
                   value: c.settings.notifyPreview,
                   onChanged: c.setNotifyPreview,
                 ),
                 _SwitchRow(
-                  label: L10n.instance.tr('自动下载图片'),
-                  subtitle: L10n.instance.tr('打开聊天时自动获取图片'),
+                  label: L10n.instance.tr('image.auto_download_images'),
+                  subtitle: L10n.instance.tr('image.automatically_fetch_images_when_opening_a_chat'),
                   value: c.settings.autoDownloadImages,
                   onChanged: c.setAutoDownloadImages,
                 ),
                 const Divider(height: 20),
                 InfoRow(
-                  label: L10n.instance.tr('下载目录'),
+                  label: L10n.instance.tr('share.downloads'),
                   value: c.settings.downloadDir,
                   trailing: TextButton(
                     onPressed: () => _pickDownloadDir(context, c),
-                    child: Text(L10n.instance.tr('更改')),
+                    child: Text(L10n.instance.tr('ui.change')),
                   ),
                 ),
               ],
@@ -148,47 +148,47 @@ class _SettingsScreenState extends State<SettingsScreen> {
           if (AppPlatform.isDesktop) ...[
             const SizedBox(height: 14),
             SectionCard(
-              title: L10n.instance.tr('桌面'),
+              title: L10n.instance.tr('ui.desktop'),
               child: Column(
                 children: [
                   _SwitchRow(
-                    label: L10n.instance.tr('关闭窗口时留在托盘'),
-                    subtitle: L10n.instance.tr('点击关闭后继续在后台接收消息'),
+                    label: L10n.instance.tr('settings.keep_running_in_the_tray_when_the_window_closes'),
+                    subtitle: L10n.instance.tr('chat.keep_receiving_messages_in_the_background_after_closing'),
                     value: c.settings.closeToTray,
                     onChanged: c.setCloseToTray,
                   ),
                   _SwitchRow(
-                    label: L10n.instance.tr('启动时自动共享'),
-                    subtitle: L10n.instance.tr('打开应用后自动开启文件共享'),
+                    label: L10n.instance.tr('share.share_automatically_on_startup'),
+                    subtitle: L10n.instance.tr('share.automatically_start_file_sharing_when_the_app_opens'),
                     value: c.settings.shareOnStart,
                     onChanged: c.setShareOnStart,
                   ),
                   InfoRow(
-                    label: L10n.instance.tr('共享目录'),
+                    label: L10n.instance.tr('share.shared_folder'),
                     value: c.settings.shareDir.isEmpty
-                        ? L10n.instance.tr('未设置')
+                        ? L10n.instance.tr('settings.not_set')
                         : c.settings.shareDir,
                     trailing: TextButton(
                       onPressed: () => _pickShareDir(context, c),
-                      child: Text(L10n.instance.tr('更改')),
+                      child: Text(L10n.instance.tr('ui.change')),
                     ),
                   ),
                   InfoRow(
-                    label: L10n.instance.tr('上传目录'),
+                    label: L10n.instance.tr('share.upload_folder'),
                     value: c.settings.uploadDir.isEmpty
-                        ? L10n.instance.tr('未设置')
+                        ? L10n.instance.tr('settings.not_set')
                         : c.settings.uploadDir,
                     trailing: TextButton(
                       onPressed: () => _pickUploadDir(context, c),
-                      child: Text(L10n.instance.tr('更改')),
+                      child: Text(L10n.instance.tr('ui.change')),
                     ),
                   ),
                   InfoRow(
-                    label: L10n.instance.tr('数据目录'),
+                    label: L10n.instance.tr('ui.data_folder'),
                     value: c.dataDir,
                     trailing: TextButton(
                       onPressed: () => _openDataDir(context, c),
-                      child: Text(L10n.instance.tr('打开')),
+                      child: Text(L10n.instance.tr('ui.open')),
                     ),
                   ),
                 ],
@@ -197,104 +197,104 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ],
           const SizedBox(height: 14),
           SectionCard(
-            title: L10n.instance.tr('网络'),
+            title: L10n.instance.tr('network.network'),
             child: Column(
               children: [
                 _SwitchRow(
-                  label: L10n.instance.tr('自动发现'),
-                  subtitle: L10n.instance.tr('通过 UDP 广播寻找局域网设备'),
+                  label: L10n.instance.tr('device.auto_discovery'),
+                  subtitle: L10n.instance.tr('device.find_lan_devices_via_udp_broadcast'),
                   value: c.settings.discovery,
                   onChanged: c.setDiscovery,
                 ),
                 InfoRow(
-                  label: L10n.instance.tr('本机地址'),
-                  value: c.localIps.isEmpty ? L10n.instance.tr('未知') : c.localIps.join(', '),
+                  label: L10n.instance.tr('device.local_address'),
+                  value: c.localIps.isEmpty ? L10n.instance.tr('ui.unknown') : c.localIps.join(', '),
                 ),
                 InfoRow(
-                  label: L10n.instance.tr('聊天端口'),
+                  label: L10n.instance.tr('chat.chat_port'),
                   value: '${c.settings.port}',
                   trailing: TextButton(
                     onPressed: () => _editPort(
                       context,
                       c,
-                      title: L10n.instance.tr('修改聊天端口'),
+                      title: L10n.instance.tr('chat.change_chat_port'),
                       initial: c.settings.port,
                       onSaved: (port) async {
                         c.settings.port = port;
                         await c.restartNetwork();
                       },
                     ),
-                    child: Text(L10n.instance.tr('修改')),
+                    child: Text(L10n.instance.tr('ui.change_2')),
                   ),
                 ),
                 InfoRow(
-                  label: L10n.instance.tr('传输端口'),
+                  label: L10n.instance.tr('device.transfer_port'),
                   value: '${c.settings.transferPort}',
                   trailing: TextButton(
                     onPressed: () => _editPort(
                       context,
                       c,
-                      title: L10n.instance.tr('修改传输端口'),
+                      title: L10n.instance.tr('device.change_transfer_port'),
                       initial: c.settings.transferPort,
                       onSaved: (port) async {
                         c.settings.transferPort = port;
                         await c.restartNetwork();
                       },
                     ),
-                    child: Text(L10n.instance.tr('修改')),
+                    child: Text(L10n.instance.tr('ui.change_2')),
                   ),
                 ),
                 InfoRow(
-                  label: L10n.instance.tr('共享端口'),
+                  label: L10n.instance.tr('share.share_port'),
                   value: '${c.settings.sharePort}',
                   trailing: TextButton(
                     onPressed: () => _editPort(
                       context,
                       c,
-                      title: L10n.instance.tr('修改共享端口'),
+                      title: L10n.instance.tr('share.change_sharing_port'),
                       initial: c.settings.sharePort,
                       onSaved: c.setSharePort,
                     ),
-                    child: Text(L10n.instance.tr('修改')),
+                    child: Text(L10n.instance.tr('ui.change_2')),
                   ),
                 ),
                 InfoRow(
-                  label: L10n.instance.tr('文件传输服务'),
-                  value: (c.transfer?.running ?? false) ? L10n.instance.tr('运行中') : L10n.instance.tr('未运行'),
+                  label: L10n.instance.tr('ui.file_transfer_service'),
+                  value: (c.transfer?.running ?? false) ? L10n.instance.tr('ui.running') : L10n.instance.tr('ui.not_running'),
                 ),
                 InfoRow(
-                  label: L10n.instance.tr('文件共享服务'),
-                  value: c.shareRunning ? L10n.instance.tr('运行中') : L10n.instance.tr('已停止'),
+                  label: L10n.instance.tr('share.file_sharing_service'),
+                  value: c.shareRunning ? L10n.instance.tr('ui.running') : L10n.instance.tr('ui.stopped'),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 14),
           SectionCard(
-            title: L10n.instance.tr('数据'),
+            title: L10n.instance.tr('ui.data'),
             child: Column(
               children: [
                 InfoRow(
-                  label: L10n.instance.tr('会话'),
+                  label: L10n.instance.tr('chat.chats'),
                   value: '${stats?.conversations ?? 0}',
                 ),
                 InfoRow(
-                  label: L10n.instance.tr('消息'),
+                  label: L10n.instance.tr('chat.messages_2'),
                   value: '${stats?.messages ?? 0}',
                 ),
                 InfoRow(
-                  label: L10n.instance.tr('数据库大小'),
+                  label: L10n.instance.tr('ui.database_size'),
                   value: humanSize(stats?.bytes ?? 0),
                 ),
                 if (stats != null)
-                  InfoRow(label: L10n.instance.tr('数据库位置'), value: stats.path),
+                  InfoRow(label: L10n.instance.tr('ui.database_location'), value: stats.path),
                 const Divider(height: 20),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: Icon(Icons.auto_fix_high_outlined,
                       color: colors.muted),
-                  title: Text(L10n.instance.tr('整理数据库')),
-                  subtitle: Text(L10n.instance.tr('回收空间并优化聊天记录')),
+                  title: Text(L10n.instance.tr('ui.compact_database')),
+                  subtitle: Text(L10n.instance.tr('chat.reclaim_space_and_optimize_chat_history')),
                   onTap: c.vacuumDatabase,
                 ),
                 ListTile(
@@ -302,16 +302,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   leading: Icon(Icons.cleaning_services_outlined,
                       color: colors.danger),
                   title: Text(
-                    L10n.instance.tr('清空所有聊天记录'),
+                    L10n.instance.tr('chat.clear_all_chat_history_2'),
                     style: TextStyle(color: colors.danger),
                   ),
-                  subtitle: Text(L10n.instance.tr('保留联系人和设置')),
+                  subtitle: Text(L10n.instance.tr('settings.keep_contacts_and_settings')),
                   onTap: () async {
                     if (await confirmAction(
                       context,
-                      title: L10n.instance.tr('清空所有聊天记录？'),
-                      message: L10n.instance.tr('所有本机消息都会删除，无法恢复。'),
-                      confirm: L10n.instance.tr('清空'),
+                      title: L10n.instance.tr('chat.clear_all_chat_history_3'),
+                      message: L10n.instance.tr('chat.all_messages_on_this_device_will_be_deleted_and_cannot_be_recovered'),
+                      confirm: L10n.instance.tr('ui.clear_3'),
                       destructive: true,
                     )) {
                       c.clearAllHistory();
@@ -325,13 +325,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _NewsSection(),
           const SizedBox(height: 14),
           SectionCard(
-            title: L10n.instance.tr('关于'),
+            title: L10n.instance.tr('system.about'),
             child: Column(
               children: [
-                InfoRow(label: L10n.instance.tr('应用'), value: 'dchat'),
-                InfoRow(label: L10n.instance.tr('版本'), value: c.version),
-                InfoRow(label: L10n.instance.tr('身份 ID'), value: c.profile.id),
-                InfoRow(label: L10n.instance.tr('协议版本'), value: 'zchat v1'),
+                InfoRow(label: L10n.instance.tr('ui.apply'), value: 'dchat'),
+                InfoRow(label: L10n.instance.tr('ui.version'), value: c.version),
+                InfoRow(label: L10n.instance.tr('ui.identity_id'), value: c.profile.id),
+                InfoRow(label: L10n.instance.tr('ui.protocol_version'), value: 'zchat v1'),
                 const SizedBox(height: 6),
                 Row(
                   children: [
@@ -344,7 +344,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           showUpdateDialog(context, update);
                         },
                         icon: const Icon(Icons.system_update_alt, size: 17),
-                        label: Text(L10n.instance.tr('检查更新')),
+                        label: Text(L10n.instance.tr('update.check_for_updates')),
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -355,14 +355,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           mode: LaunchMode.externalApplication,
                         ),
                         icon: const Icon(Icons.public, size: 17),
-                        label: Text(L10n.instance.tr('项目主页')),
+                        label: Text(L10n.instance.tr('ui.project_page')),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  L10n.instance.tr('消息和文件只在局域网设备之间传输，不经过任何服务器。'),
+                  L10n.instance.tr('chat.messages_and_files_travel_only_between_devices_on_your_lan_never_through_a_server'),
                   style: TextStyle(
                     fontSize: 12,
                     color: colors.muted,
@@ -381,14 +381,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     try {
       // ignore: deprecated_member_use
       final dir = await FilePicker.getDirectoryPath(
-        dialogTitle: L10n.instance.tr('选择共享目录'),
+        dialogTitle: L10n.instance.tr('share.choose_shared_folder'),
         initialDirectory:
             c.settings.shareDir.isEmpty ? null : c.settings.shareDir,
       );
       if (dir == null || dir.isEmpty) return;
       await c.setShareDirs(dir, c.settings.uploadDir);
     } catch (e) {
-      if (context.mounted) showAppSnack(context, trf('无法选择目录：%s', ['$e']));
+      if (context.mounted) showAppSnack(context, trf('ui.could_not_choose_directory__arg_0', ['$e']));
     }
   }
 
@@ -396,14 +396,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     try {
       // ignore: deprecated_member_use
       final dir = await FilePicker.getDirectoryPath(
-        dialogTitle: L10n.instance.tr('选择上传目录'),
+        dialogTitle: L10n.instance.tr('share.choose_upload_folder'),
         initialDirectory:
             c.settings.uploadDir.isEmpty ? null : c.settings.uploadDir,
       );
       if (dir == null || dir.isEmpty) return;
       await c.setShareDirs(c.settings.shareDir, dir);
     } catch (e) {
-      if (context.mounted) showAppSnack(context, trf('无法选择目录：%s', ['$e']));
+      if (context.mounted) showAppSnack(context, trf('ui.could_not_choose_directory__arg_0', ['$e']));
     }
   }
 
@@ -417,7 +417,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         showAppSnack(context, c.dataDir);
       }
     } catch (e) {
-      if (context.mounted) showAppSnack(context, trf('无法打开目录：%s', ['$e']));
+      if (context.mounted) showAppSnack(context, trf('ui.could_not_open_directory__arg_0', ['$e']));
     }
   }
 
@@ -428,17 +428,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
     try {
       // ignore: deprecated_member_use
       final dir = await FilePicker.getDirectoryPath(
-        dialogTitle: L10n.instance.tr('选择截图保存目录'),
+        dialogTitle: L10n.instance.tr('image.choose_screenshot_folder'),
         initialDirectory:
             c.settings.screenshotDir.isEmpty ? null : c.settings.screenshotDir,
       );
       if (dir == null || dir.isEmpty) return;
       await c.setSettings((s) => s.screenshotDir = dir);
       if (context.mounted) {
-        showAppSnack(context, L10n.instance.tr('截图保存目录已更新'));
+        showAppSnack(context, L10n.instance.tr('image.screenshot_folder_updated'));
       }
     } catch (e) {
-      if (context.mounted) showAppSnack(context, trf('无法选择目录：%s', ['$e']));
+      if (context.mounted) showAppSnack(context, trf('ui.could_not_choose_directory__arg_0', ['$e']));
     }
   }
 
@@ -449,14 +449,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     try {
       // ignore: deprecated_member_use
       final dir = await FilePicker.getDirectoryPath(
-        dialogTitle: L10n.instance.tr('选择下载目录'),
+        dialogTitle: L10n.instance.tr('share.choose_download_folder'),
         initialDirectory:
             c.settings.downloadDir.isEmpty ? null : c.settings.downloadDir,
       );
       if (dir == null || dir.isEmpty) return;
       await c.setDownloadDir(dir);
     } catch (e) {
-      if (context.mounted) showAppSnack(context, trf('无法选择目录：%s', ['$e']));
+      if (context.mounted) showAppSnack(context, trf('ui.could_not_choose_directory__arg_0', ['$e']));
     }
   }
 
@@ -470,13 +470,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final value = await promptText(
       context,
       title: title,
-      label: L10n.instance.tr('端口（1024 - 65535）'),
+      label: L10n.instance.tr('device.port_1024_65535'),
       initial: '$initial',
     );
     if (value == null) return;
     final port = int.tryParse(value);
     if (port == null || port < 1024 || port > 65535) {
-      if (context.mounted) showAppSnack(context, L10n.instance.tr('请输入有效端口'));
+      if (context.mounted) showAppSnack(context, L10n.instance.tr('device.enter_a_valid_port'));
       return;
     }
     await onSaved(port);
@@ -561,7 +561,7 @@ class _ProfileCard extends StatelessWidget {
                     const SizedBox(height: 3),
                     Text(
                       controller.profile.signature.isEmpty
-                          ? L10n.instance.tr('点击编辑个人信息')
+                          ? L10n.instance.tr('ui.tap_to_edit_your_profile')
                           : controller.profile.signature,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -580,15 +580,15 @@ class _ProfileCard extends StatelessWidget {
                   onPressed: () async {
                     final name = await promptText(
                       context,
-                      title: L10n.instance.tr('修改名称'),
-                      label: L10n.instance.tr('名称'),
+                      title: L10n.instance.tr('ui.edit_name'),
+                      label: L10n.instance.tr('ui.name'),
                       initial: controller.profile.name,
                     );
                     if (name == null || name.isEmpty) return;
                     await controller.updateProfile(name: name);
                   },
                   icon: const Icon(Icons.edit_outlined, size: 17),
-                  label: Text(L10n.instance.tr('名称')),
+                  label: Text(L10n.instance.tr('ui.name')),
                 ),
               ),
               const SizedBox(width: 8),
@@ -597,8 +597,8 @@ class _ProfileCard extends StatelessWidget {
                   onPressed: () async {
                     final signature = await promptText(
                       context,
-                      title: L10n.instance.tr('修改签名'),
-                      label: L10n.instance.tr('个性签名'),
+                      title: L10n.instance.tr('ui.edit_bio'),
+                      label: L10n.instance.tr('ui.bio_2'),
                       initial: controller.profile.signature,
                       multiline: true,
                       maxLines: 3,
@@ -607,7 +607,7 @@ class _ProfileCard extends StatelessWidget {
                     await controller.updateProfile(signature: signature);
                   },
                   icon: const Icon(Icons.notes, size: 17),
-                  label: Text(L10n.instance.tr('签名')),
+                  label: Text(L10n.instance.tr('ui.bio')),
                 ),
               ),
             ],
@@ -616,7 +616,7 @@ class _ProfileCard extends StatelessWidget {
           Row(
             children: [
               Text(
-                L10n.instance.tr('状态'),
+                L10n.instance.tr('ui.status'),
                 style: TextStyle(fontSize: 12, color: c.muted),
               ),
               const SizedBox(width: 10),
@@ -655,26 +655,26 @@ class _ProfileCard extends StatelessWidget {
   Future<void> _editAvatar(BuildContext context) async {
     final action = await showAdaptiveActionSheet<String>(
       context,
-      title: L10n.instance.tr('修改头像'),
+      title: L10n.instance.tr('ui.change_avatar'),
       actions: [
         AdaptiveSheetAction(
           value: 'gallery',
           icon: Icons.photo_library_outlined,
           label: AppPlatform.isDesktop
-              ? L10n.instance.tr('选择图片')
-              : L10n.instance.tr('从相册选择'),
+              ? L10n.instance.tr('image.choose_image')
+              : L10n.instance.tr('image.choose_from_library'),
         ),
         if (AppPlatform.isMobile)
           AdaptiveSheetAction(
             value: 'camera',
             icon: Icons.photo_camera_outlined,
-            label: L10n.instance.tr('拍照'),
+            label: L10n.instance.tr('image.take_photo'),
           ),
         if (controller.profile.avatar.isNotEmpty)
           AdaptiveSheetAction(
             value: 'clear',
             icon: Icons.delete_outline,
-            label: L10n.instance.tr('移除头像'),
+            label: L10n.instance.tr('ui.remove_avatar'),
             destructive: true,
           ),
       ],
@@ -704,7 +704,7 @@ class _ProfileCard extends StatelessWidget {
       final bytes = await File(image.path).readAsBytes();
       await controller.setAvatarBytes(bytes);
     } catch (e) {
-      if (context.mounted) showAppSnack(context, trf('无法更新头像：%s', ['$e']));
+      if (context.mounted) showAppSnack(context, trf('update.could_not_update_avatar__arg_0', ['$e']));
     }
   }
 }
@@ -720,25 +720,25 @@ class _NewsSection extends StatelessWidget {
     final colors = appColors(context);
     final backup = rss.store.lastBackupAt;
     return SectionCard(
-      title: L10n.instance.tr('资讯'),
-      subtitle: L10n.instance.tr('订阅源与文章只保存在本机'),
+      title: L10n.instance.tr('rss.news'),
+      subtitle: L10n.instance.tr('rss.feeds_and_articles_stay_on_this_device'),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _SwitchRow(
-            label: L10n.instance.tr('自动同步'),
-            subtitle: L10n.instance.tr('按固定间隔抓取全部订阅源'),
+            label: L10n.instance.tr('rss.auto_sync'),
+            subtitle: L10n.instance.tr('rss.fetch_every_feed_on_a_fixed_schedule'),
             value: settings.autoSync,
             onChanged: (value) => rss.update((s) => s.autoSync = value),
           ),
           _ChoiceRow(
-            label: L10n.instance.tr('同步间隔'),
+            label: L10n.instance.tr('rss.sync_interval'),
             child: AdaptiveSegmentedControl(
               segments: [
-                AdaptiveSegment('10', L10n.instance.tr('10 分钟')),
-                AdaptiveSegment('30', L10n.instance.tr('30 分钟')),
-                AdaptiveSegment('60', L10n.instance.tr('1 小时')),
-                AdaptiveSegment('360', L10n.instance.tr('6 小时')),
+                AdaptiveSegment('10', L10n.instance.tr('ui.10_min')),
+                AdaptiveSegment('30', L10n.instance.tr('ui.30_min')),
+                AdaptiveSegment('60', L10n.instance.tr('ui.1_hour')),
+                AdaptiveSegment('360', L10n.instance.tr('ui.6_hours')),
               ],
               selected: '${settings.syncIntervalMinutes}',
               onChanged: (value) => rss.update(
@@ -748,29 +748,29 @@ class _NewsSection extends StatelessWidget {
           ),
           const Divider(height: 24),
           _SwitchRow(
-            label: L10n.instance.tr('打开即标记已读'),
+            label: L10n.instance.tr('ui.mark_read_on_open'),
             value: settings.markReadOnOpen,
             onChanged: (value) => rss.update((s) => s.markReadOnOpen = value),
           ),
           _SwitchRow(
-            label: L10n.instance.tr('显示图片'),
+            label: L10n.instance.tr('image.show_images'),
             value: settings.showImages,
             onChanged: (value) => rss.update((s) => s.showImages = value),
           ),
           _SwitchRow(
-            label: L10n.instance.tr('最新文章优先'),
-            subtitle: L10n.instance.tr('关闭后按发布时间从旧到新排列'),
+            label: L10n.instance.tr('rss.newest_first'),
+            subtitle: L10n.instance.tr('system.when_off_older_articles_come_first'),
             value: settings.newestFirst,
             onChanged: (value) => rss.update((s) => s.newestFirst = value),
           ),
           _ChoiceRow(
-            label: L10n.instance.tr('正文字号'),
+            label: L10n.instance.tr('ui.text_size'),
             child: AdaptiveSegmentedControl(
               segments: [
-                AdaptiveSegment('15', L10n.instance.tr('小')),
-                AdaptiveSegment('17', L10n.instance.tr('标准')),
-                AdaptiveSegment('19', L10n.instance.tr('大')),
-                AdaptiveSegment('22', L10n.instance.tr('特大')),
+                AdaptiveSegment('15', L10n.instance.tr('ui.small')),
+                AdaptiveSegment('17', L10n.instance.tr('ui.regular')),
+                AdaptiveSegment('19', L10n.instance.tr('ui.large')),
+                AdaptiveSegment('22', L10n.instance.tr('ui.huge')),
               ],
               selected: '${settings.fontSize}',
               onChanged: (value) =>
@@ -778,12 +778,12 @@ class _NewsSection extends StatelessWidget {
             ),
           ),
           _ChoiceRow(
-            label: L10n.instance.tr('正文宽度'),
+            label: L10n.instance.tr('ui.column_width'),
             child: AdaptiveSegmentedControl(
               segments: [
-                AdaptiveSegment('620', L10n.instance.tr('窄')),
-                AdaptiveSegment('720', L10n.instance.tr('标准')),
-                AdaptiveSegment('860', L10n.instance.tr('宽')),
+                AdaptiveSegment('620', L10n.instance.tr('ui.narrow')),
+                AdaptiveSegment('720', L10n.instance.tr('ui.regular')),
+                AdaptiveSegment('860', L10n.instance.tr('ui.wide')),
               ],
               selected: '${settings.contentWidth}',
               onChanged: (value) =>
@@ -792,19 +792,19 @@ class _NewsSection extends StatelessWidget {
           ),
           const Divider(height: 24),
           _SwitchRow(
-            label: L10n.instance.tr('自动备份订阅'),
-            subtitle: L10n.instance.tr('同步后导出一份 OPML 到本机备份目录'),
+            label: L10n.instance.tr('rss.auto_backup'),
+            subtitle: L10n.instance.tr('rss.write_an_opml_copy_to_the_backup_folder_after_each_sync'),
             value: settings.autoBackup,
             onChanged: (value) => rss.update((s) => s.autoBackup = value),
           ),
           _ChoiceRow(
-            label: L10n.instance.tr('文章保留'),
+            label: L10n.instance.tr('rss.keep_articles'),
             child: AdaptiveSegmentedControl(
               segments: [
-                AdaptiveSegment('0', L10n.instance.tr('不限')),
-                AdaptiveSegment('30', L10n.instance.tr('30 天')),
-                AdaptiveSegment('90', L10n.instance.tr('90 天')),
-                AdaptiveSegment('180', L10n.instance.tr('180 天')),
+                AdaptiveSegment('0', L10n.instance.tr('ui.keep_all')),
+                AdaptiveSegment('30', L10n.instance.tr('ui.30_days')),
+                AdaptiveSegment('90', L10n.instance.tr('ui.90_days')),
+                AdaptiveSegment('180', L10n.instance.tr('ui.180_days')),
               ],
               selected: '${settings.keepDays}',
               onChanged: (value) =>
@@ -812,20 +812,20 @@ class _NewsSection extends StatelessWidget {
             ),
           ),
           InfoRow(
-            label: L10n.instance.tr('上次备份'),
+            label: L10n.instance.tr('ui.last_backup'),
             value: backup == null
-                ? L10n.instance.tr('从未备份')
+                ? L10n.instance.tr('ui.never')
                 : '${backup.month}/${backup.day} ${formatClock(backup)}',
           ),
           ListTile(
             contentPadding: EdgeInsets.zero,
             leading: Icon(Icons.backup_outlined, color: colors.muted),
-            title: Text(L10n.instance.tr('立即备份订阅')),
-            subtitle: Text(L10n.instance.tr('把当前订阅导出为 OPML')),
+            title: Text(L10n.instance.tr('rss.back_up_now')),
+            subtitle: Text(L10n.instance.tr('rss.save_current_subscriptions_as_opml')),
             onTap: () async {
               await rss.backupNow();
               if (!context.mounted) return;
-              showAppSnack(context, L10n.instance.tr('备份已写入本地目录'));
+              showAppSnack(context, L10n.instance.tr('ui.backup_written_to_your_device'));
             },
           ),
         ],

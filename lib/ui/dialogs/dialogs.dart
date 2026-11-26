@@ -18,7 +18,7 @@ Future<String?> promptText(
   bool multiline = false,
   int maxLines = 1,
 }) {
-  final confirmLabel = confirm ?? L10n.instance.tr('确定');
+  final confirmLabel = confirm ?? L10n.instance.tr('ui.ok');
   final controller = TextEditingController(text: initial);
   final future = AppPlatform.usesCupertino
       ? showCupertinoDialog<String>(
@@ -39,7 +39,7 @@ Future<String?> promptText(
               actions: [
                 CupertinoDialogAction(
                   onPressed: () => Navigator.pop(context),
-                  child: Text(L10n.instance.tr('取消')),
+                  child: Text(L10n.instance.tr('ui.cancel')),
                 ),
                 CupertinoDialogAction(
                   isDefaultAction: true,
@@ -70,7 +70,7 @@ Future<String?> promptText(
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text(L10n.instance.tr('取消')),
+                  child: Text(L10n.instance.tr('ui.cancel')),
                 ),
                 FilledButton(
                   onPressed: () => _submit(context, controller),
@@ -94,7 +94,7 @@ Future<bool> confirmAction(
   String? confirm,
   bool destructive = false,
 }) async {
-  final confirmLabel = confirm ?? L10n.instance.tr('确定');
+  final confirmLabel = confirm ?? L10n.instance.tr('ui.ok');
   final result = AppPlatform.usesCupertino
       ? await showCupertinoDialog<bool>(
           context: context,
@@ -105,7 +105,7 @@ Future<bool> confirmAction(
               actions: [
                 CupertinoDialogAction(
                   onPressed: () => Navigator.pop(context, false),
-                  child: Text(L10n.instance.tr('取消')),
+                  child: Text(L10n.instance.tr('ui.cancel')),
                 ),
                 CupertinoDialogAction(
                   isDestructiveAction: destructive,
@@ -129,7 +129,7 @@ Future<bool> confirmAction(
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context, false),
-                  child: Text(L10n.instance.tr('取消')),
+                  child: Text(L10n.instance.tr('ui.cancel')),
                 ),
                 FilledButton(
                   style: destructive
@@ -170,8 +170,8 @@ Future<GroupDraft?> showGroupDraftDialog(
         ),
         child: _GroupDraftDialog(
           candidates: candidates,
-          title: title ?? L10n.instance.tr('创建群聊'),
-          confirm: confirm ?? L10n.instance.tr('创建'),
+          title: title ?? L10n.instance.tr('chat.new_group_3'),
+          confirm: confirm ?? L10n.instance.tr('ui.create'),
         ),
       );
     },
@@ -201,17 +201,17 @@ class _GroupDraftDialog extends StatelessWidget {
           CupertinoTextField(
             controller: model.name,
             autofocus: true,
-            placeholder: L10n.instance.tr('群聊名称'),
+            placeholder: L10n.instance.tr('chat.group_name'),
           )
         else
           TextField(
             controller: model.name,
             autofocus: true,
-            decoration: InputDecoration(labelText: L10n.instance.tr('群聊名称')),
+            decoration: InputDecoration(labelText: L10n.instance.tr('chat.group_name')),
           ),
         const SizedBox(height: 16),
         Text(
-          L10n.instance.tr('选择成员'),
+          L10n.instance.tr('chat.select_members'),
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w600,
@@ -223,7 +223,7 @@ class _GroupDraftDialog extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text(
-              L10n.instance.tr('暂无在线设备，可以稍后添加成员'),
+              L10n.instance.tr('chat.no_devices_online_yet_you_can_add_members_later'),
               style: TextStyle(color: c.faint, fontSize: 13),
             ),
           )
@@ -253,7 +253,7 @@ class _GroupDraftDialog extends StatelessWidget {
                       subtitle: Text(
                         peer.connected
                             ? L10n.instance.tr(presenceLabelKey(peer.status))
-                            : L10n.instance.tr('离线'),
+                            : L10n.instance.tr('ui.offline'),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -272,7 +272,7 @@ class _GroupDraftDialog extends StatelessWidget {
         actions: [
           CupertinoDialogAction(
             onPressed: () => Navigator.pop(context),
-            child: Text(L10n.instance.tr('取消')),
+            child: Text(L10n.instance.tr('ui.cancel')),
           ),
           CupertinoDialogAction(
             isDefaultAction: true,
@@ -293,7 +293,7 @@ class _GroupDraftDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(L10n.instance.tr('取消')),
+          child: Text(L10n.instance.tr('ui.cancel')),
         ),
         FilledButton(
           onPressed: () {
@@ -332,7 +332,7 @@ Future<void> showTextInfo(
             CupertinoDialogAction(
               isDefaultAction: true,
               onPressed: () => Navigator.pop(context),
-              child: Text(L10n.instance.tr('关闭')),
+              child: Text(L10n.instance.tr('system.close')),
             ),
           ],
         );
@@ -352,7 +352,7 @@ Future<void> showTextInfo(
         actions: [
           FilledButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(L10n.instance.tr('关闭')),
+            child: Text(L10n.instance.tr('system.close')),
           ),
         ],
       );

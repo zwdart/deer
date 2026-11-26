@@ -97,8 +97,8 @@ class _ChatScreenState extends State<ChatScreen> {
         appBar: DchatAppBar(),
         body: EmptyState(
           icon: Icons.chat_bubble_outline,
-          title: L10n.instance.tr('会话不存在'),
-          message: L10n.instance.tr('它可能已经被删除。'),
+          title: L10n.instance.tr('chat.chat_not_found'),
+          message: L10n.instance.tr('ui.it_may_have_already_been_deleted'),
         ),
       );
     }
@@ -157,13 +157,13 @@ class _ChatScreenState extends State<ChatScreen> {
         actions: [
           IconAction(
             icon: Icons.info_outline,
-            tooltip: L10n.instance.tr('会话信息'),
+            tooltip: L10n.instance.tr('chat.chat_info'),
             onPressed: () => _showInfo(context, c, conv),
           ),
           if (c.settings.screenshotEnabled)
             IconAction(
               icon: Icons.photo_camera_outlined,
-              tooltip: L10n.instance.tr('截图'),
+              tooltip: L10n.instance.tr('image.screenshot'),
               onPressed: () => _takeScreenshot(context, c),
             ),
           _MoreMenu(controller: c, conversation: conv),
@@ -187,10 +187,10 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: messages.isEmpty
                       ? EmptyState(
                           icon: Icons.waving_hand_outlined,
-                          title: L10n.instance.tr('开始聊天'),
+                          title: L10n.instance.tr('chat.start_chatting'),
                           message: conv.kind == ConvKind.group
-                              ? L10n.instance.tr('向群里的设备发送第一条消息。')
-                              : L10n.instance.tr('消息通过局域网直接发送，不经过服务器。'),
+                              ? L10n.instance.tr('chat.send_the_first_message_to_the_devices_in_this_group')
+                              : L10n.instance.tr('chat.messages_are_sent_directly_over_the_lan_without_a_server'),
                         )
                       : ListView.builder(
                           controller: _scroll,
@@ -239,7 +239,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            trf('%s 正在输入…', [typing.join('、')]),
+                            trf('chat.arg_0__is_typing', [typing.join('、')]),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -279,7 +279,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         border: Border.all(color: appColors(context).accent),
                       ),
                       child: Text(
-                        L10n.instance.tr('松开即可发送文件'),
+                        L10n.instance.tr('ui.release_to_send_files'),
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -304,12 +304,12 @@ class _ChatScreenState extends State<ChatScreen> {
     Peer? peer,
     List<String> typing,
   ) {
-    if (typing.isNotEmpty) return trf('%s 正在输入…', [typing.join('、')]);
+    if (typing.isNotEmpty) return trf('chat.arg_0__is_typing', [typing.join('、')]);
     if (conv.kind == ConvKind.group) {
-      return trf('%d 位成员', [conv.members.length]);
+      return trf('chat.arg_0__members', [conv.members.length]);
     }
-    if (peer == null) return L10n.instance.tr('设备信息不可用');
-    if (!peer.connected) return L10n.instance.tr('离线 · 消息将在连接后发送');
+    if (peer == null) return L10n.instance.tr('device.device_info_unavailable');
+    if (!peer.connected) return L10n.instance.tr('chat.offline_messages_will_be_sent_after_connecting');
     return L10n.instance.tr(presenceLabelKey(peer.status));
   }
 
@@ -327,7 +327,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final bytes = await ScreenshotService.instance.capture();
     if (bytes == null) {
       if (context.mounted) {
-        showAppSnack(context, L10n.instance.tr('无法生成截图'));
+        showAppSnack(context, L10n.instance.tr('image.could_not_create_the_screenshot'));
       }
       return;
     }
@@ -350,7 +350,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    L10n.instance.tr('截图'),
+                    L10n.instance.tr('image.screenshot'),
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -373,7 +373,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   if (savedPath != null) ...[
                     const SizedBox(height: 8),
                     Text(
-                      '${L10n.instance.tr('截图已保存：')}$savedPath',
+                      '${L10n.instance.tr('image.screenshot_saved')}$savedPath',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 11, color: colors.muted),
@@ -388,31 +388,31 @@ class _ChatScreenState extends State<ChatScreen> {
                       TextButton(
                         onPressed: () =>
                             Navigator.of(dialogContext).pop(),
-                        child: Text(L10n.instance.tr('关闭')),
+                        child: Text(L10n.instance.tr('system.close')),
                       ),
                       OutlinedButton.icon(
                         onPressed: () =>
                             Navigator.of(dialogContext).pop('copy'),
                         icon: const Icon(Icons.copy_outlined, size: 17),
-                        label: Text(L10n.instance.tr('复制')),
+                        label: Text(L10n.instance.tr('ui.copy')),
                       ),
                       OutlinedButton.icon(
                         onPressed: () =>
                             Navigator.of(dialogContext).pop('share'),
                         icon: const Icon(Icons.ios_share, size: 17),
-                        label: Text(L10n.instance.tr('分享')),
+                        label: Text(L10n.instance.tr('share.share_2')),
                       ),
                       OutlinedButton.icon(
                         onPressed: () =>
                             Navigator.of(dialogContext).pop('save'),
                         icon: const Icon(Icons.save_alt, size: 17),
-                        label: Text(L10n.instance.tr('保存')),
+                        label: Text(L10n.instance.tr('ui.save')),
                       ),
                       FilledButton.icon(
                         onPressed: () =>
                             Navigator.of(dialogContext).pop('send'),
                         icon: const Icon(Icons.send_outlined, size: 17),
-                        label: Text(L10n.instance.tr('发送到当前聊天')),
+                        label: Text(L10n.instance.tr('chat.send_to_current_chat')),
                       ),
                     ],
                   ),
@@ -433,7 +433,7 @@ class _ChatScreenState extends State<ChatScreen> {
         );
         if (path == null) {
           if (context.mounted) {
-            showAppSnack(context, L10n.instance.tr('无法保存截图'));
+            showAppSnack(context, L10n.instance.tr('image.could_not_save_the_screenshot_2'));
           }
           return;
         }
@@ -444,11 +444,11 @@ class _ChatScreenState extends State<ChatScreen> {
         try {
           await Pasteboard.writeImage(bytes);
           if (context.mounted) {
-            showAppSnack(context, L10n.instance.tr('已复制'));
+            showAppSnack(context, L10n.instance.tr('ui.copied_2'));
           }
         } catch (_) {
           if (context.mounted) {
-            showAppSnack(context, L10n.instance.tr('无法复制截图'));
+            showAppSnack(context, L10n.instance.tr('image.could_not_copy_the_screenshot_2'));
           }
         }
         break;
@@ -471,17 +471,17 @@ class _ChatScreenState extends State<ChatScreen> {
                 : savedPath.split(Platform.pathSeparator).last,
             bytes: bytes,
             mimeType: 'image/png',
-            dialogTitle: L10n.instance.tr('保存截图'),
+            dialogTitle: L10n.instance.tr('image.save_screenshot'),
           );
           if (uri != null && context.mounted) {
             showAppSnack(
               context,
-              '${L10n.instance.tr('截图已保存：')}${uri.path}',
+              '${L10n.instance.tr('image.screenshot_saved')}${uri.path}',
             );
           }
         } catch (e) {
           if (context.mounted) {
-            showAppSnack(context, '${L10n.instance.tr('无法保存截图：')}$e');
+            showAppSnack(context, '${L10n.instance.tr('image.could_not_save_the_screenshot')}$e');
           }
         }
         break;
@@ -491,31 +491,31 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<void> _showAttach(BuildContext context, ChatController c) async {
     final action = await showAdaptiveActionSheet<String>(
       context,
-      title: L10n.instance.tr('发送'),
+      title: L10n.instance.tr('ui.send'),
       actions: [
         AdaptiveSheetAction(
           value: 'gallery',
           icon: Icons.photo_library_outlined,
           label: AppPlatform.isDesktop
-              ? L10n.instance.tr('选择图片')
-              : L10n.instance.tr('图片'),
+              ? L10n.instance.tr('image.choose_image')
+              : L10n.instance.tr('image.images'),
         ),
         if (AppPlatform.isMobile)
           AdaptiveSheetAction(
             value: 'camera',
             icon: Icons.photo_camera_outlined,
-            label: L10n.instance.tr('拍照'),
+            label: L10n.instance.tr('image.take_photo'),
           ),
         AdaptiveSheetAction(
           value: 'file',
           icon: Icons.attach_file,
-          label: L10n.instance.tr('文件'),
+          label: L10n.instance.tr('ui.files'),
         ),
         if (!AppPlatform.isIOS)
           AdaptiveSheetAction(
             value: 'clipboard',
             icon: Icons.content_paste_outlined,
-            label: L10n.instance.tr('粘贴图片'),
+            label: L10n.instance.tr('image.paste_image'),
           ),
       ],
     );
@@ -536,7 +536,7 @@ class _ChatScreenState extends State<ChatScreen> {
             await c.sendFiles(images.map((e) => e.path).toList());
           }
         } catch (e) {
-          if (context.mounted) showAppSnack(context, trf('无法选择图片：%s', ['$e']));
+          if (context.mounted) showAppSnack(context, trf('image.could_not_choose_image__arg_0', ['$e']));
         }
         break;
       case 'camera':
@@ -546,7 +546,7 @@ class _ChatScreenState extends State<ChatScreen> {
           if (image == null) return;
           await c.sendFiles([image.path]);
         } catch (e) {
-          if (context.mounted) showAppSnack(context, trf('无法拍照：%s', ['$e']));
+          if (context.mounted) showAppSnack(context, trf('image.could_not_take_photo__arg_0', ['$e']));
         }
         break;
       case 'file':
@@ -557,7 +557,7 @@ class _ChatScreenState extends State<ChatScreen> {
               result.map((e) => e.path).whereType<String>().toList();
           if (paths.isNotEmpty) await c.sendFiles(paths);
         } catch (e) {
-          if (context.mounted) showAppSnack(context, trf('无法选择文件：%s', ['$e']));
+          if (context.mounted) showAppSnack(context, trf('ui.could_not_choose_file__arg_0', ['$e']));
         }
         break;
       case 'clipboard':
@@ -574,10 +574,10 @@ class _ChatScreenState extends State<ChatScreen> {
     }
     final url = c.shareUrl();
     if (url.isEmpty) {
-      if (context.mounted) showAppSnack(context, L10n.instance.tr('文件共享还没有开启'));
+      if (context.mounted) showAppSnack(context, L10n.instance.tr('share.file_sharing_is_off'));
       return;
     }
-    await c.sendText('${L10n.instance.tr('我在 zchat 共享了一个目录：')}$url');
+    await c.sendText('${L10n.instance.tr('share.i_shared_a_folder_with_zchat')}$url');
     _jumpToBottom();
   }
 
@@ -611,7 +611,7 @@ class _ChatScreenState extends State<ChatScreen> {
       adaptivePageRoute<void>(
         ImageViewerScreen(
           path: path,
-          title: m.file?.name ?? L10n.instance.tr('图片'),
+          title: m.file?.name ?? L10n.instance.tr('image.images'),
         ),
       ),
     );
@@ -645,10 +645,10 @@ class _ChatScreenState extends State<ChatScreen> {
     try {
       final result = await OpenFilex.open(path);
       if (result.type != ResultType.done && context.mounted) {
-        showAppSnack(context, trf('无法打开文件：%s', [result.message]));
+        showAppSnack(context, trf('ui.could_not_open_file__arg_0', [result.message]));
       }
     } catch (e) {
-      if (context.mounted) showAppSnack(context, trf('无法打开文件：%s', ['$e']));
+      if (context.mounted) showAppSnack(context, trf('ui.could_not_open_file__arg_0', ['$e']));
     }
   }
 
@@ -661,41 +661,41 @@ class _ChatScreenState extends State<ChatScreen> {
     if (m.recalled) return;
     final action = await showAdaptiveActionSheet<String>(
       context,
-      title: L10n.instance.tr('消息操作'),
+      title: L10n.instance.tr('chat.message_actions'),
       actions: [
         if (m.kind == MessageKind.text && m.text.isNotEmpty)
           AdaptiveSheetAction(
             value: 'copy',
             icon: Icons.copy_outlined,
-            label: L10n.instance.tr('复制文本'),
+            label: L10n.instance.tr('ui.copy_text'),
           ),
         if (m.file != null) ...[
           AdaptiveSheetAction(
             value: 'download',
             icon: Icons.download_outlined,
-            label: L10n.instance.tr('下载 / 打开'),
+            label: L10n.instance.tr('ui.download_open'),
           ),
           AdaptiveSheetAction(
             value: 'share-file',
             icon: Icons.share_outlined,
-            label: L10n.instance.tr('分享文件'),
+            label: L10n.instance.tr('share.share_file'),
           ),
           AdaptiveSheetAction(
             value: 'copy-link',
             icon: Icons.link,
-            label: L10n.instance.tr('复制文件链接'),
+            label: L10n.instance.tr('ui.copy_file_link'),
           ),
         ],
         if (m.mine)
           AdaptiveSheetAction(
             value: 'recall',
             icon: Icons.undo,
-            label: L10n.instance.tr('撤回'),
+            label: L10n.instance.tr('chat.unsend'),
           ),
         AdaptiveSheetAction(
           value: 'delete',
           icon: Icons.delete_outline,
-          label: L10n.instance.tr('删除'),
+          label: L10n.instance.tr('ui.delete'),
           destructive: true,
         ),
       ],
@@ -704,7 +704,7 @@ class _ChatScreenState extends State<ChatScreen> {
     switch (action) {
       case 'copy':
         await Clipboard.setData(ClipboardData(text: m.text));
-        if (context.mounted) showAppSnack(context, L10n.instance.tr('已复制'));
+        if (context.mounted) showAppSnack(context, L10n.instance.tr('ui.copied_2'));
         break;
       case 'download':
         await _download(context, c, m);
@@ -712,7 +712,7 @@ class _ChatScreenState extends State<ChatScreen> {
       case 'share-file':
         final path = m.file?.path ?? '';
         if (path.isEmpty || !await File(path).exists()) {
-          if (context.mounted) showAppSnack(context, L10n.instance.tr('请先下载文件'));
+          if (context.mounted) showAppSnack(context, L10n.instance.tr('ui.download_the_file_first'));
           return;
         }
         await SharePlus.instance.share(
@@ -722,11 +722,11 @@ class _ChatScreenState extends State<ChatScreen> {
       case 'copy-link':
         final link = c.shareLinkForMessage(m);
         if (link.isEmpty) {
-          if (context.mounted) showAppSnack(context, L10n.instance.tr('没有可用的文件链接'));
+          if (context.mounted) showAppSnack(context, L10n.instance.tr('ui.no_file_link_available'));
           return;
         }
         await Clipboard.setData(ClipboardData(text: link));
-        if (context.mounted) showAppSnack(context, L10n.instance.tr('已复制链接'));
+        if (context.mounted) showAppSnack(context, L10n.instance.tr('ui.link_copied'));
         break;
       case 'recall':
         c.recallMessage(conv.id, m.id);
@@ -734,8 +734,8 @@ class _ChatScreenState extends State<ChatScreen> {
       case 'delete':
         if (await confirmAction(
           context,
-          title: L10n.instance.tr('删除这条消息？'),
-          confirm: L10n.instance.tr('删除'),
+          title: L10n.instance.tr('chat.delete_this_message'),
+          confirm: L10n.instance.tr('ui.delete'),
           destructive: true,
         )) {
           c.deleteMessage(conv.id, m.id);
@@ -763,7 +763,7 @@ class _ChatScreenState extends State<ChatScreen> {
   ) async {
     final peer = c.peers[conv.peerId];
     if (peer == null) {
-      showAppSnack(context, L10n.instance.tr('设备信息不可用'));
+      showAppSnack(context, L10n.instance.tr('device.device_info_unavailable'));
       return;
     }
     await showModalBottomSheet<void>(
@@ -812,21 +812,21 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: Column(
                       children: [
                         InfoRow(
-                          label: L10n.instance.tr('状态'),
+                          label: L10n.instance.tr('ui.status'),
                           value:
                               L10n.instance.tr(presenceLabelKey(peer.status)),
                         ),
                         InfoRow(
-                          label: L10n.instance.tr('地址'),
-                          value: peer.addr.isEmpty ? L10n.instance.tr('未知') : peer.addr,
+                          label: L10n.instance.tr('device.address'),
+                          value: peer.addr.isEmpty ? L10n.instance.tr('ui.unknown') : peer.addr,
                         ),
                         if (peer.platform.isNotEmpty)
-                          InfoRow(label: L10n.instance.tr('平台'), value: peer.platform),
+                          InfoRow(label: L10n.instance.tr('ui.platform'), value: peer.platform),
                         if (peer.version.isNotEmpty)
-                          InfoRow(label: L10n.instance.tr('版本'), value: peer.version),
+                          InfoRow(label: L10n.instance.tr('ui.version'), value: peer.version),
                         InfoRow(
-                          label: L10n.instance.tr('连接'),
-                          value: peer.connected ? L10n.instance.tr('已连接') : L10n.instance.tr('未连接'),
+                          label: L10n.instance.tr('device.connect'),
+                          value: peer.connected ? L10n.instance.tr('device.connected') : L10n.instance.tr('device.not_connected'),
                         ),
                       ],
                     ),
@@ -839,15 +839,15 @@ class _ChatScreenState extends State<ChatScreen> {
                           onPressed: () async {
                             final name = await promptText(
                               context,
-                              title: L10n.instance.tr('修改备注'),
-                              label: L10n.instance.tr('备注名称'),
+                              title: L10n.instance.tr('ui.edit_alias'),
+                              label: L10n.instance.tr('ui.alias_2'),
                               initial: peer.alias,
                             );
                             if (name == null) return;
                             c.setAlias(peer.id, name);
                           },
                           icon: const Icon(Icons.edit_outlined, size: 18),
-                          label: Text(L10n.instance.tr('备注')),
+                          label: Text(L10n.instance.tr('ui.alias')),
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -857,7 +857,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             try {
                               await c.connectPeer(peer.id);
                               if (context.mounted) {
-                                showAppSnack(context, L10n.instance.tr('正在连接…'));
+                                showAppSnack(context, L10n.instance.tr('device.connecting'));
                               }
                             } catch (e) {
                               if (context.mounted) {
@@ -866,7 +866,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             }
                           },
                           icon: const Icon(Icons.wifi_tethering, size: 18),
-                          label: Text(peer.connected ? L10n.instance.tr('刷新连接') : L10n.instance.tr('连接')),
+                          label: Text(peer.connected ? L10n.instance.tr('device.refresh_connection') : L10n.instance.tr('device.connect')),
                         ),
                       ),
                     ],
@@ -879,9 +879,9 @@ class _ChatScreenState extends State<ChatScreen> {
                     onPressed: () async {
                       if (await confirmAction(
                         context,
-                        title: L10n.instance.tr('删除会话？'),
-                        message: L10n.instance.tr('本机上的消息将被删除，设备仍会保留在发现列表。'),
-                        confirm: L10n.instance.tr('删除'),
+                        title: L10n.instance.tr('chat.delete_chat_2'),
+                        message: L10n.instance.tr('chat.messages_on_this_device_will_be_deleted_the_device_will_remain_in_discover'),
+                        confirm: L10n.instance.tr('ui.delete'),
                         destructive: true,
                       )) {
                         c.deleteConversation(conv.id);
@@ -890,7 +890,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       }
                     },
                     icon: const Icon(Icons.delete_outline, size: 18),
-                    label: Text(L10n.instance.tr('删除会话')),
+                    label: Text(L10n.instance.tr('chat.delete_chat')),
                   ),
                 ],
               );
@@ -946,7 +946,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        trf('%d 位成员', [current.members.length]),
+                        trf('chat.arg_0__members', [current.members.length]),
                         textAlign: TextAlign.center,
                         style: TextStyle(color: colors.muted, fontSize: 12),
                       ),
@@ -958,15 +958,15 @@ class _ChatScreenState extends State<ChatScreen> {
                               onPressed: () async {
                                 final name = await promptText(
                                   context,
-                                  title: L10n.instance.tr('修改群名'),
-                                  label: L10n.instance.tr('群聊名称'),
+                                  title: L10n.instance.tr('ui.rename_group'),
+                                  label: L10n.instance.tr('chat.group_name'),
                                   initial: current.title,
                                 );
                                 if (name == null || name.isEmpty) return;
                                 c.renameGroup(current.id, name);
                               },
                               icon: const Icon(Icons.edit_outlined, size: 18),
-                              label: Text(L10n.instance.tr('改名')),
+                              label: Text(L10n.instance.tr('ui.rename')),
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -982,8 +982,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                 final draft = await showGroupDraftDialog(
                                   context,
                                   candidates: candidates,
-                                  title: L10n.instance.tr('添加成员'),
-                                  confirm: L10n.instance.tr('添加'),
+                                  title: L10n.instance.tr('chat.add_members'),
+                                  confirm: L10n.instance.tr('ui.add'),
                                 );
                                 if (draft == null) return;
                                 c.addGroupMembers(
@@ -992,14 +992,14 @@ class _ChatScreenState extends State<ChatScreen> {
                                 );
                               },
                               icon: const Icon(Icons.person_add_alt_1, size: 18),
-                              label: Text(L10n.instance.tr('添加成员')),
+                              label: Text(L10n.instance.tr('chat.add_members')),
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 18),
                       SectionCard(
-                        title: L10n.instance.tr('群成员'),
+                        title: L10n.instance.tr('chat.group_members'),
                         child: Column(
                           children: [
                             for (final member in members)
@@ -1013,14 +1013,14 @@ class _ChatScreenState extends State<ChatScreen> {
                                 ),
                                 title: Text(
                                   member.id == c.profile.id
-                                      ? trf('%s（我）', [member.displayName])
+                                      ? trf('ui.arg_0__me', [member.displayName])
                                       : member.displayName,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 subtitle: Text(
                                   member.id == c.profile.id
-                                      ? L10n.instance.tr('群主')
+                                      ? L10n.instance.tr('chat.owner')
                                       : L10n.instance.tr(
                                           presenceLabelKey(member.status),
                                         ),
@@ -1030,7 +1030,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 trailing: member.id == c.profile.id
                                     ? null
                                     : IconButton(
-                                        tooltip: L10n.instance.tr('移出群聊'),
+                                        tooltip: L10n.instance.tr('chat.remove_from_group'),
                                         icon: const Icon(
                                           Icons.person_remove_outlined,
                                           size: 20,
@@ -1039,8 +1039,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                           if (await confirmAction(
                                             context,
                                             title:
-                                                trf('将 %s 移出群聊？', [member.displayName]),
-                                            confirm: L10n.instance.tr('移出'),
+                                                trf('chat.remove__arg_0__from_the_group', [member.displayName]),
+                                            confirm: L10n.instance.tr('ui.remove_4'),
                                             destructive: true,
                                           )) {
                                             c.removeGroupMember(
@@ -1063,9 +1063,9 @@ class _ChatScreenState extends State<ChatScreen> {
                           onPressed: () async {
                             if (await confirmAction(
                               context,
-                              title: L10n.instance.tr('解散群聊？'),
-                              message: L10n.instance.tr('所有成员都会收到解散通知。'),
-                              confirm: L10n.instance.tr('解散'),
+                              title: L10n.instance.tr('chat.disband_group'),
+                              message: L10n.instance.tr('chat.all_members_will_be_notified_that_the_group_was_disbanded'),
+                              confirm: L10n.instance.tr('ui.dissolve'),
                               destructive: true,
                             )) {
                               c.disbandGroup(current);
@@ -1078,7 +1078,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             }
                           },
                           icon: const Icon(Icons.delete_forever_outlined),
-                          label: Text(L10n.instance.tr('解散群聊')),
+                          label: Text(L10n.instance.tr('chat.dissolve_group')),
                         )
                       else
                         TextButton.icon(
@@ -1088,8 +1088,8 @@ class _ChatScreenState extends State<ChatScreen> {
                           onPressed: () async {
                             if (await confirmAction(
                               context,
-                              title: L10n.instance.tr('退出群聊？'),
-                              confirm: L10n.instance.tr('退出'),
+                              title: L10n.instance.tr('chat.leave_group_4'),
+                              confirm: L10n.instance.tr('system.quit'),
                               destructive: true,
                             )) {
                               c.leaveGroup(current);
@@ -1102,7 +1102,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             }
                           },
                           icon: const Icon(Icons.logout),
-                          label: Text(L10n.instance.tr('退出群聊')),
+                          label: Text(L10n.instance.tr('chat.leave_group')),
                         ),
                     ],
                   );
@@ -1127,7 +1127,7 @@ class _MoreMenu extends StatelessWidget {
     final c = appColors(context);
     final isOwner = conversation.owner == controller.profile.id;
     return PopupMenuButton<String>(
-      tooltip: L10n.instance.tr('更多'),
+      tooltip: L10n.instance.tr('ui.more'),
       onSelected: (value) async {
         switch (value) {
           case 'pin':
@@ -1139,8 +1139,8 @@ class _MoreMenu extends StatelessWidget {
           case 'clear':
             if (await confirmAction(
               context,
-              title: L10n.instance.tr('清空聊天记录？'),
-              confirm: L10n.instance.tr('清空'),
+              title: L10n.instance.tr('chat.clear_chat_history_2'),
+              confirm: L10n.instance.tr('ui.clear_3'),
               destructive: true,
             )) {
               controller.clearHistory(conversation.id);
@@ -1149,8 +1149,8 @@ class _MoreMenu extends StatelessWidget {
           case 'leave':
             if (await confirmAction(
               context,
-              title: L10n.instance.tr('退出群聊？'),
-              confirm: L10n.instance.tr('退出'),
+              title: L10n.instance.tr('chat.leave_group_4'),
+              confirm: L10n.instance.tr('system.quit'),
               destructive: true,
             )) {
               controller.leaveGroup(conversation);
@@ -1160,8 +1160,8 @@ class _MoreMenu extends StatelessWidget {
           case 'disband':
             if (await confirmAction(
               context,
-              title: L10n.instance.tr('解散群聊？'),
-              confirm: L10n.instance.tr('解散'),
+              title: L10n.instance.tr('chat.disband_group'),
+              confirm: L10n.instance.tr('ui.dissolve'),
               destructive: true,
             )) {
               controller.disbandGroup(conversation);
@@ -1171,8 +1171,8 @@ class _MoreMenu extends StatelessWidget {
           case 'delete':
             if (await confirmAction(
               context,
-              title: L10n.instance.tr('删除会话？'),
-              confirm: L10n.instance.tr('删除'),
+              title: L10n.instance.tr('chat.delete_chat_2'),
+              confirm: L10n.instance.tr('ui.delete'),
               destructive: true,
             )) {
               controller.deleteConversation(conversation.id);
@@ -1184,26 +1184,26 @@ class _MoreMenu extends StatelessWidget {
       itemBuilder: (context) => [
         PopupMenuItem(
           value: 'pin',
-          child: Text(conversation.pinned ? L10n.instance.tr('取消置顶') : L10n.instance.tr('置顶会话')),
+          child: Text(conversation.pinned ? L10n.instance.tr('chat.unpin') : L10n.instance.tr('chat.pin_chat')),
         ),
         PopupMenuItem(
           value: 'mute',
-          child: Text(conversation.muted ? L10n.instance.tr('取消免打扰') : L10n.instance.tr('消息免打扰')),
+          child: Text(conversation.muted ? L10n.instance.tr('chat.unmute') : L10n.instance.tr('chat.mute_chat')),
         ),
         const PopupMenuDivider(),
-        PopupMenuItem(value: 'clear', child: Text(L10n.instance.tr('清空聊天记录'))),
+        PopupMenuItem(value: 'clear', child: Text(L10n.instance.tr('chat.clear_chat_history'))),
         if (conversation.kind == ConvKind.group)
           PopupMenuItem(
             value: isOwner ? 'disband' : 'leave',
             child: Text(
-              isOwner ? L10n.instance.tr('解散群聊') : L10n.instance.tr('退出群聊'),
+              isOwner ? L10n.instance.tr('chat.dissolve_group') : L10n.instance.tr('chat.leave_group'),
               style: TextStyle(color: c.danger),
             ),
           )
         else
           PopupMenuItem(
             value: 'delete',
-            child: Text(L10n.instance.tr('删除会话'), style: TextStyle(color: c.danger)),
+            child: Text(L10n.instance.tr('chat.delete_chat'), style: TextStyle(color: c.danger)),
           ),
       ],
       icon: const Icon(Icons.more_horiz),
@@ -1394,7 +1394,7 @@ class _MessageRow extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Text(
-          L10n.instance.tr('消息已撤回'),
+          L10n.instance.tr('chat.message_unsent'),
           style: TextStyle(fontSize: 12, color: c.faint, fontStyle: FontStyle.italic),
         ),
       );
@@ -1439,13 +1439,13 @@ class _DateChip extends StatelessWidget {
     final now = DateTime.now();
     String label;
     if (sameDay(time, now)) {
-      label = L10n.instance.tr('今天');
+      label = L10n.instance.tr('ui.today');
     } else if (sameDay(time, now.subtract(const Duration(days: 1)))) {
-      label = L10n.instance.tr('昨天');
+      label = L10n.instance.tr('ui.yesterday');
     } else if (time.year == now.year) {
-      label = trf('%d 月 %d 日', [time.month, time.day]);
+      label = trf('ui.arg_0___arg_1_2', [time.month, time.day]);
     } else {
-      label = trf('%d 年 %d 月 %d 日', [time.year, time.month, time.day]);
+      label = trf('ui.arg_0___arg_1___arg_2_2', [time.year, time.month, time.day]);
     }
     return Padding(
       padding: EdgeInsets.only(bottom: bottom),
@@ -1531,8 +1531,8 @@ class _ImageBody extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           download?.error.isNotEmpty == true
-              ? L10n.instance.tr('下载失败，点按重试')
-              : L10n.instance.tr('点按下载图片'),
+              ? L10n.instance.tr('ui.download_failed_tap_to_retry')
+              : L10n.instance.tr('image.tap_to_download_image'),
           style: TextStyle(fontSize: 11, color: c.muted),
         ),
         if (download != null && download.working) ...[
@@ -1629,14 +1629,14 @@ class _FileBody extends StatelessWidget {
                       const SizedBox(height: 3),
                       Text(
                         ready
-                            ? trf('点按打开 · %s', [humanSize(file.size)])
+                            ? trf('ui.tap_to_open__arg_0', [humanSize(file.size)])
                             : busy
                                 ? '${(progress * 100).round()}% · ${humanSize(file.size)}'
                                 : error.isNotEmpty
                                     ? error
                                     : message.mine
-                                        ? L10n.instance.tr('等待对方下载')
-                                        : trf('点按下载 · %s', [humanSize(file.size)]),
+                                        ? L10n.instance.tr('ui.waiting_for_the_other_side_to_download')
+                                        : trf('ui.tap_to_download__arg_0', [humanSize(file.size)]),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -1744,7 +1744,7 @@ class _Composer extends StatelessWidget {
       textInputAction: TextInputAction.newline,
       keyboardType: TextInputType.multiline,
       decoration: InputDecoration(
-        hintText: L10n.instance.tr('发送消息'),
+        hintText: L10n.instance.tr('chat.send_message'),
         isDense: true,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -1782,13 +1782,13 @@ class _Composer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           IconButton(
-            tooltip: L10n.instance.tr('添加附件'),
+            tooltip: L10n.instance.tr('ui.add_attachment'),
             onPressed: onAttach,
             icon: const Icon(Icons.add_circle_outline),
             color: c.muted,
           ),
           IconButton(
-            tooltip: L10n.instance.tr('发送共享链接'),
+            tooltip: L10n.instance.tr('share.send_share_link'),
             onPressed: onShareLink,
             icon: const Icon(Icons.link),
             color: c.muted,
@@ -1811,7 +1811,7 @@ class _Composer extends StatelessWidget {
             width: 42,
             height: 42,
             child: IconButton.filled(
-              tooltip: L10n.instance.tr('发送'),
+              tooltip: L10n.instance.tr('ui.send'),
               onPressed: canSend ? onSend : null,
               style: IconButton.styleFrom(
                 backgroundColor: canSend ? c.accent : c.panel,

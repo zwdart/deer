@@ -106,12 +106,12 @@ String truncateRunes(String s, int max) {
 }
 
 String chatPreview(String kind, String text, String fileName, bool recalled) {
-  if (recalled) return tr('消息已撤回');
+  if (recalled) return tr('chat.message_unsent');
   switch (kind) {
     case 'image':
-      return text.isEmpty ? tr('[图片]') : '${tr('[图片]')} $text';
+      return text.isEmpty ? tr('image.image_2') : '${tr('image.image_2')} $text';
     case 'file':
-      return '${tr('[文件]')} $fileName';
+      return '${tr('ui.file_2')} $fileName';
     case 'system':
       return text;
     default:

@@ -113,23 +113,23 @@ class _DetailImageState extends State<DetailImage> {
     try {
       final response = await http.get(Uri.parse(widget.url));
       if (response.statusCode != 200 || !mounted) {
-        _showSnack(tr('图片下载失败'));
+        _showSnack(tr('image.download_failed'));
         return;
       }
       final bytes = response.bodyBytes;
       final ext = _guessExt(response.headers['content-type'], widget.url);
       final dir = await _targetDir();
       if (dir == null || !mounted) {
-        _showSnack(tr('无法定位保存目录'));
+        _showSnack(tr('image.cannot_locate_dir'));
         return;
       }
       final fileName = 'dchat_img_${DateTime.now().millisecondsSinceEpoch}$ext';
       final savePath = path.join(dir, fileName);
       await File(savePath).writeAsBytes(bytes);
       if (!mounted) return;
-      _showSnack(trf('已保存到 %s', [savePath]));
+      _showSnack(trf('image.saved_to_path', [savePath]));
     } catch (e) {
-      if (mounted) _showSnack(tr('图片保存失败'));
+      if (mounted) _showSnack(tr('image.save_failed'));
     } finally {
       if (mounted) setState(() => _saving = false);
     }
@@ -185,7 +185,7 @@ class _DetailImageState extends State<DetailImage> {
                 children: [
                   Icon(Icons.download, size: 18, color: c.text),
                   const SizedBox(width: 8),
-                  Text(_saving ? tr('保存中…') : tr('保存图片到本地')),
+                  Text(_saving ? tr('image.saving') : tr('image.save_image')),
                 ],
               ),
             ),
@@ -255,7 +255,7 @@ class ArticleFlowCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = appColors(context);
-    final title = article.title.isEmpty ? tr('(无标题)') : article.title;
+    final title = article.title.isEmpty ? tr('ui.untitled') : article.title;
     final hasImage = showImage && article.imageUrl.isNotEmpty;
     return Material(
       color: c.panel,
@@ -428,7 +428,7 @@ class SubscriptionCard extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    tooltip: tr('订阅源操作'),
+                    tooltip: tr('rss.feed_actions'),
                     onPressed: onMenu,
                     icon: const Icon(Icons.more_horiz, size: 19),
                     visualDensity: VisualDensity.compact,
@@ -443,7 +443,7 @@ class SubscriptionCard extends StatelessWidget {
                     UnreadPill(count: feed.unreadCount)
                   else
                     Text(
-                      tr('无未读'),
+                      tr('ui.no_unread'),
                       style: TextStyle(fontSize: 11.5, color: c.faint),
                     ),
                   const Spacer(),
@@ -513,7 +513,7 @@ class FolderCard extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    tooltip: tr('收藏夹操作'),
+                    tooltip: tr('rss.folder_actions'),
                     onPressed: onMenu,
                     icon: const Icon(Icons.more_horiz, size: 19),
                     visualDensity: VisualDensity.compact,
@@ -525,7 +525,7 @@ class FolderCard extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    trf('%d 个订阅', [folder.sourceCount]),
+                    trf('rss.arg_0__feeds', [folder.sourceCount]),
                     style: TextStyle(fontSize: 11.5, color: c.faint),
                   ),
                   const SizedBox(width: 8),
@@ -556,7 +556,7 @@ class UnreadPill extends StatelessWidget {
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
-        trf('%d 未读', [count]),
+        trf('ui.arg_0__unread', [count]),
         style: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.w600,
@@ -629,9 +629,9 @@ class ScopeChips extends StatelessWidget {
       spacing: 8,
       runSpacing: 8,
       children: [
-        chip(RssScope.all, tr('全部'), 0),
-        chip(RssScope.unread, tr('待读'), totalUnread),
-        chip(RssScope.starred, tr('收藏'), starredTotal),
+        chip(RssScope.all, tr('ui.all'), 0),
+        chip(RssScope.unread, tr('ui.to_read'), totalUnread),
+        chip(RssScope.starred, tr('rss.star'), starredTotal),
       ],
     );
   }
@@ -702,8 +702,8 @@ class SyncBanner extends StatelessWidget {
           Expanded(
             child: Text(
               rss.syncTarget == null
-                  ? tr('正在同步')
-                  : trf('%s · %d/%d', [rss.syncTarget!, rss.syncDone, rss.syncTotal]),
+                  ? tr('rss.syncing')
+                  : trf('ui.arg_0___arg_1___arg_2_3', [rss.syncTarget!, rss.syncDone, rss.syncTotal]),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontSize: 12, color: c.muted),
@@ -723,10 +723,10 @@ class SyncBanner extends StatelessWidget {
 String feedTimeLabel(DateTime time) {
   final now = DateTime.now();
   final diff = now.difference(time);
-  if (diff.isNegative || diff.inMinutes < 1) return tr('刚刚');
-  if (diff.inMinutes < 60) return trf('%d 分钟前', [diff.inMinutes]);
-  if (diff.inHours < 24) return trf('%d 小时前', [diff.inHours]);
-  if (diff.inDays < 7) return trf('%d 天前', [diff.inDays]);
+  if (diff.isNegative || diff.inMinutes < 1) return tr('ui.just_now');
+  if (diff.inMinutes < 60) return trf('ui.arg_0__min_ago', [diff.inMinutes]);
+  if (diff.inHours < 24) return trf('ui.arg_0__hr_ago', [diff.inHours]);
+  if (diff.inDays < 7) return trf('ui.arg_0__days_ago', [diff.inDays]);
   if (time.year == now.year) {
     return L10n.instance.english
         ? '${time.month}/${time.day}'

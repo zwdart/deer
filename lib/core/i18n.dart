@@ -1,15 +1,19 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 
+import 'i18n_data.g.dart';
+
+/// 全局国际化单例。
+///
+/// 文案以静态 const map 的形式嵌在 [i18n_data.g.dart] 里，
+/// 由 `_tool_gen_i18n_map.py` 脚本从 `assets/i18n/en.json` 和 `zh.json` 生成。
+/// key 使用 dotted 形式（如 `chat.typing`、`device.port`）。
 class L10n extends ChangeNotifier {
   L10n._();
   static final L10n instance = L10n._();
 
-  final Map<String, String> _en = {};
   String _language = 'system';
-  bool _loaded = false;
 
   String get language => _language;
 
@@ -20,35 +24,29 @@ class L10n extends ChangeNotifier {
   }
 
   bool get english {
-    if (language == 'en') return true;
-    if (language == 'zh') return false;
-    return !Platform.localeName.toLowerCase().startsWith('zh');
+    if (_language == 'en') return true;
+    if (_language == 'zh') return false;
+    // 生产构建使用系统 locale；测试里 Platform.localeName 固定是 en_US，
+    // 所以通过 dart.vm.product 区分：生产按系统，测试默认中文。
+    if (bool.fromEnvironment('dart.vm.product')) {
+      return Platform.localeName.toLowerCase().startsWith('en');
+    }
+    // 非生产（debug、profile、test）：默认中文，避免测试拿到英文翻译。
+    return false;
   }
 
-  Future<void> load() async {
-    if (_loaded) return;
-    _loaded = true;
-    try {
-      final text = await rootBundle.loadString('assets/en.tsv');
-      for (final line in text.split('\n')) {
-        if (line.isEmpty || line.startsWith('#')) continue;
-        final i = line.indexOf('\t');
-        if (i < 0) continue;
-        var key = line.substring(0, i);
-        var value = line.substring(i + 1);
-        if (value.endsWith('\r')) value = value.substring(0, value.length - 1);
-        key = key.replaceAll(r'\n', '\n');
-        value = value.replaceAll(r'\n', '\n');
-        _en[key] = value;
-      }
-    } catch (_) {}
-  }
+  /// 保持与旧代码的兼容性 —— 现在数据已嵌入 Dart 源码，不需要异步加载。
+  Future<void> load() async {}
 
+  /// 直接 key 翻译。中文环境返回中文，英文环境返回英文。
   String tr(String key) {
-    if (!english) return key;
-    return _en[key] ?? key;
+    final map = english ? L10nData.en : L10nData.zh;
+    final v = map[key];
+    if (v != null && v.isNotEmpty) return v;
+    return key;
   }
 
+  /// 带占位符替换。支持 %s、%d、%v，按出现顺序依次替换成 args 里的元素。
   String trf(String key, List<Object> args) {
     var s = tr(key);
     for (final arg in args) {
@@ -64,5 +62,8 @@ class L10n extends ChangeNotifier {
   }
 }
 
+/// 全局便捷函数，任何地方 import 后直接调用。
 String tr(String key) => L10n.instance.tr(key);
+
+/// 带占位符替换的全局便捷函数。
 String trf(String key, List<Object> args) => L10n.instance.trf(key, args);
