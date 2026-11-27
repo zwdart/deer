@@ -55,7 +55,11 @@ permissions:
 
 env:
   FLUTTER_VERSION: "3.47.5"
+  # APP_NAME 只用于发布产物文件名（deer-v1.0.0-...）
   APP_NAME: "deer"
+  # BIN_NAME 是 Flutter 真实产物名：linux/CMakeLists.txt BINARY_NAME、windows/CMakeLists.txt
+  # BINARY_NAME、macos/Runner/Configs/AppInfo.xcconfig PRODUCT_NAME 都是 dchat
+  BIN_NAME: "dchat"
 
 jobs:
   # ---------------------------------------------------------------------------
@@ -64,6 +68,12 @@ jobs:
   android:
     name: Android packages
     runs-on: ubuntu-24.04
+    env:
+      # 提升到 job 级，step 的 if 才能读到（step 级 env 在自身 if 中不可见）
+      ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+      ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+      ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -79,11 +89,6 @@ jobs:
 
       - name: Configure signing
         if: env.ANDROID_KEYSTORE_BASE64 != ''
-        env:
-          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
           echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
           cat > android/key.properties <<EOF
@@ -166,24 +171,41 @@ jobs:
           Compress-Archive -Path "${{ matrix.build_dir }}\*" `
             -DestinationPath "${{ matrix.build_dir }}\${APP_NAME}-${{ matrix.artifact }}-portable.zip" -Force
 
-      # MSIX 安装包（msix 工具在 Windows runner 上一条命令即可）
+      # MSIX 安装包。
+      # 注意：`dart pub global activate msix` 会把可执行文件装到 %PUB_CACHE%\bin，
+      # 但 Windows runner 上该目录不一定在 PATH 中，直接调用 `msix` 会报
+      # "The term 'msix' is not recognized"。改用 `dart pub global run msix:build`
+      # 走激活后的执行入口，绕过 PATH 问题（也避免 PowerShell 找不到 .bat 扩展名）。
       - name: Build MSIX installer
         shell: pwsh
         run: |
           dart pub global activate msix
-          msix create-config 2>$null || true
-          if (-not (Test-Path "msix_config.yaml")) {
-            @"
+
+          # 直接写配置，不调用 msix create-config（它在 PATH 缺失时会以
+          # 「命令未找到」的终止错误结束，连 `|| true` 都兜不住）
+          @"
           msix_config:
             display_name: $env:APP_NAME
             publisher_display_name: Local
+            publisher: CN=Local
             identity_name: com.local.$env:APP_NAME
             msix_version: 1.0.0.0
             logo_path: assets/icon.png
             certificate_path: ""
-          "@ | Out-File -FilePath "msix_config.yaml" -Encoding utf8
+          "@ | Out-File -FilePath msix_config.yaml -Encoding utf8
+
+          dart pub global run msix:build
+
+          # 兜底：把任意位置生成的 .msix 统一搬到 build_dir，确保 upload-artifact 找得到
+          $found = Get-ChildItem -Recurse -Filter *.msix -ErrorAction SilentlyContinue |
+            Select-Object -First 1
+          if ($found) {
+            Move-Item $found.FullName `
+              "${{ matrix.build_dir }}\$env:APP_NAME-${{ matrix.artifact }}.msix" -Force
+            Write-Host "==> MSIX staged: $env:APP_NAME-${{ matrix.artifact }}.msix"
+          } else {
+            Write-Host "==> No .msix produced; skipping (upload will tolerate via error-if-missing)."
           }
-          msix build
 
       # -----------------------------------------------------------------------
       # Enigma Virtual Box：把整个 Release 目录封成单文件 exe。
@@ -202,7 +224,7 @@ jobs:
         shell: pwsh
         run: |
           $releaseDir = "${{ matrix.build_dir }}"
-          $mainExe    = "$releaseDir\$env:APP_NAME.exe"
+          $mainExe    = "$releaseDir\$env:BIN_NAME.exe"
           $outputExe  = "$releaseDir\$env:APP_NAME-${{ matrix.artifact }}-portable.exe"
           $enigmaExe  = "EnigmaVB\EnigmaVB.exe"
 
@@ -277,95 +299,114 @@ jobs:
             --split-debug-info=build/debug-info/linux/${{ matrix.arch }}
 
       # -----------------------------------------------------------------------
-      # .deb 安装包
+      # 统一目录树：.deb 与 AppImage 共用 /opt/<app> 布局
+      #   /opt/deer/deer + lib/ + data/   ← 整个 Flutter bundle 原样放这里
+      #   /usr/bin/deer                   ← 相对软链，保证 /proc/self/exe 同级有 data/
+      # -----------------------------------------------------------------------
+      - name: Prepare release tree
+        run: |
+          set -e
+          BUNDLE="${{ matrix.bundle_dir }}"
+          ROOTDIR="build/linux/root"
+          APP_ID="com.local.${APP_NAME}"
+
+          rm -rf "$ROOTDIR"
+          mkdir -p "$ROOTDIR/opt/${BIN_NAME}"
+          mkdir -p "$ROOTDIR/usr/bin"
+          mkdir -p "$ROOTDIR/usr/share/applications"
+          mkdir -p "$ROOTDIR/usr/share/icons/hicolor/512x512/apps"
+
+          cp -a "$BUNDLE/." "$ROOTDIR/opt/${BIN_NAME}/"
+
+          # 相对软链：deb 中解析为 /opt/dchat/dchat；AppImage 中解析为挂载点/opt/dchat/dchat
+          ln -sf "../../opt/${BIN_NAME}/${BIN_NAME}" "$ROOTDIR/usr/bin/${BIN_NAME}"
+
+          {
+            echo "[Desktop Entry]"
+            echo "Name=${APP_NAME}"
+            echo "Exec=${BIN_NAME}"
+            echo "Icon=${APP_ID}"
+            echo "Type=Application"
+            echo "Categories=Network;Chat;"
+            echo "Terminal=false"
+            echo "StartupNotify=true"
+          } > "$ROOTDIR/usr/share/applications/${APP_ID}.desktop"
+
+          cp assets/icon.png "$ROOTDIR/usr/share/icons/hicolor/512x512/apps/${APP_ID}.png"
+
+      # -----------------------------------------------------------------------
+      # .deb 安装包：直接用 dpkg-deb 打包，不依赖 flutter_to_debian
+      # （flutter_to_debian 2.x 已移除 --main-exe 等旧参数，且行为不稳定）
       # -----------------------------------------------------------------------
       - name: Build .deb installer
         run: |
-          dart pub global activate flutter_to_debian
-          flutter_to_debian \
-            --main-exe "${APP_NAME}" \
-            --org "local" \
-            --project-name "${APP_NAME}" \
-            --project-version "$(git describe --tags --abbrev=0)" \
-            --description "dchat LAN peer-to-peer chat"
-
-      # -----------------------------------------------------------------------
-      # AppImage 单文件免安装：组装符合 AppImage 规范的 AppDir 再打包
-      # -----------------------------------------------------------------------
-      - name: Prepare AppImage AppDir
-        run: |
           set -e
-          APP_NAME="${APP_NAME}"
-          APP_ID="com.local.${APP_NAME}"
-          BUNDLE="${{ matrix.bundle_dir }}"
-          APPDIR="build/linux/AppDir"
+          ROOTDIR="build/linux/root"
+          DEBROOT="build/linux/deb"
+          VERSION="$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//')"
+          VERSION="${VERSION:-1.0.0}"
 
-          rm -rf "$APPDIR"
-          mkdir -p "$APPDIR/usr/bin"
-          mkdir -p "$APPDIR/usr/lib/$APP_NAME"
-          mkdir -p "$APPDIR/usr/share/icons/hicolor/512x512/apps"
-          mkdir -p "$APPDIR/usr/share/applications"
+          rm -rf "$DEBROOT"
+          cp -a "$ROOTDIR/." "$DEBROOT/"
+          mkdir -p "$DEBROOT/DEBIAN"
 
-          cp "$BUNDLE/$APP_NAME" "$APPDIR/usr/bin/"
-          cp -r "$BUNDLE/lib"    "$APPDIR/usr/lib/$APP_NAME/" 2>/dev/null || true
-          cp -r "$BUNDLE/data"   "$APPDIR/usr/lib/$APP_NAME/" 2>/dev/null || true
-          cp "$BUNDLE/libapp.so" "$APPDIR/usr/lib/$APP_NAME/" 2>/dev/null || true
-          cp "$BUNDLE/*.so"      "$APPDIR/usr/lib/$APP_NAME/" 2>/dev/null || true
+          {
+            echo "Package: ${APP_NAME}"
+            echo "Version: ${VERSION}"
+            echo "Architecture: ${{ matrix.arch }}"
+            echo "Maintainer: local <local@localhost>"
+            echo "Installed-Size: $(du -sk "$DEBROOT" | cut -f1)"
+            echo "Depends: libgtk-3-0, libglib2.0-0"
+            echo "Section: net"
+            echo "Priority: optional"
+            echo "Description: dchat LAN peer-to-peer chat"
+            echo " deer (dchat) is a LAN peer-to-peer chat client compatible with the zchat protocol."
+          } > "$DEBROOT/DEBIAN/control"
 
-          cat > "$APPDIR/${APP_ID}.desktop" <<EOF
-          [Desktop Entry]
-          Name=$APP_NAME
-          Exec=$APP_NAME
-          Icon=$APP_ID
-          Type=Application
-          Categories=Network;Chat;
-          Terminal=false
-          StartupNotify=true
-          EOF
+          chmod 0644 "$DEBROOT/DEBIAN/control"
+          dpkg-deb --build --root-owner-group "$DEBROOT" \
+            "build/linux/${APP_NAME}-${{ matrix.artifact_tag }}.deb"
+          ls -lh "build/linux/${APP_NAME}-${{ matrix.artifact_tag }}.deb"
 
-          cp assets/icon.png "$APPDIR/usr/share/icons/hicolor/512x512/apps/${APP_ID}.png"
-
-          cat > "$APPDIR/AppRun" <<'RUNEOF'
-          #!/bin/sh
-          APP_NAME="$(basename "$0")"
-          HERE="$(dirname "$(readlink -f "$0")")"
-          export LD_LIBRARY_PATH="$HERE/usr/lib/$APP_NAME:$LD_LIBRARY_PATH"
-          cd "$HERE/usr/lib/$APP_NAME"
-          exec "$HERE/usr/bin/$APP_NAME" "$@"
-          RUNEOF
-          chmod +x "$APPDIR/AppRun"
-
-          ln -sf "AppRun" "$APPDIR/$APP_NAME"
-          ln -sf "usr/share/icons/hicolor/512x512/apps/${APP_ID}.png" "$APPDIR/${APP_ID}.png"
-          ln -sf "${APP_ID}.desktop" "$APPDIR/${APP_ID}.desktop"
-
-      - name: Download appimagetool
-        run: |
-          curl -L https://appimage.github.io/appimagetool/download -o appimagetool
-          chmod +x appimagetool
-
+      # -----------------------------------------------------------------------
+      # AppImage 单文件免安装：复用同一棵树组装 AppDir 再打包
+      # -----------------------------------------------------------------------
       - name: Build .AppImage (${{ matrix.arch }})
         run: |
           set -e
-          APP_NAME="${APP_NAME}"
-          APP_ID="com.local.${APP_NAME}"
+          ROOTDIR="build/linux/root"
           APPDIR="build/linux/AppDir"
-          OUTPUT="build/linux/${APP_NAME}-${{ matrix.artifact_tag }}-portable.AppImage"
+          APP_ID="com.local.${APP_NAME}"
 
-          # appimagetool 支持 x86_64 和 aarch64
-          export ARCH="${{ matrix.arch }}"
-          ./appimagetool "$APPDIR" "$OUTPUT"
-          chmod +x "$OUTPUT"
-          ls -lh "$OUTPUT"
+          rm -rf "$APPDIR"
+          cp -a "$ROOTDIR/." "$APPDIR/"
+          # AppImage 规范：根目录必须有 .desktop 和同名图标
+          cp "$ROOTDIR/usr/share/applications/${APP_ID}.desktop" "$APPDIR/"
+          cp assets/icon.png "$APPDIR/${APP_ID}.png"
 
-      - name: Locate & move .deb
-        run: |
-          DEB=$(find . -maxdepth 3 -name "*.deb" 2>/dev/null | head -n1)
-          if [ -n "$DEB" ]; then
-            mv "$DEB" "build/linux/${APP_NAME}-${{ matrix.artifact_tag }}.deb"
-          else
-            echo "No .deb produced; skipping."
-          fi
+          cat > "$APPDIR/AppRun" <<RUNEOF
+          #!/bin/sh
+          HERE="\$(dirname "\$(readlink -f "\$0")")"
+          exec "\$HERE/opt/${BIN_NAME}/${BIN_NAME}" "\$@"
+          RUNEOF
+          chmod +x "$APPDIR/AppRun"
+
+          # appimagetool 按架构发布独立文件；Ubuntu 24.04 无 libfuse2，
+          # 用 --appimage-extract-and-run 免 FUSE 运行
+          case "${{ matrix.arch }}" in
+            amd64) TOOL_ARCH=x86_64 ;;
+            arm64) TOOL_ARCH=aarch64 ;;
+            *) echo "unsupported arch: ${{ matrix.arch }}"; exit 1 ;;
+          esac
+          curl -fL --retry 5 --retry-delay 3 --connect-timeout 20 -o appimagetool \
+            "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-${TOOL_ARCH}.AppImage"
+          chmod +x appimagetool
+
+          export ARCH="$TOOL_ARCH"
+          ./appimagetool --appimage-extract-and-run "$APPDIR" \
+            "build/linux/${APP_NAME}-${{ matrix.artifact_tag }}-portable.AppImage"
+          chmod +x "build/linux/${APP_NAME}-${{ matrix.artifact_tag }}-portable.AppImage"
+          ls -lh "build/linux/${APP_NAME}-${{ matrix.artifact_tag }}-portable.AppImage"
 
       - uses: actions/upload-artifact@v4
         with:
@@ -409,16 +450,25 @@ jobs:
         env:
           FLUTTER_XCODE_ARCHS: ${{ matrix.xcode_arch }}
         run: |
+          # 注意：flutter build macos 没有 --no-codesign 选项（那是 build ios 的）。
+          # Flutter 在 macOS 上默认使用本地 ad-hoc 签名（"-"），无需开发者证书。
           flutter build macos --release \
             --obfuscate \
-            --split-debug-info=build/debug-info/macos/${{ matrix.arch }} \
-            --no-codesign
+            --split-debug-info=build/debug-info/macos/${{ matrix.arch }}
+
+      # 无 Apple 证书时的兜底：对 .app 做一次 ad-hoc 签名。
+      # arm64 上缺少有效签名的 app 可能无法启动；zip/dmg 分发不要求公证。
+      - name: Ad-hoc sign app
+        run: |
+          codesign --force --deep --sign - \
+            "build/macos/Build/Products/Release/${BIN_NAME}.app"
+          codesign -dv "build/macos/Build/Products/Release/${BIN_NAME}.app" 2>&1 | head -5
 
       # .zip 保留父目录，解压直接得到 .app
       - name: Package .zip
         run: |
           cd build/macos/Build/Products/Release
-          /usr/bin/ditto -c -k --keepParent "${APP_NAME}.app" \
+          /usr/bin/ditto -c -k --keepParent "${BIN_NAME}.app" \
             "${APP_NAME}-${{ matrix.artifact_tag }}.zip"
 
       # .dmg：用 create-dmg 创建带窗口样式的安装镜像
@@ -426,16 +476,17 @@ jobs:
         run: |
           set -e
           BUNDLE="build/macos/Build/Products/Release"
-          APP_PATH="${BUNDLE}/${APP_NAME}.app"
+          APP_PATH="${BUNDLE}/${BIN_NAME}.app"
           OUTPUT="build/macos/${APP_NAME}-${{ matrix.artifact_tag }}.dmg"
 
           command -v create-dmg || brew install create-dmg
 
           create-dmg \
+            --skip-jenkins \
             --volname "${APP_NAME}" \
             --window-size 520 320 \
             --icon-size 100 \
-            --icon "${APP_NAME}.app" 140 160 \
+            --icon "${BIN_NAME}.app" 140 160 \
             --app-drop-link 380 160 \
             "$OUTPUT" \
             "$APP_PATH"
