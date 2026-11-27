@@ -225,33 +225,36 @@ jobs:
             -DestinationPath "$dist\$env:APP_NAME-${{ matrix.artifact }}-portable.zip" -Force
 
       # MSIX 安装包。
-      # 两个坑：
+      # 三个坑（都已在下面规避）：
       # 1) `dart pub global activate msix` 装到 %PUB_CACHE%\bin，该目录不在 PATH，
       #    直接调用 `msix` 会「命令未识别」，故用 `dart pub global run msix:build`。
-      # 2) msix 默认 architecture=x64 并会自己再跑一遍 flutter build，
-      #    必须显式指定 architecture 且 build_windows=false，否则会去
-      #    build\windows\runner\Release 找文件（实际在 build\windows\<arch>\runner\Release）。
+      # 2) msix 3.x 从 **pubspec.yaml** 的 `msix_config:` 节点读配置，
+      #    写 msix_config.yaml 完全不生效 —— 必须用命令行参数。
+      # 3) msix 默认 architecture=x64、build_windows=true，会自己重跑
+      #    `flutter build windows`（丢失混淆参数）并去 build\windows\runner\Release
+      #    找文件；实际产物在 build\windows\<arch>\runner\Release。
       - name: Build MSIX installer
         shell: pwsh
         run: |
           dart pub global activate msix
 
-          @"
-          msix_config:
-            display_name: $env:APP_NAME
-            publisher_display_name: Local
-            publisher: CN=Local
-            identity_name: com.local.$env:APP_NAME
-            msix_version: 1.0.0.0
-            logo_path: assets/icon.png
-            architecture: ${{ matrix.arch }}
-            build_windows: false
-            install_certificate: false
-            output_path: $env:GITHUB_WORKSPACE\build\dist
-            output_name: $env:APP_NAME-${{ matrix.artifact }}
-          "@ | Out-File -FilePath msix_config.yaml -Encoding utf8
+          # 兜底：为旧版路径建一个目录联接，指向真实架构目录（msix 某些分支会读这里）
+          $legacy = "build\windows\runner"
+          New-Item -ItemType Directory -Force $legacy | Out-Null
+          New-Item -ItemType Junction -Force `
+            -Path "$legacy\Release" `
+            -Target (Join-Path $PWD "${{ matrix.build_dir }}") | Out-Null
 
-          dart pub global run msix:build
+          dart pub global run msix:build `
+            --architecture ${{ matrix.arch }} `
+            --build-windows false `
+            --install-certificate false `
+            --display-name $env:APP_NAME `
+            --identity-name "com.local.$env:APP_NAME" `
+            --publisher "CN=Local" `
+            --logo-path assets/icon.png `
+            --output-path "$PWD\build\dist" `
+            --output-name "$env:APP_NAME-${{ matrix.artifact }}"
 
           Get-ChildItem build\dist -Filter *.msix | Format-Table Name, Length
 
