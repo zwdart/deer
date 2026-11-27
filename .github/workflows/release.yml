@@ -256,7 +256,22 @@ jobs:
             --output-path "$PWD\build\dist" `
             --output-name "$env:APP_NAME-${{ matrix.artifact }}"
 
-          Get-ChildItem build\dist -Filter *.msix | Format-Table Name, Length
+          # msix 的 --output-path 并不总被遵循（有的分支仍写到默认 Release 目录），
+          # 这里兜底：全仓搜一次 .msix，统一改名为带 arch tag 的文件放进 build/dist
+          $target = Join-Path $PWD "build\dist\$env:APP_NAME-${{ matrix.artifact }}.msix"
+          $src = Get-ChildItem -Recurse -File -Filter *.msix -ErrorAction SilentlyContinue |
+            Where-Object { $_.FullName -ne $target } |
+            Select-Object -First 1
+          if ($src) {
+            Copy-Item $src.FullName $target -Force
+            Write-Host "==> MSIX staged: $target"
+          } elseif (Test-Path $target) {
+            Write-Host "==> MSIX already in place: $target"
+          } else {
+            throw "msix 未产出 .msix 文件（arm64 runner 可能缺 makeappx/signtool）"
+          }
+
+          Get-ChildItem build\dist | Format-Table Name, Length
 
       - uses: actions/upload-artifact@v4
         with:
@@ -533,13 +548,23 @@ jobs:
 
       - name: Inspect & stage release assets
         run: |
-          ls -lah artifacts/
+          ls -R artifacts | head -50
           mkdir -p packages
-          # 复制所有产物；各平台各架构文件名已带 tag，天然不冲突
-          cp -v artifacts/* packages/
+          # upload-artifact 会保留路径结构（android 的 flutter-apk/、bundle/ 子目录，
+          # macOS 的 Build/Products/Release/），直接 cp artifacts/* 会因目录失败。
+          # 这里按扩展名递归收集并平铺到 packages/，文件名本身已带平台+架构 tag。
+          find artifacts -type f \
+            \( -iname '*.apk' -o -iname '*.aab' -o -iname '*.msix' \
+            -o -iname '*.dmg' -o -iname '*.zip' -o -iname '*.deb' \
+            -o -iname '*.appimage' -o -iname '*.exe' \) \
+            -print0 | while IFS= read -r -d '' f; do
+              cp -v "$f" packages/
+            done
           echo ""
           echo "==> Final release assets:"
           ls -lh packages/
+          # 至少要有桌面三端产物，否则说明上游某个 job 漏了东西
+          test -n "$(ls -A packages/)" || { echo "no release assets collected"; exit 1; }
 
       - name: Create GitHub release & upload all assets
         uses: softprops/action-gh-release@v2
