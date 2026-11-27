@@ -90,21 +90,42 @@ class FeedSource {
       );
 }
 
-/// 内置的推荐订阅源，仅在「推荐」页展示，点击后才写入本地数据库。
+/// 推荐订阅源：来自服务端公共池（[PubrssClient]）或本地内置 fallback。
 class RecommendedFeed {
   final String name;
   final String url;
   final String category;
   final String description;
 
+  /// 可选：网站首页、图标、标签（服务端接口返回）。
+  final String siteUrl;
+  final String iconUrl;
+  final String tags;
+
   const RecommendedFeed(
     this.name,
     this.url, {
     this.category = '',
     this.description = '',
+    this.siteUrl = '',
+    this.iconUrl = '',
+    this.tags = '',
   });
 
   String get host => urlHost(url).isEmpty ? url : urlHost(url);
+
+  /// 服务端接口 `items[]` → RecommendedFeed
+  factory RecommendedFeed.fromJson(Map<String, dynamic> json) {
+    return RecommendedFeed(
+      (json['title'] as String? ?? '').trim(),
+      (json['url'] as String? ?? '').trim(),
+      category: (json['category'] as String? ?? '').trim(),
+      description: (json['description'] as String? ?? '').trim(),
+      siteUrl: (json['site_url'] as String? ?? '').trim(),
+      iconUrl: (json['icon_url'] as String? ?? '').trim(),
+      tags: (json['tags'] as String? ?? '').trim(),
+    );
+  }
 }
 
 /// 一篇文章。列表查询不取 [summary]/[content] 之外的正文字段，见 [RssDatabase]。

@@ -280,14 +280,25 @@ Future<T?> showAdaptiveActionSheet<T>(
   return showModalBottomSheet<T>(
     context: context,
     showDragHandle: true,
+    isScrollControlled: true,
+    useSafeArea: true,
     builder: (context) {
       final c = appColors(context);
-      return SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (title != null)
-              Padding(
+      final actionsList = actions;
+      return ConstrainedBox(
+        // 最大到屏幕 85% 高度，超过则内部滚动，不会被键盘或状态栏裁掉
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.85,
+        ),
+        child: ListView.separated(
+          shrinkWrap: true,
+          padding: EdgeInsets.zero,
+          itemCount: 1 + actionsList.length, // 标题 + N 项
+          separatorBuilder: (_, _) => const Divider(height: 1, thickness: 1),
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              if (title == null) return const SizedBox.shrink();
+              return Padding(
                 padding: const EdgeInsets.fromLTRB(20, 4, 20, 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
@@ -299,19 +310,18 @@ Future<T?> showAdaptiveActionSheet<T>(
                     ),
                   ),
                 ),
+              );
+            }
+            final action = actionsList[index - 1];
+            return ListTile(
+              leading: action.icon == null ? null : Icon(action.icon),
+              title: Text(
+                action.label,
+                style: action.destructive ? TextStyle(color: c.danger) : null,
               ),
-            for (final action in actions)
-              ListTile(
-                leading: action.icon == null ? null : Icon(action.icon),
-                title: Text(
-                  action.label,
-                  style: action.destructive
-                      ? TextStyle(color: c.danger)
-                      : null,
-                ),
-                onTap: () => Navigator.pop(context, action.value),
-              ),
-          ],
+              onTap: () => Navigator.pop(context, action.value),
+            );
+          },
         ),
       );
     },

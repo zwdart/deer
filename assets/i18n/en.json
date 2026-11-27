@@ -886,5 +886,14 @@
   "share.size_mismatch_recv": "Size mismatch: received ",
   "chat.added_fragment": " added ",
   "image.cannot_locate_dir": "Cannot locate save dir",
-  "comma_expected": ", expected "
+  "comma_expected": ", expected ",
+  "rss.loading_recommended": "Loading recommendations…",
+  "rss.load_failed": "Failed to load recommendations",
+  "rss.server_failed": "Server temporarily unavailable — showing offline picks.",
+  "rss.change_batch": "Refresh",
+  "rss.retry": "Retry",
+  "rss.offline_fallback": "Offline picks",
+  "rss.intro_title": "Curated RSS sources",
+  "rss.intro_body": "These public RSS sources are curated by the admin and returned as a random batch. Tap a card to subscribe — everything stays on this device, nothing is uploaded.",
+  "ui.info": "About"
 }

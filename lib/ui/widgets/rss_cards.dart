@@ -720,17 +720,17 @@ class SyncBanner extends StatelessWidget {
   }
 }
 
+/// 文章时间标签：直接显示具体时间，不用「x 分钟前」这类相对表述。
+/// 相对时间在同步刚结束时全都显示成「刚刚」，容易被误认为抓取时间。
 String feedTimeLabel(DateTime time) {
+  final local = time.toLocal();
   final now = DateTime.now();
-  final diff = now.difference(time);
-  if (diff.isNegative || diff.inMinutes < 1) return tr('ui.just_now');
-  if (diff.inMinutes < 60) return trf('ui.arg_0__min_ago', [diff.inMinutes]);
-  if (diff.inHours < 24) return trf('ui.arg_0__hr_ago', [diff.inHours]);
-  if (diff.inDays < 7) return trf('ui.arg_0__days_ago', [diff.inDays]);
-  if (time.year == now.year) {
+  final hm = '${local.hour.toString().padLeft(2, '0')}:'
+      '${local.minute.toString().padLeft(2, '0')}';
+  if (local.year == now.year) {
     return L10n.instance.english
-        ? '${time.month}/${time.day}'
-        : '${time.month}月${time.day}日';
+        ? '${local.month}/${local.day} $hm'
+        : '${local.month}月${local.day}日 $hm';
   }
-  return '${time.year}/${time.month}/${time.day}';
+  return '${local.year}/${local.month}/${local.day} $hm';
 }

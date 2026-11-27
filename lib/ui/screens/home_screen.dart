@@ -23,20 +23,20 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   static const _pages = [
-    CommScreen(),
-    ShareScreen(),
     RssScreen(),
     RecommendedFeedsScreen(),
+    CommScreen(),
+    ShareScreen(),
   ];
 
   static List<_NavItem> _items() => [
-        _NavItem(Icons.forum_outlined, Icons.forum, L10n.instance.tr('chat.messages_2')),
-        _NavItem(Icons.folder_shared_outlined, Icons.folder_shared,
-            L10n.instance.tr('share.share')),
         _NavItem(Icons.newspaper_outlined, Icons.newspaper,
             L10n.instance.tr('rss.news')),
         _NavItem(Icons.explore_outlined, Icons.explore,
             L10n.instance.tr('rss.discover')),
+        _NavItem(Icons.forum_outlined, Icons.forum, L10n.instance.tr('chat.messages_2')),
+        _NavItem(Icons.folder_shared_outlined, Icons.folder_shared,
+            L10n.instance.tr('share.share')),
       ];
 
   @override

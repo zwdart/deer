@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:charset/charset.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 
@@ -41,6 +41,24 @@ class RssFetcher {
   static const String userAgent =
       'Mozilla/5.0 (compatible; dchat-rss/1.0; +https://dart.xin)';
 
+  // ---------------------------------------------------------------------------
+  // 证书信任：Windows 系统 CA 库缺部分根证书（如 Starfield / StartSSL），
+  // 导致 https://rss.huxiu.com 等少数合法源报 CERTIFICATE_VERIFY_FAILED。
+  // 这里内嵌一份 Mozilla 的公共 CA 包 assets/cacert.pem，完全替代系统信任库，
+  // 保证所有桌面平台行为一致。详见 README 注释：cacert.pem 取自
+  // https://curl.se/ca/cacert.pem，118 个根证书、约 196KB。
+  static SecurityContext? _trust;
+  static Future<SecurityContext> _loadTrust() async {
+    if (_trust != null) return _trust!;
+    final bytes = await rootBundle.load('assets/cacert.pem');
+    // 完全替换系统信任库 —— 只信我们包里的 CA，避免 Windows CryptoAPI 上
+    // 某些老机器缺中间证书 / 信任过期的情况。
+    final ctx = SecurityContext()
+      ..setTrustedCertificatesBytes(bytes.buffer.asUint8List());
+    _trust = ctx;
+    return ctx;
+  }
+
   static Future<FeedResponse> fetch(
     String url, {
     String? etag,
@@ -50,7 +68,8 @@ class RssFetcher {
     if (uri == null || !(uri.isScheme('http') || uri.isScheme('https'))) {
       return FeedResponse.failed('不支持的地址');
     }
-    final client = IOClient(HttpClient()..userAgent = userAgent);
+    final context = await _loadTrust();
+    final client = IOClient(HttpClient(context: context)..userAgent = userAgent);
     try {
       final request = http.Request('GET', uri)
         ..followRedirects = true

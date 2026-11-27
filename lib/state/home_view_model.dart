@@ -21,17 +21,17 @@ class HomeViewModel extends ChangeNotifier {
 
   void openChats() {
     commSegment.value = 0;
-    select(0);
+    select(2);
   }
 
   void openDevices() {
     commSegment.value = 1;
-    select(0);
+    select(2);
   }
 
-  void openShare() => select(1);
+  void openShare() => select(3);
 
-  void openNews() => select(2);
+  void openNews() => select(0);
 
   @override
   void dispose() {

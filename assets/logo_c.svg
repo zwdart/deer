@@ -7,12 +7,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
   <defs>
     <linearGradient id="ringC" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#42A5F5"/>
-      <stop offset="100%" stop-color="#0D47A1"/>
+      <stop offset="0%" stop-color="#42A6F6"/>
+      <stop offset="100%" stop-color="#0227A1"/>
     </linearGradient>
     <linearGradient id="squareC" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1976D2"/>
-      <stop offset="100%" stop-color="#0D47A1"/>
+      <stop offset="0%" stop-color="#2276D2"/>
+      <stop offset="100%" stop-color="#2227A1"/>
     </linearGradient>
   </defs>
 
@@ -21,12 +21,12 @@
 
   <!-- 外环：r=38，线宽10（和 v3 一样，整体比例没变） -->
   <circle cx="60" cy="60" r="38" fill="none" stroke="url(#ringC)"
-          stroke-width="10" stroke-linecap="round"/>
+          stroke-width="18" stroke-linecap="round"/>
 
   <!-- 中心方形：30×30，rx=7，比 v3 的 36 再小一点 -->
-  <rect x="45" y="45" width="30" height="30" rx="7" ry="7" fill="url(#squareC)"/>
+  <rect x="48" y="48" width="22" height="22" rx="7" ry="7" fill="url(#squareC)"/>
   <!-- 方形内鹿元素（等比缩放保持居中） -->
   <path d="M 56.5 57 L 52 52.5 L 54 54.5 Z" fill="#BBDEFB"/>
   <path d="M 63.5 57 L 68 52.5 L 66 54.5 Z" fill="#BBDEFB"/>
-  <circle cx="60" cy="63.5" r="3" fill="#F0F7FF"/>
+  <circle cx="59" cy="56.5" r="3" fill="#F0F7FF"/>
 </svg>

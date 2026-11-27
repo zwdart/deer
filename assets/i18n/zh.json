@@ -886,5 +886,14 @@
   "share.size_mismatch_recv": "文件大小不一致：收到 ",
   "chat.added_fragment": "新增了 ",
   "image.cannot_locate_dir": "无法定位保存目录",
-  "comma_expected": "，预期 "
+  "comma_expected": "，预期 ",
+  "rss.loading_recommended": "正在加载推荐…",
+  "rss.load_failed": "加载推荐订阅失败",
+  "rss.server_failed": "服务器暂时不可用，已切换到本地精选。",
+  "rss.change_batch": "换一批",
+  "rss.retry": "重试",
+  "rss.offline_fallback": "本地精选",
+  "rss.intro_title": "精选订阅源",
+  "rss.intro_body": "这里展示的公共 RSS 源由管理员维护，随机返回一批。点击卡片即可一键订阅，内容只保存在这台设备上，不会上传到任何服务器。",
+  "ui.info": "说明"
 }
