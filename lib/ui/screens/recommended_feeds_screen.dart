@@ -39,12 +39,16 @@ class _RecommendedFeedsScreenState extends State<RecommendedFeedsScreen> {
     return s;
   }
 
-  bool _subscribed(RssController rss, RecommendedFeed feed) {
+  bool _subscribed(RssController rss, RecommendedFeed feed) =>
+      _existing(rss, feed) != null;
+
+  /// 找到本地已订阅的同一个源（按 URL 归一化比较），用于取消订阅。
+  FeedSource? _existing(RssController rss, RecommendedFeed feed) {
     final target = _normalize(feed.url);
     for (final f in rss.feeds) {
-      if (_normalize(f.url) == target) return true;
+      if (_normalize(f.url) == target) return f;
     }
-    return false;
+    return null;
   }
 
   Future<void> _subscribe(RssController rss, RecommendedFeed feed) async {
@@ -59,6 +63,36 @@ class _RecommendedFeedsScreenState extends State<RecommendedFeedsScreen> {
       showAppSnack(context, message);
     } else {
       showAppSnack(context, trf('rss.subscribed_to__arg_0', [feed.name]));
+    }
+  }
+
+  Future<void> _unsubscribe(RssController rss, RecommendedFeed feed) async {
+    if (_busy.contains(feed.url)) return;
+    final existing = _existing(rss, feed);
+    final id = existing?.id;
+    if (id == null) return;
+    // 取消订阅会连同本地已抓取的文章一起删除，先确认一次。
+    final ok = await confirmAction(
+      context,
+      title: tr('rss.unsubscribe'),
+      message: trf('rss.remove__arg_0__and_its_saved_articles', [feed.name]),
+      destructive: true,
+    );
+    if (!ok || !mounted) return;
+    setState(() => _busy.add(feed.url));
+    await rss.deleteFeed(id);
+    if (!mounted) return;
+    setState(() => _busy.remove(feed.url));
+    showAppSnack(context, tr('rss.unsubscribed'));
+  }
+
+  /// 点击卡片 / 按钮：未订阅则订阅，已订阅则取消。
+  void _toggle(RssController rss, RecommendedFeed feed) {
+    if (_busy.contains(feed.url)) return;
+    if (_subscribed(rss, feed)) {
+      _unsubscribe(rss, feed);
+    } else {
+      _subscribe(rss, feed);
     }
   }
 
@@ -256,7 +290,7 @@ class _RecommendedFeedsScreenState extends State<RecommendedFeedsScreen> {
                           feed: feed,
                           subscribed: _subscribed(rss, feed),
                           busy: _busy.contains(feed.url),
-                          onSubscribe: () => _subscribe(rss, feed),
+                          onToggle: () => _toggle(rss, feed),
                         );
                       },
                       childCount: _visible.length,
@@ -329,13 +363,15 @@ class _RecommendCard extends StatelessWidget {
   final RecommendedFeed feed;
   final bool subscribed;
   final bool busy;
-  final VoidCallback onSubscribe;
+
+  /// 未订阅时订阅，已订阅时取消订阅。
+  final VoidCallback onToggle;
 
   const _RecommendCard({
     required this.feed,
     required this.subscribed,
     required this.busy,
-    required this.onSubscribe,
+    required this.onToggle,
   });
 
   @override
@@ -347,7 +383,7 @@ class _RecommendCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
-        onTap: subscribed || busy ? null : onSubscribe,
+        onTap: busy ? null : onToggle,
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -433,7 +469,7 @@ class _RecommendCard extends StatelessWidget {
                   _SubscribeButton(
                     subscribed: subscribed,
                     busy: busy,
-                    onPressed: onSubscribe,
+                    onPressed: onToggle,
                   ),
                 ],
               ),
@@ -467,15 +503,22 @@ class _SubscribeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (subscribed) {
+      // 已订阅：按钮变成可点击的「取消订阅」，点卡片同一位置也是这个动作。
       return OutlinedButton.icon(
-        onPressed: null,
+        onPressed: busy ? null : onPressed,
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           minimumSize: Size.zero,
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
-        icon: const Icon(Icons.check, size: 15),
-        label: Text(tr('rss.subscribed'), style: const TextStyle(fontSize: 12)),
+        icon: busy
+            ? const SizedBox(
+                width: 13,
+                height: 13,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+            : const Icon(Icons.check, size: 15),
+        label: Text(tr('rss.unsubscribe'), style: const TextStyle(fontSize: 12)),
       );
     }
     return FilledButton.icon(

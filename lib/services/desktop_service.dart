@@ -31,7 +31,9 @@ class DesktopService with WindowListener, tray.TrayListener {
     _started = true;
     await windowManager.ensureInitialized();
     const options = WindowOptions(
-      size: Size(1180, 780),
+      // 侧栏 210 + 分隔线 1 + 信息流最大宽度 780 ≈ 991，取 1010 留一点余量，
+      // 保证窗口打开时信息流刚好铺满内容区，两侧不会空出大片背景。
+      size: Size(1010, 780),
       minimumSize: Size(900, 620),
       center: true,
       title: 'deer',

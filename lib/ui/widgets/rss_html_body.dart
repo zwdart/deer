@@ -103,7 +103,7 @@ String _absolute(String src, String? baseUrl) {
   }
 }
 
-class RssHtmlBody extends StatelessWidget {
+class RssHtmlBody extends StatefulWidget {
   final String html;
   final String? baseUrl;
   final double fontSize;
@@ -120,9 +120,34 @@ class RssHtmlBody extends StatelessWidget {
   });
 
   @override
+  State<RssHtmlBody> createState() => _RssHtmlBodyState();
+}
+
+class _RssHtmlBodyState extends State<RssHtmlBody> {
+  /// HTML 解析（含图片拆分）是长文详情页里最贵的一步，
+  /// 缓存下来，只有正文真的变了才重新解析，避免重建时反复 parse。
+  late List<RssBlock> _blocks;
+
+  @override
+  void initState() {
+    super.initState();
+    _blocks = splitRssHtml(widget.html, baseUrl: widget.baseUrl);
+  }
+
+  @override
+  void didUpdateWidget(covariant RssHtmlBody oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.html != widget.html || oldWidget.baseUrl != widget.baseUrl) {
+      _blocks = splitRssHtml(widget.html, baseUrl: widget.baseUrl);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final c = appColors(context);
-    final blocks = splitRssHtml(html, baseUrl: baseUrl);
+    final fontSize = widget.fontSize;
+    final lineHeight = widget.lineHeight;
+    final blocks = _blocks;
     if (blocks.isEmpty) {
       return Text(
         ' ',
@@ -174,19 +199,22 @@ class RssHtmlBody extends StatelessWidget {
     final children = <Widget>[];
     for (final block in blocks) {
       if (block is RssImageBlock) {
-        if (!showImages) continue;
+        if (!widget.showImages) continue;
         children.add(Padding(
           padding: EdgeInsets.symmetric(vertical: fontSize * 0.6),
           child: DetailImage(url: block.url, radius: 12),
         ));
       } else if (block is RssTextBlock) {
+        // 每个文本块单独隔离重绘，滚动时不会整篇一起重绘。
         children.add(
-          Html(
-            data: block.html,
-            style: styles,
-            onLinkTap: (url, attributes, element) {
-              _openLink(url ?? attributes['href']);
-            },
+          RepaintBoundary(
+            child: Html(
+              data: block.html,
+              style: styles,
+              onLinkTap: (url, attributes, element) {
+                _openLink(url ?? attributes['href']);
+              },
+            ),
           ),
         );
       }

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="deer app icon">
+  <defs>
+    <linearGradient id="skyGradIcon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8BE3FF"/>
+      <stop offset="0.55" stop-color="#38B6FF"/>
+      <stop offset="1" stop-color="#1677FF"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 圆角方形底 -->
+  <rect x="6" y="6" width="88" height="88" rx="22" fill="#F7FCFF"/>
+
+  <!-- 圆角三角形 -->
+  <path d="M50 20
+           C53.5 20 55.5 22 57 25
+           L74.5 62
+           C76.5 66 75 68 71 68
+           L29 68
+           C25 68 23.5 66 25.5 62
+           L43 25
+           C44.5 22 46.5 20 50 20 Z"
+        fill="url(#skyGradIcon)"/>
+
+  <!-- 圆点 -->
+  <circle cx="50" cy="80" r="5.5" fill="#0B5FA5"/>
+</svg>

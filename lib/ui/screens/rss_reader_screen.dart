@@ -24,7 +24,11 @@ class RssReaderScreen extends StatefulWidget {
 class _RssReaderScreenState extends State<RssReaderScreen> {
   final ScrollController _scroller = ScrollController();
   RssArticle? _full;
-  double _progress = 0;
+
+  /// 阅读进度用 ValueNotifier 单独驱动那根 2px 进度条。
+  /// 之前用 setState，每滚动 1% 就重建整个页面（含全文 HTML 重新解析排版），
+  /// 长文下滚动会明显掉帧。
+  final ValueNotifier<double> _progress = ValueNotifier<double>(0);
 
   @override
   void initState() {
@@ -38,6 +42,7 @@ class _RssReaderScreenState extends State<RssReaderScreen> {
     _scroller
       ..removeListener(_onScroll)
       ..dispose();
+    _progress.dispose();
     super.dispose();
   }
 
@@ -45,8 +50,8 @@ class _RssReaderScreenState extends State<RssReaderScreen> {
     if (!_scroller.hasClients) return;
     final max = _scroller.position.maxScrollExtent;
     final next = max <= 0 ? 1.0 : (_scroller.position.pixels / max).clamp(0.0, 1.0);
-    if ((next - _progress).abs() < 0.01) return;
-    setState(() => _progress = next);
+    if ((next - _progress.value).abs() < 0.01) return;
+    _progress.value = next;
   }
 
   Future<void> _load() async {
@@ -75,13 +80,44 @@ class _RssReaderScreenState extends State<RssReaderScreen> {
     return null;
   }
 
+  /// 收藏状态以 controller 里的文章列表为准：setStarred 用 copyWith 生成新对象，
+  /// [_full] 持有的还是旧实例，直接读会显示过期状态。
+  bool _starred(RssController rss) {
+    final article = _full ?? widget.article;
+    final id = article.id;
+    if (id == null) return article.isStarred;
+    for (final a in rss.articles) {
+      if (a.id == id) return a.isStarred;
+    }
+    return article.isStarred;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final rss = context.watch<RssController>();
+    // 只订阅真正影响本页渲染的字段，不再 watch 整个 RssController。
+    // 后台同步每抓完一个源都会 notifyListeners，全量 watch 会让详情页反复整页重建。
+    final rss = context.read<RssController>();
+    final (fontSize, lineHeight, showImages, contentWidth) =
+        context.select<RssController, (int, double, bool, int)>(
+      (r) => (
+        r.settings.fontSize,
+        r.settings.lineHeight,
+        r.settings.showImages,
+        r.settings.contentWidth,
+      ),
+    );
     final c = appColors(context);
     final article = _full ?? widget.article;
-    final settings = rss.settings;
+    // feed 的标题 / 站点 / 收藏状态作为触发条件；对象本身用 read 取最新值。
+    final (_, feedSiteUrl, isStarred) =
+        context.select<RssController, (String, String, bool)>((r) {
+      final f = _feed(r);
+      return (f?.title ?? '', f?.siteUrl ?? '', _starred(r));
+    });
     final feed = _feed(rss);
+    // 正文可能是几十万字符，只取一次，避免 build 里重复 trim 复制大字符串。
+    final body = _body(article);
+    final imageUrl = article.imageUrl;
 
     return Scaffold(
       appBar: DeerAppBar(
@@ -94,9 +130,9 @@ class _RssReaderScreenState extends State<RssReaderScreen> {
             : FeedLine(feed: feed, onTap: () => _openFeed(rss)),
         actions: [
           IconAction(
-            icon: article.isStarred ? Icons.star : Icons.star_border,
-            tooltip: article.isStarred ? tr('rss.unstar') : tr('rss.star'),
-            color: article.isStarred ? c.accent : null,
+            icon: isStarred ? Icons.star : Icons.star_border,
+            tooltip: isStarred ? tr('rss.unstar') : tr('rss.star'),
+            color: isStarred ? c.accent : null,
             onPressed: () => rss.toggleStar(article),
           ),
           IconAction(
@@ -122,10 +158,13 @@ class _RssReaderScreenState extends State<RssReaderScreen> {
       ),
       body: Column(
         children: [
-          LinearProgressIndicator(
-            value: _progress,
-            minHeight: 2,
-            backgroundColor: c.border,
+          ValueListenableBuilder<double>(
+            valueListenable: _progress,
+            builder: (context, value, _) => LinearProgressIndicator(
+              value: value,
+              minHeight: 2,
+              backgroundColor: c.border,
+            ),
           ),
           Expanded(
             child: SelectionArea(
@@ -134,14 +173,14 @@ class _RssReaderScreenState extends State<RssReaderScreen> {
                 padding: EdgeInsets.zero,
                 child: Center(
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: settings.contentWidth.toDouble()),
+                    constraints: BoxConstraints(maxWidth: contentWidth.toDouble()),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (settings.showImages && article.imageUrl.isNotEmpty) ...[
+                        if (showImages && imageUrl.isNotEmpty) ...[
                           const SizedBox(height: 4),
                           DetailImage(
-                            url: article.imageUrl,
+                            url: imageUrl,
                             radius: 0,
                           ),
                         ],
@@ -162,24 +201,24 @@ class _RssReaderScreenState extends State<RssReaderScreen> {
                               const SizedBox(height: 12),
                               _MetaLine(article: article, feed: feed),
                               const SizedBox(height: 16),
-                              if (_body(article).trim().isEmpty)
+                              if (body.trim().isEmpty)
                                 Text(
                                   tr('ui.this_item_only_has_a_summary'),
                                   style: TextStyle(
-                                    fontSize: settings.fontSize - 1.0,
+                                    fontSize: fontSize - 1.0,
                                     color: c.muted,
                                     height: 1.6,
                                   ),
                                 )
                               else
                                 RssHtmlBody(
-                                  html: _body(article),
+                                  html: body,
                                   baseUrl: article.link.isNotEmpty
                                       ? article.link
-                                      : feed?.siteUrl,
-                                  fontSize: settings.fontSize.toDouble(),
-                                  lineHeight: settings.lineHeight,
-                                  showImages: settings.showImages,
+                                      : (feedSiteUrl.isEmpty ? null : feedSiteUrl),
+                                  fontSize: fontSize.toDouble(),
+                                  lineHeight: lineHeight,
+                                  showImages: showImages,
                                 ),
                             ],
                           ),
