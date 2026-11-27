@@ -63,7 +63,7 @@ class _CommScreenState extends State<CommScreen> {
     final colors = appColors(context);
 
     return Scaffold(
-      appBar: DchatAppBar(
+      appBar: DeerAppBar(
         titleSpacing: 16,
         title: Row(
           children: [
@@ -82,7 +82,7 @@ class _CommScreenState extends State<CommScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('dchat'),
+                  const Text('deer'),
                   Text(
                     _networkLine(c),
                     maxLines: 1,

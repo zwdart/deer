@@ -29,14 +29,14 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>dchat 需要访问局域网以发现设备并直接传输消息和文件。</string>
+	<string>deer 需要访问局域网以发现设备并直接传输消息和文件。</string>
 	<key>NSBonjourServices</key>
 	<array>
-		<string>_dchat._tcp</string>
+		<string>_deer._tcp</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>dchat 需要使用相机拍摄照片或扫描二维码。</string>
+	<string>deer 需要使用相机拍摄照片或扫描二维码。</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>dchat 需要访问相册以发送图片或设置头像。</string>
+	<string>deer 需要访问相册以发送图片或设置头像。</string>
 </dict>
 </plist>

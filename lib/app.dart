@@ -14,14 +14,14 @@ import 'ui/navigation.dart';
 import 'ui/screens/home_screen.dart';
 import 'ui/theme.dart';
 
-class DchatApp extends StatefulWidget {
+class DeerApp extends StatefulWidget {
   final ChatController controller;
   final RssController rss;
   final HomeViewModel home;
   final ChatsViewModel chats;
   final DesktopService desktop;
 
-  const DchatApp({
+  const DeerApp({
     super.key,
     required this.controller,
     required this.rss,
@@ -31,10 +31,10 @@ class DchatApp extends StatefulWidget {
   });
 
   @override
-  State<DchatApp> createState() => _DchatAppState();
+  State<DeerApp> createState() => _DeerAppState();
 }
 
-class _DchatAppState extends State<DchatApp> with WidgetsBindingObserver {
+class _DeerAppState extends State<DeerApp> with WidgetsBindingObserver {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   bool _foreground = true;
 
@@ -99,7 +99,7 @@ class _DchatAppState extends State<DchatApp> with WidgetsBindingObserver {
           final appearance = parts.first;
           return MaterialApp(
             navigatorKey: _navigatorKey,
-            title: 'dchat',
+            title: 'deer',
             debugShowCheckedModeBanner: false,
             theme: buildAppTheme(
               brightness: Brightness.light,

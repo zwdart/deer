@@ -72,7 +72,7 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: dchat-android
+          name: deer-android
           path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
 
@@ -97,13 +97,13 @@ jobs:
       - name: Package app
         run: |
           cd build/ios/iphoneos
-          /usr/bin/ditto -c -k --keepParent Runner.app dchat-ios-unsigned.zip
+          /usr/bin/ditto -c -k --keepParent Runner.app deer-ios-unsigned.zip
 
       - name: Upload iOS app
         uses: actions/upload-artifact@v4
         with:
-          name: dchat-ios
-          path: build/ios/iphoneos/dchat-ios-unsigned.zip
+          name: deer-ios
+          path: build/ios/iphoneos/deer-ios-unsigned.zip
           if-no-files-found: error
 
   macos:
@@ -127,13 +127,13 @@ jobs:
       - name: Package app
         run: |
           cd build/macos/Build/Products/Release
-          /usr/bin/ditto -c -k --keepParent dchat.app dchat-macos.zip
+          /usr/bin/ditto -c -k --keepParent deer.app deer-macos.zip
 
       - name: Upload macOS app
         uses: actions/upload-artifact@v4
         with:
-          name: dchat-macos
-          path: build/macos/Build/Products/Release/dchat-macos.zip
+          name: deer-macos
+          path: build/macos/Build/Products/Release/deer-macos.zip
           if-no-files-found: error
 
   linux:
@@ -164,13 +164,13 @@ jobs:
       - name: Package bundle
         run: |
           cd build/linux/x64/release
-          tar -czf dchat-linux-x64.tar.gz bundle
+          tar -czf deer-linux-x64.tar.gz bundle
 
       - name: Upload Linux bundle
         uses: actions/upload-artifact@v4
         with:
-          name: dchat-linux
-          path: build/linux/x64/release/dchat-linux-x64.tar.gz
+          name: deer-linux
+          path: build/linux/x64/release/deer-linux-x64.tar.gz
           if-no-files-found: error
 
   windows:
@@ -195,11 +195,11 @@ jobs:
         shell: pwsh
         run: |
           Compress-Archive -Path build/windows/x64/runner/Release/* `
-            -DestinationPath build/windows/x64/runner/dchat-windows-x64.zip
+            -DestinationPath build/windows/x64/runner/deer-windows-x64.zip
 
       - name: Upload Windows bundle
         uses: actions/upload-artifact@v4
         with:
-          name: dchat-windows
-          path: build/windows/x64/runner/dchat-windows-x64.zip
+          name: deer-windows
+          path: build/windows/x64/runner/deer-windows-x64.zip
           if-no-files-found: error

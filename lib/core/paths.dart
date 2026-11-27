@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
-const appFolderName = 'xin.dart.dchat';
+const appFolderName = 'xin.dart.deer';
 const legacyFolderName = 'xin.dart.zchat';
 
 class AppPaths {
@@ -18,8 +18,8 @@ class AppPaths {
 
   String get settingsPath => p.join(dataDir, 'settings.json');
   String get statePath => p.join(dataDir, 'state.json');
-  String get databasePath => p.join(dataDir, 'dchat.db');
-  String get rssDatabasePath => p.join(dataDir, 'dchat_rss.db');
+  String get databasePath => p.join(dataDir, 'deer.db');
+  String get rssDatabasePath => p.join(dataDir, 'deer_rss.db');
   String get rssSettingsPath => p.join(dataDir, 'rss_settings.json');
   String get rssBackupDir => p.join(dataDir, 'rss_backups');
   String get rssExportDir => p.join(downloadDir, 'rss');

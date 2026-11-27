@@ -1,6 +1,6 @@
-# dchat
+# deer
 
-dchat 是一个局域网点对点聊天客户端，功能与 [`zchat`](../zchat-main) 对齐，聊天与文件传输协议完全兼容，可与 Go 版 mygo 客户端以及本 Flutter 客户端互通。
+deer 是一个局域网点对点聊天客户端，功能与 [`zchat`](../zchat-main) 对齐，聊天与文件传输协议完全兼容，可与 Go 版 mygo 客户端以及本 Flutter 客户端互通。
 
 - 无需服务器，设备通过 UDP 组播/广播自动发现，聊天使用 TCP 直连。
 - 支持文字、图片、文件、群聊、撤回、已读、输入状态、离线消息队列。
@@ -102,7 +102,7 @@ lib/
 
 ## 协议兼容
 
-dchat 实现 `zchat` 协议 `v=1`，与 Go 客户端完全互通：
+deer 实现 `zchat` 协议 `v=1`，与 Go 客户端完全互通：
 
 - 发现：UDP `42223`，`app="zchat"`，4 秒心跳，16 秒超时。
 - 聊天：TCP `42224`，行式 JSON 帧，最大 2 MiB。
@@ -135,7 +135,7 @@ flutter run -d linux      # 或 windows / macos / android / ios
 ```bash
 flutter build linux --release     # build/linux/x64/release/bundle
 flutter build windows --release   # build/windows/x64/runner/Release
-flutter build macos --release     # build/macos/Build/Products/Release/dchat.app
+flutter build macos --release     # build/macos/Build/Products/Release/deer.app
 flutter build apk --release       # build/app/outputs/flutter-apk/app-release.apk
 flutter build apk --split-per-abi
 flutter build ios --release --no-codesign
@@ -151,7 +151,7 @@ git add pubspec.yaml
 git commit -m "chore: release v1.0.0"
 git push github master
 
-git tag -a v1.0.0 -m "dchat v1.0.0"
+git tag -a v1.0.0 -m "deer v1.0.0"
 git push github v1.0.0
 ```
 
@@ -159,24 +159,24 @@ git push github v1.0.0
 
 | 平台 | 文件 |
 | --- | --- |
-| Android | `dchat-android.apk` |
-| iOS | `dchat-ios-unsigned.zip` |
-| macOS | `dchat-macos.zip` |
-| Linux | `dchat-linux-x64.tar.gz` |
-| Windows | `dchat-windows-x64.zip` |
+| Android | `deer-android.apk` |
+| iOS | `deer-ios-unsigned.zip` |
+| macOS | `deer-macos.zip` |
+| Linux | `deer-linux-x64.tar.gz` |
+| Windows | `deer-windows-x64.zip` |
 
 ## 数据目录
 
 | 平台 | 位置 |
 | --- | --- |
-| Windows | `%APPDATA%\xin.dart.dchat` |
-| macOS | `~/Library/Application Support/xin.dart.dchat` |
-| Linux | `~/.local/share/xin.dart.dchat` |
+| Windows | `%APPDATA%\xin.dart.deer` |
+| macOS | `~/Library/Application Support/xin.dart.deer` |
+| Linux | `~/.local/share/xin.dart.deer` |
 | Android / iOS | 应用私有支持目录 |
 
-下载目录默认为系统下载目录下的 `xin.dart.dchat`，截图保存在 Pictures 或下载目录。
+下载目录默认为系统下载目录下的 `xin.dart.deer`，截图保存在 Pictures 或下载目录。
 
-资讯数据在同一目录下另存 `dchat_rss.db`（订阅、文章、收藏夹）与 `rss_settings.json`（阅读与同步偏好），OPML 备份写入 `rss_backups`，手动导出文件写入下载目录的 `rss`。
+资讯数据在同一目录下另存 `deer_rss.db`（订阅、文章、收藏夹）与 `rss_settings.json`（阅读与同步偏好），OPML 备份写入 `rss_backups`，手动导出文件写入下载目录的 `rss`。
 
 ## 安全说明
 

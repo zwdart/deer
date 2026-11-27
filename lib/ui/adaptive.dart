@@ -36,7 +36,7 @@ PageRoute<T> adaptivePageRoute<T>(Widget page) {
 IconData get adaptiveBackIcon =>
     AppPlatform.usesCupertino ? CupertinoIcons.back : Icons.arrow_back;
 
-class DchatAppBar extends StatelessWidget implements PreferredSizeWidget {
+class DeerAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? title;
   final Widget? titleWidget;
   final List<Widget>? actions;
@@ -47,7 +47,7 @@ class DchatAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? toolbarHeight;
   final double? titleSpacing;
 
-  const DchatAppBar({
+  const DeerAppBar({
     super.key,
     this.title,
     this.titleWidget,

@@ -214,15 +214,15 @@ class UpdateException implements Exception {
 /// ```json
 /// {
 ///   "tag_name": "v1.2.0",
-///   "name": "dchat 1.2.0",
+///   "name": "deer 1.2.0",
 ///   "body": "Release notes",
 ///   "html_url": "https://github.com/owner/repo/releases/tag/v1.2.0",
 ///   "published_at": "2026-01-01T00:00:00Z",
 ///   "prerelease": false,
 ///   "assets": [
 ///     {
-///       "name": "dchat-linux-x64.tar.gz",
-///       "browser_download_url": "https://.../dchat-linux-x64.tar.gz",
+///       "name": "deer-linux-x64.tar.gz",
+///       "browser_download_url": "https://.../deer-linux-x64.tar.gz",
 ///       "size": 12345678,
 ///       "content_type": "application/gzip"
 ///     }
@@ -334,6 +334,6 @@ String _string(Map<String, dynamic> map, List<String> keys) {
 
 String _fileNameFromUrl(String url) {
   final path = Uri.tryParse(url)?.pathSegments;
-  if (path == null || path.isEmpty) return 'dchat-update';
-  return path.last.isEmpty ? 'dchat-update' : path.last;
+  if (path == null || path.isEmpty) return 'deer-update';
+  return path.last.isEmpty ? 'deer-update' : path.last;
 }

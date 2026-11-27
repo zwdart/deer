@@ -5,7 +5,7 @@ import 'package:pasteboard/pasteboard.dart';
 
 class MobileBridge {
   static const MethodChannel _channel =
-      MethodChannel('xin.dart.dchat/mobile');
+      MethodChannel('xin.dart.deer/mobile');
 
   static bool get isMobile => Platform.isAndroid || Platform.isIOS;
 

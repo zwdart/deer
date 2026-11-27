@@ -20,9 +20,9 @@ typedef UpdateProgress = void Function(int received, int total);
 /// [authorization]); the JSON parser already accepts both field sets.
 class UpdateService {
   static const String githubLatestRelease =
-      'https://api.github.com/repos/zwdart/dchat/releases/latest';
+      'https://api.github.com/repos/zwdart/deer/releases/latest';
   static const String githubReleases =
-      'https://api.github.com/repos/zwdart/dchat/releases';
+      'https://api.github.com/repos/zwdart/deer/releases';
 
   final String feedUrl;
   final String userAgent;
@@ -31,7 +31,7 @@ class UpdateService {
 
   UpdateService({
     this.feedUrl = githubLatestRelease,
-    this.userAgent = 'dchat-updater',
+    this.userAgent = 'deer-updater',
     this.authorization,
     this.timeout = const Duration(seconds: 15),
   });
@@ -269,7 +269,7 @@ class UpdateService {
       } catch (_) {}
     }
     root ??= await getApplicationDocumentsDirectory();
-    return Directory(p.join(root.path, 'dchat-updates'));
+    return Directory(p.join(root.path, 'deer-updates'));
   }
 
   /// Opens an installer/archive. iOS cannot install unsigned packages, so it
@@ -282,7 +282,7 @@ class UpdateService {
     }
     if (Platform.isIOS) {
       await SharePlus.instance.share(
-        ShareParams(files: [XFile(file.path)], text: 'dchat'),
+        ShareParams(files: [XFile(file.path)], text: 'deer'),
       );
       return;
     }
@@ -300,7 +300,7 @@ class UpdateService {
 
   static String _safeFileName(String name) {
     var value = p.basename(name.trim());
-    if (value.isEmpty || value == '.' || value == '..') value = 'dchat-update';
+    if (value.isEmpty || value == '.' || value == '..') value = 'deer-update';
     value = value.replaceAll(RegExp(r'[<>:"/\\|?*\x00-\x1f]'), '_');
     if (value.length > 140) {
       final ext = p.extension(value);

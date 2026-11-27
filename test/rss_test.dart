@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:dchat/core/rss_models.dart';
-import 'package:dchat/rss/rss_fetcher.dart';
-import 'package:dchat/rss/rss_importer.dart';
-import 'package:dchat/rss/rss_parser.dart';
-import 'package:dchat/ui/widgets/rss_html_body.dart';
+import 'package:deer/core/rss_models.dart';
+import 'package:deer/rss/rss_fetcher.dart';
+import 'package:deer/rss/rss_importer.dart';
+import 'package:deer/rss/rss_parser.dart';
+import 'package:deer/ui/widgets/rss_html_body.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

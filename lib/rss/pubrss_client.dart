@@ -15,7 +15,7 @@ class PubrssClient {
   static const String _base = 'https://www.dart.xin';
   static const String _path = '/open/v1/pubrss-sources';
 
-  // 公开 AppKey / AppSecret（dchat 项目专用）。后续如需替换只改此处。
+  // 公开 AppKey / AppSecret（deer 项目专用）。后续如需替换只改此处。
   static const String _appKey = 'ak-zrss-LDHTWrG9SAzLZPNB8FbqGYCmSvt55gto';
   static const String _appSecret =
       'sk-zrss-nwbPt7Z7j7DiWvZsTLMHug4sVBsZWGR3HWN8mJeorcKyTpRv';

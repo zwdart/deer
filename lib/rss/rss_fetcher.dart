@@ -39,7 +39,7 @@ class RssFetcher {
   static const int maxBytes = 4 * 1024 * 1024;
   static const Duration timeout = Duration(seconds: 15);
   static const String userAgent =
-      'Mozilla/5.0 (compatible; dchat-rss/1.0; +https://dart.xin)';
+      'Mozilla/5.0 (compatible; deer-rss/1.0; +https://dart.xin)';
 
   // ---------------------------------------------------------------------------
   // 证书信任：Windows 系统 CA 库缺部分根证书（如 Starfield / StartSSL），

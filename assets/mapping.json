@@ -2425,9 +2425,9 @@
     "en": "Downloaded"
   },
   {
-    "key": "ui.open_dchat",
-    "zh": "打开 dchat",
-    "en": "Open dchat"
+    "key": "ui.open_deer",
+    "zh": "打开 deer",
+    "en": "Open deer"
   },
   {
     "key": "ui.incomplete_receive",
@@ -2575,9 +2575,9 @@
     "en": "Change chat port"
   },
   {
-    "key": "system.about_dchat",
-    "zh": "关于 dchat",
-    "en": "About dchat"
+    "key": "system.about_deer",
+    "zh": "关于 deer",
+    "en": "About deer"
   },
   {
     "key": "ui.others_can_browse_and_download_files_here_in_a_browser",

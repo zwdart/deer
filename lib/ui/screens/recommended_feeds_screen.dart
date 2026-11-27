@@ -132,7 +132,7 @@ class _RecommendedFeedsScreenState extends State<RecommendedFeedsScreen> {
     final c = appColors(context);
 
     return Scaffold(
-      appBar: DchatAppBar(
+      appBar: DeerAppBar(
         title: Text(
           tr('rss.recommended'),
           style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700),

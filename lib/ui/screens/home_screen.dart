@@ -227,7 +227,7 @@ class _SideRail extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(14),
             child: Text(
-              'dchat · ${chat.localIps.isEmpty ? '' : chat.localIps.first}',
+              'deer · ${chat.localIps.isEmpty ? '' : chat.localIps.first}',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontSize: 10.5, color: c.faint),
@@ -312,7 +312,7 @@ class _DesktopMenuBar extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
-              'dchat',
+              'deer',
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
@@ -376,7 +376,7 @@ class _DesktopMenuBar extends StatelessWidget {
                 menuChildren: [
                   MenuItemButton(
                     onPressed: home.openSettings,
-                    child: Text(L10n.instance.tr('system.about_dchat')),
+                    child: Text(L10n.instance.tr('system.about_deer')),
                   ),
                 ],
                 child: Text(L10n.instance.tr('system.help')),

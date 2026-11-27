@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "xin.dart.dchat"
+    namespace = "xin.dart.deer"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -16,7 +16,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "xin.dart.dchat"
+        applicationId = "xin.dart.deer"
         minSdk = 24
         targetSdk = flutter.targetSdkVersion
         multiDexEnabled = true

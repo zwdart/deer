@@ -1,7 +1,7 @@
-import 'package:dchat/core/helpers.dart';
-import 'package:dchat/core/models.dart';
-import 'package:dchat/core/settings.dart';
-import 'package:dchat/net/frame.dart';
+import 'package:deer/core/helpers.dart';
+import 'package:deer/core/models.dart';
+import 'package:deer/core/settings.dart';
+import 'package:deer/net/frame.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

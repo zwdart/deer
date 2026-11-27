@@ -84,7 +84,7 @@ class _RssReaderScreenState extends State<RssReaderScreen> {
     final feed = _feed(rss);
 
     return Scaffold(
-      appBar: DchatAppBar(
+      appBar: DeerAppBar(
         toolbarHeight: 46,
         titleWidget: feed == null
             ? Text(

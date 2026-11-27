@@ -1,5 +1,5 @@
 # =============================================================================
-# dchat / deer 全平台生产发布工作流
+# deer / deer 全平台生产发布工作流
 # 触发：推送 v* 格式的 Git Tag 时自动构建并发布；也可在 Actions 面板手动触发。
 #       git tag v1.2.3 && git push origin v1.2.3
 #
@@ -58,8 +58,8 @@ env:
   # APP_NAME 只用于发布产物文件名（deer-v1.0.0-...）
   APP_NAME: "deer"
   # BIN_NAME 是 Flutter 真实产物名：linux/CMakeLists.txt BINARY_NAME、windows/CMakeLists.txt
-  # BINARY_NAME、macos/Runner/Configs/AppInfo.xcconfig PRODUCT_NAME 都是 dchat
-  BIN_NAME: "dchat"
+  # BINARY_NAME、macos/Runner/Configs/AppInfo.xcconfig PRODUCT_NAME 都是 deer
+  BIN_NAME: "deer"
 
 jobs:
   # ---------------------------------------------------------------------------
@@ -204,7 +204,7 @@ jobs:
           # 从 LZMA SDK 中取出 SFX stub
           & "$repo\7zr.exe" e "$repo\lzma.7z" "bin\7zSD.sfx" "-o$repo" -y | Out-Null
 
-          # 打包整个 Release 目录（相对路径压入，解压后即 dchat.exe + lib/ + data/）
+          # 打包整个 Release 目录（相对路径压入，解压后即 deer.exe + lib/ + data/）
           $payload = "$repo\payload.7z"
           Remove-Item $payload -ErrorAction SilentlyContinue
           Push-Location $releaseDir
@@ -371,7 +371,7 @@ jobs:
 
           cp -a "$BUNDLE/." "$ROOTDIR/opt/${BIN_NAME}/"
 
-          # 相对软链：deb 中解析为 /opt/dchat/dchat；AppImage 中解析为挂载点/opt/dchat/dchat
+          # 相对软链：deb 中解析为 /opt/deer/deer；AppImage 中解析为挂载点/opt/deer/deer
           ln -sf "../../opt/${BIN_NAME}/${BIN_NAME}" "$ROOTDIR/usr/bin/${BIN_NAME}"
 
           {
@@ -412,8 +412,8 @@ jobs:
             echo "Depends: libgtk-3-0, libglib2.0-0"
             echo "Section: net"
             echo "Priority: optional"
-            echo "Description: dchat LAN peer-to-peer chat"
-            echo " deer (dchat) is a LAN peer-to-peer chat client compatible with the zchat protocol."
+            echo "Description: deer LAN peer-to-peer chat"
+            echo " deer (deer) is a LAN peer-to-peer chat client compatible with the zchat protocol."
           } > "$DEBROOT/DEBIAN/control"
 
           chmod 0644 "$DEBROOT/DEBIAN/control"

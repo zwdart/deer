@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../theme.dart';
 import 'rss_cards.dart';
 
-const String _imgMarker = 'dchat-img-src';
+const String _imgMarker = 'deer-img-src';
 
 sealed class RssBlock;
 

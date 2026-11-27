@@ -16,7 +16,7 @@ import UIKit
       return
     }
     let channel = FlutterMethodChannel(
-      name: "xin.dart.dchat/mobile",
+      name: "xin.dart.deer/mobile",
       binaryMessenger: registrar.messenger()
     )
     channel.setMethodCallHandler { call, result in

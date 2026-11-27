@@ -1,6 +1,6 @@
-import 'package:dchat/services/update/update_models.dart';
-import 'package:dchat/services/update/update_platform.dart';
-import 'package:dchat/services/update/update_service.dart';
+import 'package:deer/services/update/update_models.dart';
+import 'package:deer/services/update/update_platform.dart';
+import 'package:deer/services/update/update_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -44,16 +44,16 @@ void main() {
     test('parses GitHub release JSON', () {
       final release = UpdateFeedParser.parseRelease({
         'tag_name': 'v1.2.0',
-        'name': 'dchat 1.2.0',
+        'name': 'deer 1.2.0',
         'body': 'Fixes and improvements',
-        'html_url': 'https://github.com/zwdart/dchat/releases/tag/v1.2.0',
+        'html_url': 'https://github.com/zwdart/deer/releases/tag/v1.2.0',
         'published_at': '2026-01-02T03:04:05Z',
         'prerelease': false,
         'assets': [
           {
-            'name': 'dchat-linux-x64.tar.gz',
+            'name': 'deer-linux-x64.tar.gz',
             'browser_download_url':
-                'https://example.com/dchat-linux-x64.tar.gz',
+                'https://example.com/deer-linux-x64.tar.gz',
             'size': 1234,
             'content_type': 'application/gzip',
           },
@@ -63,7 +63,7 @@ void main() {
 
       expect(release.version, 'v1.2.0');
       expect(release.tagName, 'v1.2.0');
-      expect(release.name, 'dchat 1.2.0');
+      expect(release.name, 'deer 1.2.0');
       expect(release.notes, 'Fixes and improvements');
       expect(release.publishedAt, DateTime.utc(2026, 1, 2, 3, 4, 5));
       expect(release.assets.length, 1);
@@ -76,11 +76,11 @@ void main() {
         'version': '1.3.0',
         'build': 13,
         'notes': 'Custom feed',
-        'release_url': 'https://updates.example.com/dchat/1.3.0',
+        'release_url': 'https://updates.example.com/deer/1.3.0',
         'assets': [
           {
-            'name': 'dchat-windows-x64.zip',
-            'download_url': 'https://updates.example.com/dchat-windows-x64.zip',
+            'name': 'deer-windows-x64.zip',
+            'download_url': 'https://updates.example.com/deer-windows-x64.zip',
             'bytes': 55,
           },
         ],
@@ -88,9 +88,9 @@ void main() {
 
       expect(release.version, '1.3.0');
       expect(release.build, 13);
-      expect(release.htmlUrl, 'https://updates.example.com/dchat/1.3.0');
+      expect(release.htmlUrl, 'https://updates.example.com/deer/1.3.0');
       expect(release.assets.first.url,
-          'https://updates.example.com/dchat-windows-x64.zip');
+          'https://updates.example.com/deer-windows-x64.zip');
       expect(release.assets.first.size, 55);
     });
 
@@ -116,50 +116,50 @@ void main() {
 
   group('asset selection', () {
     final assets = [
-      const UpdateAsset(name: 'dchat-android.apk', url: 'https://x/android.apk'),
+      const UpdateAsset(name: 'deer-android.apk', url: 'https://x/android.apk'),
       const UpdateAsset(
-        name: 'dchat-ios-unsigned.zip',
+        name: 'deer-ios-unsigned.zip',
         url: 'https://x/ios.zip',
       ),
-      const UpdateAsset(name: 'dchat-macos.zip', url: 'https://x/macos.zip'),
+      const UpdateAsset(name: 'deer-macos.zip', url: 'https://x/macos.zip'),
       const UpdateAsset(
-        name: 'dchat-linux-x64.tar.gz',
+        name: 'deer-linux-x64.tar.gz',
         url: 'https://x/linux.tar.gz',
       ),
       const UpdateAsset(
-        name: 'dchat-windows-x64.zip',
+        name: 'deer-windows-x64.zip',
         url: 'https://x/windows.zip',
       ),
-      const UpdateAsset(name: 'dchat-linux-x64.tar.gz.sha256', url: 'https://x/sha'),
+      const UpdateAsset(name: 'deer-linux-x64.tar.gz.sha256', url: 'https://x/sha'),
     ];
 
     test('selects a distinct package for every platform', () {
       expect(
         UpdateService.selectAsset(assets, UpdatePlatform.android)?.name,
-        'dchat-android.apk',
+        'deer-android.apk',
       );
       expect(
         UpdateService.selectAsset(assets, UpdatePlatform.ios)?.name,
-        'dchat-ios-unsigned.zip',
+        'deer-ios-unsigned.zip',
       );
       expect(
         UpdateService.selectAsset(assets, UpdatePlatform.macOS)?.name,
-        'dchat-macos.zip',
+        'deer-macos.zip',
       );
       expect(
         UpdateService.selectAsset(assets, UpdatePlatform.windows)?.name,
-        'dchat-windows-x64.zip',
+        'deer-windows-x64.zip',
       );
       expect(
         UpdateService.selectAsset(assets, UpdatePlatform.linux)?.name,
-        'dchat-linux-x64.tar.gz',
+        'deer-linux-x64.tar.gz',
       );
     });
 
     test('uses architecture hints when provided', () {
       const multiArch = [
-        UpdateAsset(name: 'dchat-arm64.apk', url: 'https://x/arm64.apk'),
-        UpdateAsset(name: 'dchat-x64.apk', url: 'https://x/x64.apk'),
+        UpdateAsset(name: 'deer-arm64.apk', url: 'https://x/arm64.apk'),
+        UpdateAsset(name: 'deer-x64.apk', url: 'https://x/x64.apk'),
       ];
       expect(
         UpdateService.selectAsset(
@@ -167,7 +167,7 @@ void main() {
           UpdatePlatform.android,
           architecture: 'arm64',
         )?.name,
-        'dchat-arm64.apk',
+        'deer-arm64.apk',
       );
       expect(
         UpdateService.selectAsset(
@@ -175,13 +175,13 @@ void main() {
           UpdatePlatform.android,
           architecture: 'x64',
         )?.name,
-        'dchat-x64.apk',
+        'deer-x64.apk',
       );
     });
 
     test('returns null when no package matches the platform', () {
       const onlyIpa = [
-        UpdateAsset(name: 'dchat.ipa', url: 'https://x/dchat.ipa'),
+        UpdateAsset(name: 'deer.ipa', url: 'https://x/deer.ipa'),
       ];
       expect(
         UpdateService.selectAsset(onlyIpa, UpdatePlatform.windows),
@@ -194,7 +194,7 @@ void main() {
     const release = UpdateRelease(
       version: '1.1.0',
       tagName: 'v1.1.0',
-      name: 'dchat 1.1.0',
+      name: 'deer 1.1.0',
       notes: '',
       htmlUrl: 'https://example.com',
       assets: [],

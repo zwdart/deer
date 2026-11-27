@@ -34,7 +34,7 @@ class DesktopService with WindowListener, tray.TrayListener {
       size: Size(1180, 780),
       minimumSize: Size(900, 620),
       center: true,
-      title: 'dchat',
+      title: 'deer',
       titleBarStyle: TitleBarStyle.normal,
       backgroundColor: Color(0xFF141416),
     );
@@ -53,7 +53,7 @@ class DesktopService with WindowListener, tray.TrayListener {
     try {
       if (!tray.trayManager.isSupported) return;
       await tray.trayManager.setIcon('assets/icon.png', iconSize: 18);
-      await tray.trayManager.setToolTip('dchat');
+      await tray.trayManager.setToolTip('deer');
       tray.trayManager.addListener(this);
       await refreshMenu();
     } catch (_) {}
@@ -81,7 +81,7 @@ class DesktopService with WindowListener, tray.TrayListener {
     final unread = controller.totalUnread;
     if (unread == _lastUnread) return;
     _lastUnread = unread;
-    final label = unread > 0 ? 'dchat · $unread' : 'dchat';
+    final label = unread > 0 ? 'deer · $unread' : 'deer';
     tray.trayManager.setToolTip(label);
     tray.trayManager.setTitle(Platform.isMacOS && unread > 0 ? '$unread' : '');
   }
@@ -92,7 +92,7 @@ class DesktopService with WindowListener, tray.TrayListener {
       items: [
         tray.MenuItem(
           key: 'open',
-          label: L10n.instance.tr('ui.open_dchat'),
+          label: L10n.instance.tr('ui.open_deer'),
           onClick: (_) => showWindow(),
         ),
         tray.MenuItem(

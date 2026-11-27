@@ -1,4 +1,4 @@
-package xin.dart.dchat
+package xin.dart.deer
 
 import android.content.ClipboardManager
 import android.content.Context
@@ -17,7 +17,7 @@ class MainActivity : FlutterActivity() {
         super.configureFlutterEngine(flutterEngine)
         MethodChannel(
             flutterEngine.dartExecutor.binaryMessenger,
-            "xin.dart.dchat/mobile",
+            "xin.dart.deer/mobile",
         ).setMethodCallHandler { call, result ->
             when (call.method) {
                 "acquireMulticast" -> {
@@ -26,7 +26,7 @@ class MainActivity : FlutterActivity() {
                             val wifi = applicationContext.getSystemService(
                                 Context.WIFI_SERVICE,
                             ) as WifiManager
-                            multicastLock = wifi.createMulticastLock("dchat-multicast").apply {
+                            multicastLock = wifi.createMulticastLock("deer-multicast").apply {
                                 setReferenceCounted(false)
                             }
                         }

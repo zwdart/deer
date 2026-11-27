@@ -25,7 +25,7 @@ class ShareScreen extends StatelessWidget {
     final urls = c.shareUrls();
 
     return Scaffold(
-      appBar: DchatAppBar(
+      appBar: DeerAppBar(
         title: Text(L10n.instance.tr('share.file_sharing')),
         actions: [
           if (AppPlatform.isMobile)

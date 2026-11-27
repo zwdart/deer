@@ -32,7 +32,7 @@ Future<void> main() async {
   final desktop = DesktopService(controller: controller, home: home);
   await desktop.init();
   runApp(
-    DchatApp(
+    DeerApp(
       controller: controller,
       rss: rss,
       home: home,

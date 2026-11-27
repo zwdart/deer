@@ -846,11 +846,11 @@ Future<RssMoreAction?> showRssMoreMenu(
     case RssMoreAction.exportOpml:
       final opml = await rss.exportOpml();
       if (!context.mounted) break;
-      await _exportFile(context, rss, opml, 'dchat_rss.opml');
+      await _exportFile(context, rss, opml, 'deer_rss.opml');
     case RssMoreAction.exportCsv:
       final csvText = await rss.exportCsv();
       if (!context.mounted) break;
-      await _exportFile(context, rss, csvText, 'dchat_rss.csv');
+      await _exportFile(context, rss, csvText, 'deer_rss.csv');
     case RssMoreAction.markAllRead:
       final ok = await confirmAction(
         context,

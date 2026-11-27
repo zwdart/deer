@@ -27,8 +27,8 @@ class NotificationService {
         defaultActionName: '打开',
       ),
       windows: WindowsInitializationSettings(
-        appName: 'dchat',
-        appUserModelId: 'Xin.Dart.Dchat',
+        appName: 'deer',
+        appUserModelId: 'Xin.Dart.Deer',
         guid: 'c2b5d8a1-4f3e-4a9b-8c7d-1e2f3a4b5c6d',
       ),
     );

@@ -43,7 +43,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final stats = c.dbStats;
 
     return Scaffold(
-      appBar: DchatAppBar(title: Text(L10n.instance.tr('settings.settings'))),
+      appBar: DeerAppBar(title: Text(L10n.instance.tr('settings.settings'))),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
         children: [
@@ -328,7 +328,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             title: L10n.instance.tr('system.about'),
             child: Column(
               children: [
-                InfoRow(label: L10n.instance.tr('ui.apply'), value: 'dchat'),
+                InfoRow(label: L10n.instance.tr('ui.apply'), value: 'deer'),
                 InfoRow(label: L10n.instance.tr('ui.version'), value: c.version),
                 InfoRow(label: L10n.instance.tr('ui.identity_id'), value: c.profile.id),
                 InfoRow(label: L10n.instance.tr('ui.protocol_version'), value: 'zchat v1'),
@@ -351,7 +351,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Expanded(
                       child: OutlinedButton.icon(
                         onPressed: () => launchUrl(
-                          Uri.parse('https://github.com/zwdart/dchat'),
+                          Uri.parse('https://github.com/zwdart/deer'),
                           mode: LaunchMode.externalApplication,
                         ),
                         icon: const Icon(Icons.public, size: 17),

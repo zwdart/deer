@@ -94,7 +94,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final conv = c.convs[widget.conversationId];
     if (conv == null) {
       return Scaffold(
-        appBar: DchatAppBar(),
+        appBar: DeerAppBar(),
         body: EmptyState(
           icon: Icons.chat_bubble_outline,
           title: L10n.instance.tr('chat.chat_not_found'),
@@ -107,7 +107,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final typing = c.typingNames(conv);
 
     return Scaffold(
-      appBar: DchatAppBar(
+      appBar: DeerAppBar(
         titleSpacing: 6,
         title: InkWell(
           borderRadius: BorderRadius.circular(10),
@@ -460,14 +460,14 @@ class _ChatScreenState extends State<ChatScreen> {
             );
         if (path == null) return;
         await SharePlus.instance.share(
-          ShareParams(files: [XFile(path)], text: 'dchat'),
+          ShareParams(files: [XFile(path)], text: 'deer'),
         );
         break;
       case 'save':
         try {
           final uri = await FilePicker.saveFile(
             fileName: savedPath == null
-                ? 'dchat.png'
+                ? 'deer.png'
                 : savedPath.split(Platform.pathSeparator).last,
             bytes: bytes,
             mimeType: 'image/png',

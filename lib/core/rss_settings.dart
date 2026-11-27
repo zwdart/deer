@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'helpers.dart';
 
-/// RSS 相关偏好。dchat 不用 shared_preferences，和聊天设置一样落在数据目录的 json 文件里。
+/// RSS 相关偏好。deer 不用 shared_preferences，和聊天设置一样落在数据目录的 json 文件里。
 class RssSettings {
   bool autoSync;
   int syncIntervalMinutes;

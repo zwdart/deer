@@ -8,7 +8,7 @@ import 'package:path/path.dart' as p;
 
 /// Captures the Flutter surface of the running app.
 ///
-/// The widget tree is wrapped in a [RepaintBoundary] by [DchatApp] and the
+/// The widget tree is wrapped in a [RepaintBoundary] by [DeerApp] and the
 /// resulting image can be copied, saved, shared or sent to a conversation.
 class ScreenshotService {
   ScreenshotService._();
@@ -43,7 +43,7 @@ class ScreenshotService {
       final dir = Directory(directory);
       await dir.create(recursive: true);
       final now = DateTime.now();
-      final name = 'dchat-'
+      final name = 'deer-'
           '${now.year.toString().padLeft(4, '0')}'
           '${now.month.toString().padLeft(2, '0')}'
           '${now.day.toString().padLeft(2, '0')}-'

@@ -32,7 +32,7 @@ class RssExchange {
   ) {
     final buffer = StringBuffer()      ..writeln('<?xml version="1.0" encoding="UTF-8"?>')
       ..writeln('<opml version="2.0">')
-      ..writeln('<head><title>dchat 订阅源</title></head>')
+      ..writeln('<head><title>deer 订阅源</title></head>')
       ..writeln('<body>');
 
     void outline(FeedSource source, String indent) {

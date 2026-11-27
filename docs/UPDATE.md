@@ -1,6 +1,6 @@
 # 版本更新功能说明
 
-本文档说明 dchat 的版本检查、平台安装包选择、下载与跳转逻辑，以及如何把默认的 GitHub Releases 接口替换成自己的更新服务器。
+本文档说明 deer 的版本检查、平台安装包选择、下载与跳转逻辑，以及如何把默认的 GitHub Releases 接口替换成自己的更新服务器。
 
 ## 1. 功能概览
 
@@ -13,7 +13,7 @@
   - 在系统浏览器中打开下载页面。
 - 下载完成后可直接打开安装包；iOS 会打开系统分享面板。
 - 所有界面文案支持中英文（`assets/en.tsv`）。
-- 默认数据源：`https://api.github.com/repos/zwdart/dchat/releases/latest`。
+- 默认数据源：`https://api.github.com/repos/zwdart/deer/releases/latest`。
 
 ## 2. 代码结构
 
@@ -57,9 +57,9 @@ v1.2.3
 默认请求 GitHub 的 latest release 接口：
 
 ```http
-GET https://api.github.com/repos/zwdart/dchat/releases/latest
+GET https://api.github.com/repos/zwdart/deer/releases/latest
 Accept: application/vnd.github+json
-User-Agent: dchat-updater
+User-Agent: deer-updater
 ```
 
 解析的字段：
@@ -82,15 +82,15 @@ User-Agent: dchat-updater
 ```json
 {
   "tag_name": "v1.2.0",
-  "name": "dchat 1.2.0",
+  "name": "deer 1.2.0",
   "body": "修复若干问题，优化文件传输。",
-  "html_url": "https://github.com/zwdart/dchat/releases/tag/v1.2.0",
+  "html_url": "https://github.com/zwdart/deer/releases/tag/v1.2.0",
   "published_at": "2026-01-02T03:04:05Z",
   "prerelease": false,
   "assets": [
     {
-      "name": "dchat-linux-x64.tar.gz",
-      "browser_download_url": "https://example.com/dchat-linux-x64.tar.gz",
+      "name": "deer-linux-x64.tar.gz",
+      "browser_download_url": "https://example.com/deer-linux-x64.tar.gz",
       "size": 12345678,
       "content_type": "application/gzip"
     }
@@ -116,7 +116,7 @@ ChangeNotifierProvider<UpdateViewModel>(
 ChangeNotifierProvider<UpdateViewModel>(
   create: (_) => UpdateViewModel(
     service: UpdateService(
-      feedUrl: 'https://updates.example.com/dchat/latest',
+      feedUrl: 'https://updates.example.com/deer/latest',
       authorization: 'Bearer YOUR_TOKEN', // 可选
     ),
   ),
@@ -128,7 +128,7 @@ ChangeNotifierProvider<UpdateViewModel>(
 | 参数 | 默认值 | 说明 |
 | --- | --- | --- |
 | `feedUrl` | GitHub latest release API | 更新 JSON 地址 |
-| `userAgent` | `dchat-updater` | 请求 User-Agent |
+| `userAgent` | `deer-updater` | 请求 User-Agent |
 | `authorization` | `null` | 可选鉴权头 |
 | `timeout` | 15 秒 | 连接、响应和下载超时 |
 
@@ -140,14 +140,14 @@ ChangeNotifierProvider<UpdateViewModel>(
 {
   "version": "1.3.0",
   "build": 13,
-  "name": "dchat 1.3.0",
+  "name": "deer 1.3.0",
   "notes": "新增自动更新说明文档。",
-  "release_url": "https://updates.example.com/dchat/1.3.0",
+  "release_url": "https://updates.example.com/deer/1.3.0",
   "published_at": "2026-02-01T12:00:00Z",
   "assets": [
     {
-      "name": "dchat-android.apk",
-      "download_url": "https://updates.example.com/files/dchat-android.apk",
+      "name": "deer-android.apk",
+      "download_url": "https://updates.example.com/files/deer-android.apk",
       "size": 43210000,
       "content_type": "application/vnd.android.package-archive"
     }
@@ -174,11 +174,11 @@ ChangeNotifierProvider<UpdateViewModel>(
 
 | 平台 | 扩展名优先级 | 典型文件名 | 下载后行为 |
 | --- | --- | --- | --- |
-| Android | `.apk` | `dchat-android.apk` | 调用系统安装器；需要允许安装未知应用 |
-| iOS | `.ipa`、`.zip` | `dchat-ios-unsigned.zip` | 保存后打开系统分享面板，不直接安装 |
-| macOS | `.dmg`、`.pkg`、`.zip` | `dchat-macos.zip` | 用默认应用打开 DMG/PKG/压缩包 |
-| Windows | `.exe`、`.msi`、`.zip` | `dchat-windows-x64.zip` | 用默认应用打开安装器或压缩包 |
-| Linux | `.AppImage`、`.deb`、`.rpm`、`.pkg.tar.zst`、`.tar.gz`、`.tar.xz`、`.zip` | `dchat-linux-x64.tar.gz` | AppImage 会先 `chmod +x`，再打开；其他交给默认应用 |
+| Android | `.apk` | `deer-android.apk` | 调用系统安装器；需要允许安装未知应用 |
+| iOS | `.ipa`、`.zip` | `deer-ios-unsigned.zip` | 保存后打开系统分享面板，不直接安装 |
+| macOS | `.dmg`、`.pkg`、`.zip` | `deer-macos.zip` | 用默认应用打开 DMG/PKG/压缩包 |
+| Windows | `.exe`、`.msi`、`.zip` | `deer-windows-x64.zip` | 用默认应用打开安装器或压缩包 |
+| Linux | `.AppImage`、`.deb`、`.rpm`、`.pkg.tar.zst`、`.tar.gz`、`.tar.xz`、`.zip` | `deer-linux-x64.tar.gz` | AppImage 会先 `chmod +x`，再打开；其他交给默认应用 |
 
 评分规则：
 
@@ -191,17 +191,17 @@ ChangeNotifierProvider<UpdateViewModel>(
 CI 当前发布产物与上述命名一致：
 
 ```text
-dchat-android.apk
-dchat-ios-unsigned.zip
-dchat-macos.zip
-dchat-linux-x64.tar.gz
-dchat-windows-x64.zip
+deer-android.apk
+deer-ios-unsigned.zip
+deer-macos.zip
+deer-linux-x64.tar.gz
+deer-windows-x64.zip
 ```
 
 ## 7. 下载行为
 
 - 默认下载目录：
-  - 桌面和可获取 Downloads 的平台：`<Downloads>/dchat-updates`；
+  - 桌面和可获取 Downloads 的平台：`<Downloads>/deer-updates`；
   - Android 回退到应用外部存储目录；
   - 再回退到应用文档目录。
 - 文件名会做安全清洗，移除路径分隔符和 Windows 非法字符。

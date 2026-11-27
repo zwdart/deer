@@ -123,7 +123,7 @@ class _DetailImageState extends State<DetailImage> {
         _showSnack(tr('image.cannot_locate_dir'));
         return;
       }
-      final fileName = 'dchat_img_${DateTime.now().millisecondsSinceEpoch}$ext';
+      final fileName = 'deer_img_${DateTime.now().millisecondsSinceEpoch}$ext';
       final savePath = path.join(dir, fileName);
       await File(savePath).writeAsBytes(bytes);
       if (!mounted) return;

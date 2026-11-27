@@ -82,7 +82,7 @@ class _RssScreenState extends State<RssScreen> {
     final scopeChipsVisible = !inSubScope && !_showFeeds && !_searching;
 
     return Scaffold(
-      appBar: DchatAppBar(
+      appBar: DeerAppBar(
         automaticallyImplyLeading: false,
         leading: inSubScope
             ? IconButton(
