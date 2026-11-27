@@ -100,12 +100,28 @@ jobs:
 
       - run: flutter pub get
 
-      - name: Build split APKs (per ABI)
-        run: flutter build apk --release --split-per-abi --obfuscate --split-debug-info=build/debug-info/android
-      - name: Build universal APK
-        run: flutter build apk --release --obfuscate --split-debug-info=build/debug-info/android
-      - name: Build App Bundle
-        run: flutter build appbundle --release --obfuscate --split-debug-info=build/debug-info/android
+      - name: Build APKs + AAB (带网络重试)
+        run: |
+          set -e
+          # Maven Central 对 GitHub Actions 的共享出口 IP 偶发 429 限流
+          # （Could not GET ... Received status code 429 from server: Too Many Requests）。
+          # 这是网络抖动而非代码问题，失败时等待后重试最多 3 次。
+          build_with_retry() {
+            for attempt in 1 2 3; do
+              if "$@"; then
+                return 0
+              fi
+              echo "==> attempt ${attempt} failed, retrying in 20s..."
+              sleep 20
+            done
+            return 1
+          }
+          build_with_retry flutter build apk --release --split-per-abi \
+            --obfuscate --split-debug-info=build/debug-info/android
+          build_with_retry flutter build apk --release \
+            --obfuscate --split-debug-info=build/debug-info/android
+          build_with_retry flutter build appbundle --release \
+            --obfuscate --split-debug-info=build/debug-info/android
 
       - name: Rename artifacts
         run: |
@@ -245,7 +261,9 @@ jobs:
             -Path "$legacy\Release" `
             -Target (Join-Path $PWD "${{ matrix.build_dir }}") | Out-Null
 
-          dart pub global run msix:build `
+          # msix 3.18 命令分工：build 只生成「未打包的 MSIX 目录」，pack 才压成 .msix。
+          # 这里必须用 create（= build + pack），否则永远拿不到 .msix 文件。
+          dart pub global run msix:create `
             --architecture ${{ matrix.arch }} `
             --build-windows false `
             --install-certificate false `
@@ -268,7 +286,8 @@ jobs:
           } elseif (Test-Path $target) {
             Write-Host "==> MSIX already in place: $target"
           } else {
-            throw "msix 未产出 .msix 文件（arm64 runner 可能缺 makeappx/signtool）"
+            Get-ChildItem build\dist -Recurse | Select-Object FullName | Out-Host
+            throw "msix:create 未产出 .msix 文件，请检查上面的 makeappx / signtool 输出"
           }
 
           Get-ChildItem build\dist | Format-Table Name, Length
