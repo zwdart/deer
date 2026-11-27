@@ -5,7 +5,7 @@
 #
 # 产物一览（每个架构独立构建，绝不混包）：
 #   Android   → armeabi-v7a / arm64-v8a / x86_64 APK + universal APK + AAB
-#   Windows   → x64 / arm64 各自产出：.msix 安装包 + Enigma Virtual Box 单文件 exe + 目录式 zip
+#   Windows   → x64 / arm64 各自产出：.msix 安装包 + 7-Zip SFX 单文件 exe + 目录式 zip
 #   Linux     → amd64 / arm64 各自产出：.deb 安装包 + .AppImage 单文件免安装
 #   macOS     → arm64 / x64 各自产出：.dmg + .zip(含 .app)，跳过 Apple 签名
 #
@@ -164,25 +164,78 @@ jobs:
       - name: Build Windows release (${{ matrix.arch }})
         run: flutter build windows --release --obfuscate --split-debug-info=build/debug-info/windows/${{ matrix.arch }}
 
-      # 目录式便携 zip
+      # -----------------------------------------------------------------------
+      # 单文件免安装 exe：7-Zip SFX（自解压）
+      #   1) 官方 7zr.exe（x86 控制台版，arm64 Windows 通过 x86 模拟运行）
+      #   2) LZMA SDK 里提取 7zSD.sfx（支持 config.txt 的 RunProgram 指令）
+      #   3) stub + config + payload.7z 直接拼接成一个 exe
+      # 不用 Enigma Virtual Box：其官网已不再提供 EnigmaVB.zip（返回 HTML 而非压缩包），
+      # 且该工具无稳定的命令行接口。
+      # -----------------------------------------------------------------------
+      - name: Build single-file portable exe (7-Zip SFX)
+        shell: pwsh
+        run: |
+          $repo       = $PWD.Path
+          $releaseDir = Join-Path $repo "${{ matrix.build_dir }}"
+          $dist       = Join-Path $repo "build\dist"
+          $outExe     = Join-Path $dist "$env:APP_NAME-${{ matrix.artifact }}-portable.exe"
+          New-Item -ItemType Directory -Force $dist | Out-Null
+
+          $ProgressPreference = 'SilentlyContinue'
+          Invoke-WebRequest -Uri "https://www.7-zip.org/a/7zr.exe" -OutFile "$repo\7zr.exe"
+          Invoke-WebRequest -Uri "https://www.7-zip.org/a/lzma2301.7z" -OutFile "$repo\lzma.7z"
+
+          # 从 LZMA SDK 中取出 SFX stub
+          & "$repo\7zr.exe" e "$repo\lzma.7z" "bin\7zSD.sfx" "-o$repo" -y | Out-Null
+
+          # 打包整个 Release 目录（相对路径压入，解压后即 dchat.exe + lib/ + data/）
+          $payload = "$repo\payload.7z"
+          Remove-Item $payload -ErrorAction SilentlyContinue
+          Push-Location $releaseDir
+          & "$repo\7zr.exe" a -mx=9 $payload * | Out-Null
+          Pop-Location
+
+          # SFX 配置（必须 UTF-8 无 BOM，否则 stub 解析失败）
+          $cfg = ";!@Install@!UTF-8!`r`n" +
+                 "Title=`"$env:APP_NAME`"`r`n" +
+                 "RunProgram=`"$env:BIN_NAME.exe`"`r`n" +
+                 ";!@InstallEnd@!`r`n"
+          [System.IO.File]::WriteAllText("$repo\sfx_config.txt", $cfg,
+            (New-Object System.Text.UTF8Encoding($false)))
+
+          # stub + config + payload => 单个 exe
+          $out = [System.IO.File]::Create($outExe)
+          try {
+            foreach ($part in @("$repo\7zSD.sfx", "$repo\sfx_config.txt", $payload)) {
+              $in = [System.IO.File]::OpenRead($part)
+              try { $in.CopyTo($out) } finally { $in.Dispose() }
+            }
+          } finally { $out.Dispose() }
+
+          $size = [math]::Round((Get-Item $outExe).Length / 1MB)
+          Write-Host "==> Portable exe: $outExe ($size MB)"
+
+      # 目录式便携 zip（从 Release 目录压缩，放在 dist 下避免自我包含）
       - name: Package portable zip
         shell: pwsh
         run: |
+          $dist = Join-Path $PWD.Path "build\dist"
+          New-Item -ItemType Directory -Force $dist | Out-Null
           Compress-Archive -Path "${{ matrix.build_dir }}\*" `
-            -DestinationPath "${{ matrix.build_dir }}\${APP_NAME}-${{ matrix.artifact }}-portable.zip" -Force
+            -DestinationPath "$dist\$env:APP_NAME-${{ matrix.artifact }}-portable.zip" -Force
 
       # MSIX 安装包。
-      # 注意：`dart pub global activate msix` 会把可执行文件装到 %PUB_CACHE%\bin，
-      # 但 Windows runner 上该目录不一定在 PATH 中，直接调用 `msix` 会报
-      # "The term 'msix' is not recognized"。改用 `dart pub global run msix:build`
-      # 走激活后的执行入口，绕过 PATH 问题（也避免 PowerShell 找不到 .bat 扩展名）。
+      # 两个坑：
+      # 1) `dart pub global activate msix` 装到 %PUB_CACHE%\bin，该目录不在 PATH，
+      #    直接调用 `msix` 会「命令未识别」，故用 `dart pub global run msix:build`。
+      # 2) msix 默认 architecture=x64 并会自己再跑一遍 flutter build，
+      #    必须显式指定 architecture 且 build_windows=false，否则会去
+      #    build\windows\runner\Release 找文件（实际在 build\windows\<arch>\runner\Release）。
       - name: Build MSIX installer
         shell: pwsh
         run: |
           dart pub global activate msix
 
-          # 直接写配置，不调用 msix create-config（它在 PATH 缺失时会以
-          # 「命令未找到」的终止错误结束，连 `|| true` 都兜不住）
           @"
           msix_config:
             display_name: $env:APP_NAME
@@ -191,58 +244,21 @@ jobs:
             identity_name: com.local.$env:APP_NAME
             msix_version: 1.0.0.0
             logo_path: assets/icon.png
-            certificate_path: ""
+            architecture: ${{ matrix.arch }}
+            build_windows: false
+            install_certificate: false
+            output_path: $env:GITHUB_WORKSPACE\build\dist
+            output_name: $env:APP_NAME-${{ matrix.artifact }}
           "@ | Out-File -FilePath msix_config.yaml -Encoding utf8
 
           dart pub global run msix:build
 
-          # 兜底：把任意位置生成的 .msix 统一搬到 build_dir，确保 upload-artifact 找得到
-          $found = Get-ChildItem -Recurse -Filter *.msix -ErrorAction SilentlyContinue |
-            Select-Object -First 1
-          if ($found) {
-            Move-Item $found.FullName `
-              "${{ matrix.build_dir }}\$env:APP_NAME-${{ matrix.artifact }}.msix" -Force
-            Write-Host "==> MSIX staged: $env:APP_NAME-${{ matrix.artifact }}.msix"
-          } else {
-            Write-Host "==> No .msix produced; skipping (upload will tolerate via error-if-missing)."
-          }
-
-      # -----------------------------------------------------------------------
-      # Enigma Virtual Box：把整个 Release 目录封成单文件 exe。
-      # 免费工具，命令行：EnigmaVB.exe <主exe> -output=<输出exe> -root=<附属根目录>
-      # 下载地址：https://enigmaprotector.com/en/downloads
-      # -----------------------------------------------------------------------
-      - name: Download Enigma Virtual Box
-        shell: pwsh
-        run: |
-          $ProgressPreference = 'SilentlyContinue'
-          Invoke-WebRequest -Uri "https://enigmaprotector.com/download/EnigmaVB.zip" `
-            -OutFile EnigmaVB.zip
-          Expand-Archive -Path EnigmaVB.zip -DestinationPath EnigmaVB -Force
-
-      - name: Build single-file portable exe via Enigma Virtual Box
-        shell: pwsh
-        run: |
-          $releaseDir = "${{ matrix.build_dir }}"
-          $mainExe    = "$releaseDir\$env:BIN_NAME.exe"
-          $outputExe  = "$releaseDir\$env:APP_NAME-${{ matrix.artifact }}-portable.exe"
-          $enigmaExe  = "EnigmaVB\EnigmaVB.exe"
-
-          Write-Host "==> Packing single-file exe with Enigma Virtual Box (${{ matrix.arch }})"
-          & $enigmaExe $mainExe "-output=$outputExe" "-root=$releaseDir"
-          if ($LASTEXITCODE -ne 0) {
-            Write-Host "Enigma returned $LASTEXITCODE; falling back to zip only."
-            exit 0
-          }
-          Write-Host "==> Done: $outputExe ($([math]::Round((Get-Item $outputExe).Length / 1MB)) MB)"
+          Get-ChildItem build\dist -Filter *.msix | Format-Table Name, Length
 
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact }}
-          path: |
-            ${{ matrix.build_dir }}/${{ env.APP_NAME }}-${{ matrix.artifact }}-portable.exe
-            ${{ matrix.build_dir }}/${{ env.APP_NAME }}-${{ matrix.artifact }}-portable.zip
-            ${{ matrix.build_dir }}/*.msix
+          path: build/dist/*
           if-no-files-found: error
 
   # ---------------------------------------------------------------------------
